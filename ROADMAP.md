@@ -68,6 +68,29 @@ fixed (`frappe.QueryDeadlockError` retry, and `auth_hooks` wiring).
   that a role-based user hits for real) — confirmed by directly comparing
   `frappe.has_permission(doctype, "report")` for Administrator vs. a
   `Hotel Front Desk` test user before and after the fix.
+- **Desk UI "infinite loop" reported by a real user, root-caused and fixed** —
+  browsing `/desk` looked stuck/looping; nginx access logs from the actual
+  browser session showed a `GET /socket.io/*` polling request repeating
+  every few seconds with growing intervals, every single one a `502`. Root
+  cause: this dev topology's `erp-nginx` never had a `SOCKETIO` target
+  configured, defaulting to an unreachable `0.0.0.0:9000` — there was no
+  websocket service at all, a gap deliberately accepted early on since
+  nothing in the REST contract needs realtime push. That reasoning stopped
+  holding once the Desk UX layer (Workspaces/Kanban/etc.) meant a human
+  would actually be driving the browser: Frappe's Desk client always opens a
+  socket.io connection on load and its client library retries indefinitely
+  on failure, which is exactly what "infinite loop" describes. Fixed by
+  adding an `erp-websocket` service (`node apps/frappe/socketio.js`, same
+  as frappe_docker's own `pwd.yml`) to both compose files and pointing
+  `erp-nginx`'s `SOCKETIO` env var at it. Verified live: `/socket.io/*`
+  returns a real `200` handshake instead of `502`, and nginx logs show zero
+  further `502`s after the fix. (Two other things flagged during the
+  investigation turned out to be non-issues once checked directly: a
+  smaller-than-expected repeated `/desk` response size was just gzip
+  compression — a plain `curl` without `--compressed` doesn't reproduce it —
+  and a single one-off `GET /desk/undefined` in the logs was not
+  reproducible and not connected to any malformed Workspace fixture data,
+  which was directly checked and is clean.)
 - **Two-pass fixture sync bug, found and fixed** — `bench install-app`'s
   own single process does not reliably sync fixture records for doctypes
   registered via `hooks.py`'s `importable_doctypes` hook (Kanban Board,
