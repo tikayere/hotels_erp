@@ -1,0 +1,14 @@
+{
+ "doctype": "Report",
+ "name": "Arrivals Not Checked In",
+ "report_name": "Arrivals Not Checked In",
+ "module": "Analytics",
+ "report_type": "Query Report",
+ "is_standard": "Yes",
+ "ref_doctype": "Reservation",
+ "query": "SELECT r.confirmation_number AS 'Confirmation:Data:130', rt.code AS 'Room Type:Data:120', r.check_in AS 'Check In:Date:100', r.check_out AS 'Check Out:Date:100', r.rooms_requested AS 'Rooms:Int:80', (SELECT GROUP_CONCAT(rg.guest_name SEPARATOR ', ') FROM `tabReservation Guest` rg WHERE rg.parent = r.name) AS 'Guests:Data:220', (SELECT GROUP_CONCAT(rg.phone SEPARATOR ', ') FROM `tabReservation Guest` rg WHERE rg.parent = r.name AND rg.phone IS NOT NULL AND rg.phone != '') AS 'Phone:Data:150' FROM `tabReservation` r JOIN `tabRoom Type` rt ON rt.name = r.room_type WHERE r.status = 'confirmed' AND r.check_in <= CURDATE() AND NOT EXISTS (SELECT 1 FROM `tabRoom Assignment` ra WHERE ra.reservation = r.name) ORDER BY r.check_in ASC",
+ "roles": [
+  {"role": "System Manager"},
+  {"role": "Hotel Front Desk"}
+ ]
+}

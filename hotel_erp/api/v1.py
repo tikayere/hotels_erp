@@ -355,6 +355,66 @@ def release_hold(hold_id=None, **kwargs):
 
 @frappe.whitelist(allow_guest=True)
 @api_endpoint()
+def join_waitlist(
+    room_type_id=None,
+    rate_plan_code=None,
+    check_in=None,
+    check_out=None,
+    rooms_requested=None,
+    occupancy=None,
+    contact_name=None,
+    contact_phone=None,
+    contact_email=None,
+    **kwargs,
+):
+    """POST /api/v1/reservations/waitlist (FR-A5). Record a traveler's request
+    to be waitlisted for a stay that is currently unavailable. No @idempotent —
+    joining a waitlist twice is harmless, not a financial operation. The
+    scheduled hotel_erp.booking.waitlist.check_waitlist job emits
+    `waitlist.available` when inventory frees up."""
+    room_type = resolve_room_type(room_type_id)
+    rate_plan = resolve_rate_plan(room_type.name, rate_plan_code)
+
+    ci = to_date(check_in)
+    co = to_date(check_out)
+    if co <= ci:
+        raise ApiError("VALIDATION_ERROR", "check_out must be after check_in", 400)
+    rooms = parse_int(rooms_requested, 1)
+    if rooms < 1:
+        raise ApiError("VALIDATION_ERROR", "rooms_requested must be >= 1", 400)
+    if not contact_name:
+        raise ApiError("VALIDATION_ERROR", "contact_name is required", 400)
+
+    entry = frappe.get_doc(
+        {
+            "doctype": "Waiting List Entry",
+            "room_type": room_type.name,
+            "rate_plan": rate_plan.name,
+            "check_in": ci,
+            "check_out": co,
+            "rooms_requested": rooms,
+            "occupancy": frappe.as_json(_as_dict(occupancy) or {}),
+            "contact_name": contact_name,
+            "contact_phone": contact_phone,
+            "contact_email": contact_email,
+            "status": "waiting",
+        }
+    ).insert(ignore_permissions=True)
+
+    frappe.local.response["http_status_code"] = 201
+    return {
+        "waitlist_id": namespaced(entry.name),
+        "room_type_id": namespaced(room_type.code),
+        "rate_plan_code": rate_plan_code,
+        "check_in": str(ci),
+        "check_out": str(co),
+        "rooms_requested": rooms,
+        "status": entry.status,
+    }
+
+
+@frappe.whitelist(allow_guest=True)
+@api_endpoint()
 def get_reservation(reservation_id=None, **kwargs):
     reservation = _load_reservation(reservation_id)
     room_type_code = frappe.db.get_value("Room Type", reservation.room_type, "code")

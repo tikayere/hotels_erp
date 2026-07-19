@@ -14,6 +14,7 @@
   {"fieldname": "refundable", "label": "Refundable", "fieldtype": "Check", "default": "1"},
   {"fieldname": "free_cancellation_until_hours_before_checkin", "label": "Free Cancellation Until (hours before check-in)", "fieldtype": "Int"},
   {"fieldname": "includes_breakfast", "label": "Includes Breakfast", "fieldtype": "Check", "default": "0"},
+  {"fieldname": "base_price_minor", "label": "Base Price (minor units)", "fieldtype": "Int", "description": "Sticker price (minor units) a Pricing Rule adjusts from; nullable — dynamic pricing is skipped for this plan when unset (FR-A4)"},
   {"fieldname": "active", "label": "Active", "fieldtype": "Check", "default": "1"}
  ],
  "permissions": [

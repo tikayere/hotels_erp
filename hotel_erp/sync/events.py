@@ -89,6 +89,41 @@ def enqueue_availability_changed(room_type_name: str, rate_plan_name: str, check
         )
 
 
+def enqueue_rate_changed(room_type_name: str, rate_plan_name: str, dates) -> None:
+    """One rate.changed event per given night (contract §4.7: "same shape as
+    availability.changed"). Emitted by the dynamic-pricing job when a night's
+    price changes without an inventory change. `dates` is an iterable of
+    datetime.date. Reads the current Rate Calendar rows so each event carries
+    the post-change price_minor / rooms_available."""
+    dates = list(dates)
+    if not dates:
+        return
+    rate_plan_code, refundable = frappe.db.get_value("Rate Plan", rate_plan_name, ["code", "refundable"])
+    room_type_code = frappe.db.get_value("Room Type", room_type_name, "code")
+    rows = frappe.db.sql(
+        """
+        SELECT date, rooms_available, price_minor, currency
+        FROM `tabRate Calendar`
+        WHERE rate_plan = %(rate_plan)s AND date IN %(dates)s
+        """,
+        {"rate_plan": rate_plan_name, "dates": tuple(dates)},
+        as_dict=True,
+    )
+    for row in rows:
+        enqueue_event(
+            "rate.changed",
+            {
+                "room_type_id": namespaced(room_type_code),
+                "date": str(row.date),
+                "rate_plan_code": rate_plan_code,
+                "rooms_available": row.rooms_available,
+                "price_minor": row.price_minor,
+                "currency": row.currency,
+                "refundable": bool(refundable),
+            },
+        )
+
+
 def enqueue_reservation_status_event(event_type: str, room_type_name: str, reservation_name: str) -> None:
     """reservation.checked_in / checked_out / no_show — IDs only, never guest
     identity data (contract §4.7 note / §5.6)."""

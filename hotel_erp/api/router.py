@@ -29,6 +29,8 @@ def _match(segments: list[str], method: str):
         return "get_availability", {}
     if n == 2 and segments[0] == "reservations" and segments[1] == "hold" and method == "POST":
         return "create_hold", {}
+    if n == 2 and segments[0] == "reservations" and segments[1] == "waitlist" and method == "POST":
+        return "join_waitlist", {}
     if n == 3 and segments[0] == "reservations" and segments[2] == "confirm" and method == "POST":
         return "confirm_hold", {"hold_id": segments[1]}
     if n == 3 and segments[0] == "reservations" and segments[2] == "release" and method == "POST":

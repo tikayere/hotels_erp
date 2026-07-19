@@ -58,6 +58,9 @@ scheduler_events = {
             # Webhook Outbox dispatcher — delivers pending/retry-due rows with the
             # contract §4.7 backoff (1m, 5m, 15m, 1h, 6h; 6 attempts then failed).
             "hotel_erp.sync.dispatcher.dispatch_pending_webhooks",
+            # Waiting-list watcher — flips `waiting` entries to `notified` and emits
+            # waitlist.available once inventory frees up (FR-A5).
+            "hotel_erp.booking.waitlist.check_waitlist",
         ],
         # hotel.sync_heartbeat — emitted every 5 minutes regardless of activity
         # (contract §4.7).
@@ -68,5 +71,9 @@ scheduler_events = {
     "daily": [
         # Purge Idempotency Records past their 24h expiry (contract §4.10).
         "hotel_erp.sync.dispatcher.purge_expired_idempotency_records",
+        # Dynamic pricing — reprice Rate Calendar rows from each Rate Plan's
+        # base_price_minor via its active Pricing Rules, emitting rate.changed
+        # for every night whose price moved (FR-A4).
+        "hotel_erp.pricing.rules.apply_pricing_rules",
     ],
 }
