@@ -1,0 +1,21 @@
+{
+ "doctype": "DocType",
+ "name": "Supplier",
+ "module": "Inventory",
+ "custom": 0,
+ "istable": 0,
+ "engine": "InnoDB",
+ "autoname": "field:supplier_name",
+ "track_changes": 1,
+ "fields": [
+  {"fieldname": "supplier_name", "label": "Supplier Name", "fieldtype": "Data", "reqd": 1, "unique": 1, "in_list_view": 1},
+  {"fieldname": "contact_person", "label": "Contact Person", "fieldtype": "Data"},
+  {"fieldname": "phone", "label": "Phone", "fieldtype": "Data"},
+  {"fieldname": "email", "label": "Email", "fieldtype": "Data"},
+  {"fieldname": "category", "label": "Category", "fieldtype": "Select", "options": "linen\ncleaning_supplies\nfood\nmaintenance_supplies\nother", "in_list_view": 1},
+  {"fieldname": "active", "label": "Active", "fieldtype": "Check", "default": "1"}
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1}
+ ]
+}

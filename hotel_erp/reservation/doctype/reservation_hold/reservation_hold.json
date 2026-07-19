@@ -1,0 +1,31 @@
+{
+ "doctype": "DocType",
+ "name": "Reservation Hold",
+ "module": "Reservation",
+ "custom": 0,
+ "istable": 0,
+ "engine": "InnoDB",
+ "naming_rule": "By script",
+ "track_changes": 1,
+ "fields": [
+  {"fieldname": "room_type", "fieldtype": "Link", "label": "Room Type", "options": "Room Type", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "rate_plan", "fieldtype": "Link", "label": "Rate Plan", "options": "Rate Plan", "reqd": 1},
+  {"fieldname": "check_in", "fieldtype": "Date", "label": "Check In", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "check_out", "fieldtype": "Date", "label": "Check Out", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "rooms_requested", "fieldtype": "Int", "label": "Rooms Requested", "reqd": 1},
+  {"fieldname": "occupancy", "fieldtype": "JSON", "label": "Occupancy"},
+  {"fieldname": "channel", "fieldtype": "Select", "label": "Channel", "options": "aggregator\ndirect", "reqd": 1, "default": "aggregator"},
+  {"fieldname": "idempotency_key", "fieldtype": "Data", "label": "Idempotency Key", "reqd": 1},
+  {"fieldname": "total_amount_minor", "fieldtype": "Int", "label": "Total Amount (minor units)", "reqd": 1},
+  {"fieldname": "currency", "fieldtype": "Data", "label": "Currency", "reqd": 1, "length": 3},
+  {"fieldname": "expires_at", "fieldtype": "Datetime", "label": "Expires At", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "status", "fieldtype": "Select", "label": "Status", "options": "held\nconfirmed\nreleased\nexpired", "reqd": 1, "default": "held", "in_list_view": 1}
+ ],
+ "indexes": [
+  {"fields": ["room_type", "idempotency_key"], "unique": 1}
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
+  {"role": "Hotel API", "read": 1, "write": 1, "create": 1}
+ ]
+}

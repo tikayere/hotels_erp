@@ -1,0 +1,23 @@
+{
+ "doctype": "DocType",
+ "name": "Staff",
+ "module": "HR",
+ "custom": 0,
+ "istable": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "track_changes": 1,
+ "fields": [
+  {"fieldname": "employee_name", "label": "Employee Name", "fieldtype": "Data", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "department", "label": "Department", "fieldtype": "Select", "options": "Front Desk\nHousekeeping\nMaintenance\nRestaurant\nFinance\nHR\nManagement", "in_list_view": 1},
+  {"fieldname": "designation", "label": "Designation", "fieldtype": "Data"},
+  {"fieldname": "phone", "label": "Phone", "fieldtype": "Data"},
+  {"fieldname": "email", "label": "Email", "fieldtype": "Data"},
+  {"fieldname": "date_of_joining", "label": "Date of Joining", "fieldtype": "Date"},
+  {"fieldname": "status", "label": "Status", "fieldtype": "Select", "options": "active\non_leave\nterminated", "default": "active", "in_list_view": 1},
+  {"fieldname": "user", "label": "Linked User", "fieldtype": "Link", "options": "User"}
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1}
+ ]
+}

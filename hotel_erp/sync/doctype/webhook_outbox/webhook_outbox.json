@@ -1,0 +1,24 @@
+{
+ "doctype": "DocType",
+ "name": "Webhook Outbox",
+ "module": "Sync",
+ "custom": 0,
+ "istable": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "track_changes": 0,
+ "fields": [
+  {"fieldname": "event_id", "label": "Event ID", "fieldtype": "Data", "reqd": 1, "unique": 1, "in_list_view": 1},
+  {"fieldname": "event_type", "label": "Event Type", "fieldtype": "Data", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "payload", "label": "Payload", "fieldtype": "Long Text", "reqd": 1},
+  {"fieldname": "status", "label": "Status", "fieldtype": "Select", "options": "pending\nsent\nfailed", "reqd": 1, "default": "pending", "in_list_view": 1},
+  {"fieldname": "attempts", "label": "Attempts", "fieldtype": "Int", "default": "0"},
+  {"fieldname": "next_attempt_at", "label": "Next Attempt At", "fieldtype": "Datetime"}
+ ],
+ "indexes": [
+  {"fields": ["status", "next_attempt_at"]}
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1}
+ ]
+}

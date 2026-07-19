@@ -1,0 +1,2 @@
+# Patches applied on `bench migrate`. One entry per line, dotted path to the
+# patch module. No data migrations are required for the initial install.

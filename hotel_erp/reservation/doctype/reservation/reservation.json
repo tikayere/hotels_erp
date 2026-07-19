@@ -1,0 +1,29 @@
+{
+ "doctype": "DocType",
+ "name": "Reservation",
+ "module": "Reservation",
+ "custom": 0,
+ "istable": 0,
+ "engine": "InnoDB",
+ "autoname": "RES-.#####",
+ "track_changes": 1,
+ "fields": [
+  {"fieldname": "hold", "label": "Hold", "fieldtype": "Link", "options": "Reservation Hold", "reqd": 1, "unique": 1, "in_list_view": 1},
+  {"fieldname": "confirmation_number", "label": "Confirmation Number", "fieldtype": "Data", "reqd": 1, "unique": 1, "in_list_view": 1},
+  {"fieldname": "room_type", "label": "Room Type", "fieldtype": "Link", "options": "Room Type", "reqd": 1},
+  {"fieldname": "rate_plan", "label": "Rate Plan", "fieldtype": "Link", "options": "Rate Plan", "reqd": 1},
+  {"fieldname": "check_in", "label": "Check In", "fieldtype": "Date", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "check_out", "label": "Check Out", "fieldtype": "Date", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "rooms_requested", "label": "Rooms Requested", "fieldtype": "Int", "reqd": 1},
+  {"fieldname": "guests", "label": "Guests", "fieldtype": "Table", "options": "Reservation Guest", "reqd": 1},
+  {"fieldname": "total_amount_minor", "label": "Total Amount (minor units)", "fieldtype": "Int", "reqd": 1},
+  {"fieldname": "currency", "label": "Currency", "fieldtype": "Data", "reqd": 1, "length": 3},
+  {"fieldname": "payment_reference", "label": "Payment Reference", "fieldtype": "Data"},
+  {"fieldname": "status", "label": "Status", "fieldtype": "Select", "options": "confirmed\nchecked_in\nchecked_out\ncancelled\nno_show", "reqd": 1, "default": "confirmed", "in_list_view": 1}
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
+  {"role": "Hotel Front Desk", "read": 1, "write": 1, "create": 1},
+  {"role": "Hotel API", "read": 1, "write": 1, "create": 1}
+ ]
+}

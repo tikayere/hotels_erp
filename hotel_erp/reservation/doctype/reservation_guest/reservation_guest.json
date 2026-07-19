@@ -1,0 +1,15 @@
+{
+ "doctype": "DocType",
+ "name": "Reservation Guest",
+ "module": "Reservation",
+ "custom": 0,
+ "istable": 1,
+ "engine": "InnoDB",
+ "editable_grid": 1,
+ "fields": [
+  {"fieldname": "guest_name", "label": "Guest Name", "fieldtype": "Data", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "phone", "label": "Phone", "fieldtype": "Data", "in_list_view": 1},
+  {"fieldname": "email", "label": "Email", "fieldtype": "Data", "in_list_view": 1}
+ ],
+ "permissions": []
+}

@@ -1,0 +1,21 @@
+{
+ "doctype": "DocType",
+ "name": "Sync Config",
+ "module": "Sync",
+ "custom": 0,
+ "issingle": 1,
+ "istable": 0,
+ "engine": "InnoDB",
+ "track_changes": 1,
+ "fields": [
+  {"fieldname": "hotel_slug", "label": "Hotel Slug", "fieldtype": "Data", "description": "Namespace prefix for all IDs exposed to the Aggregator (contract §4.1.7)"},
+  {"fieldname": "aggregator_base_url", "label": "Aggregator Base URL", "fieldtype": "Data"},
+  {"fieldname": "aggregator_webhook_secret", "label": "Aggregator Webhook Secret", "fieldtype": "Password"},
+  {"fieldname": "aggregator_api_key", "label": "Aggregator API Key", "fieldtype": "Password", "description": "Bearer token the Aggregator presents on inbound /api/v1 calls"},
+  {"fieldname": "hold_ttl_seconds", "label": "Hold TTL (seconds)", "fieldtype": "Int", "default": "300"},
+  {"fieldname": "last_reconciliation_at", "label": "Last Reconciliation At", "fieldtype": "Datetime"}
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1}
+ ]
+}

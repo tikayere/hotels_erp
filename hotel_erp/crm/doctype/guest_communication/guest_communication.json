@@ -1,0 +1,22 @@
+{
+ "doctype": "DocType",
+ "name": "Guest Communication",
+ "module": "CRM",
+ "custom": 0,
+ "istable": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "track_changes": 1,
+ "fields": [
+  {"fieldname": "guest", "label": "Guest", "fieldtype": "Link", "options": "Guest", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "channel", "label": "Channel", "fieldtype": "Select", "options": "email\nphone\nsms\nin_person", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "direction", "label": "Direction", "fieldtype": "Select", "options": "inbound\noutbound", "reqd": 1},
+  {"fieldname": "subject", "label": "Subject", "fieldtype": "Data"},
+  {"fieldname": "message", "label": "Message", "fieldtype": "Text"},
+  {"fieldname": "sent_at", "label": "Sent At", "fieldtype": "Datetime", "in_list_view": 1}
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
+  {"role": "Hotel Front Desk", "read": 1, "write": 1, "create": 1}
+ ]
+}

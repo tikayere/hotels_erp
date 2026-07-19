@@ -1,0 +1,13 @@
+{
+ "doctype": "Report",
+ "name": "ADR and RevPAR",
+ "report_name": "ADR and RevPAR",
+ "module": "Analytics",
+ "report_type": "Query Report",
+ "is_standard": "Yes",
+ "ref_doctype": "Reservation",
+ "query": "SELECT r.check_in AS 'Date:Date', rt.property AS 'Property:Link/Property:150', ROUND(SUM(r.total_amount_minor) / NULLIF(SUM(r.rooms_requested), 0)) AS 'ADR (minor units):Int:160', ROUND(SUM(r.total_amount_minor) / NULLIF((SELECT COUNT(*) FROM `tabRoom` room WHERE room.room_type = r.room_type), 0)) AS 'RevPAR (minor units):Int:160' FROM `tabReservation` r JOIN `tabRoom Type` rt ON rt.name = r.room_type WHERE r.status NOT IN ('cancelled', 'no_show') GROUP BY r.check_in, rt.property ORDER BY r.check_in DESC",
+ "roles": [
+  {"role": "System Manager"}
+ ]
+}

@@ -1,0 +1,22 @@
+{
+ "doctype": "DocType",
+ "name": "Conference Booking",
+ "module": "Conference",
+ "custom": 0,
+ "istable": 0,
+ "engine": "InnoDB",
+ "autoname": "hash",
+ "track_changes": 1,
+ "fields": [
+  {"fieldname": "space_name", "label": "Space Name", "fieldtype": "Data", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "booked_by", "label": "Booked By", "fieldtype": "Data", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "start_at", "label": "Start At", "fieldtype": "Datetime", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "end_at", "label": "End At", "fieldtype": "Datetime", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "catering", "label": "Catering", "fieldtype": "JSON"},
+  {"fieldname": "status", "label": "Status", "fieldtype": "Select", "options": "tentative\nconfirmed\ncancelled", "default": "tentative", "in_list_view": 1}
+ ],
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
+  {"role": "Hotel Front Desk", "read": 1, "write": 1, "create": 1}
+ ]
+}

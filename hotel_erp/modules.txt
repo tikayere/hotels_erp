@@ -1,0 +1,14 @@
+Property
+Room
+Reservation
+Guest
+Housekeeping
+Maintenance
+Restaurant
+Conference
+Finance
+HR
+Inventory
+CRM
+Analytics
+Sync

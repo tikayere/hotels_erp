@@ -1,0 +1,4 @@
+# hotel_erp runtime deps beyond frappe itself (frappe is provided by the bench).
+# `requests` is used by the webhook dispatcher; it ships with frappe already,
+# listed here for completeness.
+requests
