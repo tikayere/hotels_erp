@@ -25,6 +25,14 @@ after_install = "hotel_erp.setup.install.after_install"
 before_request = ["hotel_erp.api.router.route_v1"]
 after_request = ["hotel_erp.api.router.unwrap_v1"]
 
+# Authenticates a static `Authorization: Bearer <api_key>` request (contract
+# §4.2) as the dedicated "Hotel API" service user. Required because Frappe's
+# own request-auth layer intercepts any 2-part Authorization header itself
+# (as a native OAuth bearer token or basic/token API key) and raises
+# AuthenticationError before before_request hooks run if nothing claims it
+# first -- see hotel_erp.api.auth for the full explanation.
+auth_hooks = ["hotel_erp.api.auth.validate_bearer_token"]
+
 # ---------------------------------------------------------------------------
 # Document lifecycle hooks
 # ---------------------------------------------------------------------------

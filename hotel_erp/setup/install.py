@@ -14,8 +14,12 @@ import frappe
 ROLES = ["Hotel API", "Revenue Manager", "Hotel Front Desk", "Housekeeping Staff"]
 
 
+SERVICE_USER_EMAIL = "hotel-api@service.local"
+
+
 def after_install() -> None:
     _create_roles()
+    _create_service_user()
     _seed_sync_config()
     frappe.db.commit()
 
@@ -30,6 +34,25 @@ def _create_roles() -> None:
                     "desk_access": 0 if role_name == "Hotel API" else 1,
                 }
             ).insert(ignore_permissions=True)
+
+
+def _create_service_user() -> None:
+    """The identity `hotel_erp.api.auth.validate_bearer_token` authenticates
+    the Aggregator's requests as. Deliberately never Administrator (NFR-A9)
+    -- only the "Hotel API" role, which has no permission on Guest."""
+    if frappe.db.exists("User", SERVICE_USER_EMAIL):
+        return
+    frappe.get_doc(
+        {
+            "doctype": "User",
+            "email": SERVICE_USER_EMAIL,
+            "first_name": "Hotel API",
+            "user_type": "System User",
+            "send_welcome_email": 0,
+            "enabled": 1,
+            "roles": [{"role": "Hotel API"}],
+        }
+    ).insert(ignore_permissions=True)
 
 
 def _seed_sync_config() -> None:
