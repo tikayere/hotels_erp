@@ -50,4 +50,13 @@ def validate_bearer_token() -> None:
         return  # not yet onboarded -- leave enforcement to _check_bearer()'s soft path
 
     if hmac.compare_digest(token, configured):
-        frappe.set_user(SERVICE_USER)
+        # Deliberately not frappe.set_user(): it resets frappe.local.form_dict
+        # (a side effect meant for interactive login flows), which would wipe
+        # out the routing hotel_erp.api.router.route_v1 already stashed there
+        # -- that before_request hook runs before auth_hooks fire, so by this
+        # point form_dict.cmd is already pointing at the matched /api/v1/*
+        # handler and must survive. Setting session.user directly is enough
+        # for role/permission resolution (frappe.get_roles() and permission
+        # checks read frappe.session.user), without the unwanted reset.
+        frappe.local.session.user = SERVICE_USER
+        frappe.local.session.sid = SERVICE_USER
