@@ -8,22 +8,118 @@
  "autoname": "hash",
  "track_changes": 1,
  "fields": [
-  {"fieldname": "rate_plan", "fieldtype": "Link", "label": "Rate Plan", "options": "Rate Plan", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "rule_name", "fieldtype": "Data", "label": "Rule Name", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "rule_type", "fieldtype": "Select", "label": "Rule Type", "options": "season\nholiday\nday_of_week\nlead_time\noccupancy", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "start_date", "fieldtype": "Date", "label": "Start Date", "description": "Used by season / holiday rules"},
-  {"fieldname": "end_date", "fieldtype": "Date", "label": "End Date", "description": "Used by season / holiday rules"},
-  {"fieldname": "days_of_week", "fieldtype": "JSON", "label": "Days of Week", "description": "Array of ints 0-6 (Monday=0, Python weekday convention); used by day_of_week rules"},
-  {"fieldname": "lead_time_days_min", "fieldtype": "Int", "label": "Lead Time Days (min)", "description": "Used by lead_time rules: days between booking (today) and the night"},
-  {"fieldname": "lead_time_days_max", "fieldtype": "Int", "label": "Lead Time Days (max)", "description": "Used by lead_time rules"},
-  {"fieldname": "occupancy_threshold_percent", "fieldtype": "Int", "label": "Occupancy Threshold", "description": "Used by occupancy rules: applies when that night's rooms_available <= this value (interpreted as an absolute room-count threshold)"},
-  {"fieldname": "adjustment_type", "fieldtype": "Select", "label": "Adjustment Type", "options": "percentage\nfixed_amount", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "adjustment_value", "fieldtype": "Int", "label": "Adjustment Value", "reqd": 1, "description": "e.g. 15 for +15% (percentage), or minor currency units (fixed_amount)"},
-  {"fieldname": "priority", "fieldtype": "Int", "label": "Priority", "reqd": 1, "default": "0", "description": "Lower priority applies first"},
-  {"fieldname": "active", "fieldtype": "Check", "label": "Active", "default": "1"}
+  {
+   "fieldname": "rate_plan",
+   "fieldtype": "Link",
+   "label": "Rate Plan",
+   "options": "Rate Plan",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "rule_name",
+   "fieldtype": "Data",
+   "label": "Rule Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "rule_type",
+   "fieldtype": "Select",
+   "label": "Rule Type",
+   "options": "season\nholiday\nday_of_week\nlead_time\noccupancy",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "description": "Used by season / holiday rules"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date",
+   "description": "Used by season / holiday rules"
+  },
+  {
+   "fieldname": "days_of_week",
+   "fieldtype": "JSON",
+   "label": "Days of Week",
+   "description": "Array of ints 0-6 (Monday=0, Python weekday convention); used by day_of_week rules"
+  },
+  {
+   "fieldname": "lead_time_days_min",
+   "fieldtype": "Int",
+   "label": "Lead Time Days (min)",
+   "description": "Used by lead_time rules: days between booking (today) and the night"
+  },
+  {
+   "fieldname": "lead_time_days_max",
+   "fieldtype": "Int",
+   "label": "Lead Time Days (max)",
+   "description": "Used by lead_time rules"
+  },
+  {
+   "fieldname": "occupancy_threshold_percent",
+   "fieldtype": "Int",
+   "label": "Occupancy Threshold",
+   "description": "Used by occupancy rules: applies when that night's rooms_available <= this value (interpreted as an absolute room-count threshold)"
+  },
+  {
+   "fieldname": "adjustment_type",
+   "fieldtype": "Select",
+   "label": "Adjustment Type",
+   "options": "percentage\nfixed_amount",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "adjustment_value",
+   "fieldtype": "Int",
+   "label": "Adjustment Value",
+   "reqd": 1,
+   "description": "e.g. 15 for +15% (percentage), or minor currency units (fixed_amount)"
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Int",
+   "label": "Priority",
+   "reqd": 1,
+   "default": "0",
+   "description": "Lower priority applies first"
+  },
+  {
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "Active",
+   "default": "1"
+  }
  ],
  "permissions": [
-  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
-  {"role": "Revenue Manager", "read": 1, "write": 1, "create": 1}
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Revenue Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
  ]
 }

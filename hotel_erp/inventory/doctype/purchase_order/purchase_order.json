@@ -8,14 +8,60 @@
  "autoname": "hash",
  "track_changes": 1,
  "fields": [
-  {"fieldname": "supplier", "label": "Supplier", "fieldtype": "Link", "options": "Supplier", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "items", "label": "Items", "fieldtype": "JSON", "reqd": 1, "description": "Array of {item, qty, unit_price_minor}"},
-  {"fieldname": "total_amount_minor", "label": "Total Amount (minor units)", "fieldtype": "Int", "reqd": 1},
-  {"fieldname": "currency", "label": "Currency", "fieldtype": "Data", "reqd": 1, "length": 3},
-  {"fieldname": "status", "label": "Status", "fieldtype": "Select", "options": "draft\nordered\nreceived\ncancelled", "default": "draft", "in_list_view": 1},
-  {"fieldname": "ordered_at", "label": "Ordered At", "fieldtype": "Datetime"}
+  {
+   "fieldname": "supplier",
+   "label": "Supplier",
+   "fieldtype": "Link",
+   "options": "Supplier",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "items",
+   "label": "Items",
+   "fieldtype": "JSON",
+   "reqd": 1,
+   "description": "Array of {item, qty, unit_price_minor}"
+  },
+  {
+   "fieldname": "total_amount_minor",
+   "label": "Total Amount (minor units)",
+   "fieldtype": "Int",
+   "reqd": 1
+  },
+  {
+   "fieldname": "currency",
+   "label": "Currency",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "length": 3
+  },
+  {
+   "fieldname": "status",
+   "label": "Status",
+   "fieldtype": "Select",
+   "options": "draft\nordered\nreceived\ncancelled",
+   "default": "draft",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "ordered_at",
+   "label": "Ordered At",
+   "fieldtype": "Datetime"
+  }
  ],
  "permissions": [
-  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1}
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
  ]
 }

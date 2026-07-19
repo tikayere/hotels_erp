@@ -9,15 +9,48 @@
  "autoname": "prompt",
  "track_changes": 0,
  "fields": [
-  {"fieldname": "request_body_hash", "label": "Request Body Hash", "fieldtype": "Data", "reqd": 1},
-  {"fieldname": "response_body", "label": "Response Body", "fieldtype": "Long Text"},
-  {"fieldname": "response_status", "label": "Response Status", "fieldtype": "Int"},
-  {"fieldname": "expires_at", "label": "Expires At", "fieldtype": "Datetime", "reqd": 1}
+  {
+   "fieldname": "request_body_hash",
+   "label": "Request Body Hash",
+   "fieldtype": "Data",
+   "reqd": 1
+  },
+  {
+   "fieldname": "response_body",
+   "label": "Response Body",
+   "fieldtype": "Long Text"
+  },
+  {
+   "fieldname": "response_status",
+   "label": "Response Status",
+   "fieldtype": "Int"
+  },
+  {
+   "fieldname": "expires_at",
+   "label": "Expires At",
+   "fieldtype": "Datetime",
+   "reqd": 1
+  }
  ],
  "indexes": [
-  {"fields": ["expires_at"]}
+  {
+   "fields": [
+    "expires_at"
+   ]
+  }
  ],
  "permissions": [
-  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1}
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
  ]
 }

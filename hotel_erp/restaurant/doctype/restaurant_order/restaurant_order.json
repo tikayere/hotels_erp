@@ -8,14 +8,66 @@
  "autoname": "hash",
  "track_changes": 1,
  "fields": [
-  {"fieldname": "reservation", "label": "Reservation", "fieldtype": "Link", "options": "Reservation", "in_list_view": 1},
-  {"fieldname": "items", "label": "Items", "fieldtype": "JSON", "reqd": 1, "description": "Array of {item, qty, price_minor}"},
-  {"fieldname": "amount_minor", "label": "Amount (minor units)", "fieldtype": "Int", "reqd": 1},
-  {"fieldname": "currency", "label": "Currency", "fieldtype": "Data", "reqd": 1, "length": 3},
-  {"fieldname": "status", "label": "Status", "fieldtype": "Select", "options": "placed\nin_kitchen\nserved\nbilled\ncancelled", "reqd": 1, "default": "placed", "in_list_view": 1}
+  {
+   "fieldname": "reservation",
+   "label": "Reservation",
+   "fieldtype": "Link",
+   "options": "Reservation",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "items",
+   "label": "Items",
+   "fieldtype": "JSON",
+   "reqd": 1,
+   "description": "Array of {item, qty, price_minor}"
+  },
+  {
+   "fieldname": "amount_minor",
+   "label": "Amount (minor units)",
+   "fieldtype": "Int",
+   "reqd": 1
+  },
+  {
+   "fieldname": "currency",
+   "label": "Currency",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "length": 3
+  },
+  {
+   "fieldname": "status",
+   "label": "Status",
+   "fieldtype": "Select",
+   "options": "placed\nin_kitchen\nserved\nbilled\ncancelled",
+   "reqd": 1,
+   "default": "placed",
+   "in_list_view": 1
+  }
  ],
  "permissions": [
-  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
-  {"role": "Hotel Front Desk", "read": 1, "write": 1, "create": 1}
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Hotel Front Desk",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
  ]
 }

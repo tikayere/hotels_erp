@@ -8,12 +8,47 @@
  "autoname": "hash",
  "track_changes": 1,
  "fields": [
-  {"fieldname": "type", "label": "Type", "fieldtype": "Select", "options": "revenue\nrefund\ntax\nexpense", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "amount_minor", "label": "Amount (minor units)", "fieldtype": "Int", "reqd": 1},
-  {"fieldname": "currency", "label": "Currency", "fieldtype": "Data", "reqd": 1, "length": 3},
-  {"fieldname": "ref", "label": "Reference", "fieldtype": "Data", "in_list_view": 1, "description": "e.g. Reservation name or payment_reference"}
+  {
+   "fieldname": "type",
+   "label": "Type",
+   "fieldtype": "Select",
+   "options": "revenue\nrefund\ntax\nexpense",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "amount_minor",
+   "label": "Amount (minor units)",
+   "fieldtype": "Int",
+   "reqd": 1
+  },
+  {
+   "fieldname": "currency",
+   "label": "Currency",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "length": 3
+  },
+  {
+   "fieldname": "ref",
+   "label": "Reference",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "description": "e.g. Reservation name or payment_reference"
+  }
  ],
  "permissions": [
-  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1}
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
  ]
 }

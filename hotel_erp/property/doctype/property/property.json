@@ -8,20 +8,98 @@
  "autoname": "field:code",
  "track_changes": 1,
  "fields": [
-  {"fieldname": "code", "label": "Code", "fieldtype": "Data", "reqd": 1, "unique": 1, "in_list_view": 1},
-  {"fieldname": "property_name", "label": "Property Name", "fieldtype": "Data", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "branch_name", "label": "Branch Name", "fieldtype": "Data"},
-  {"fieldname": "address", "label": "Address", "fieldtype": "Small Text"},
-  {"fieldname": "city", "label": "City", "fieldtype": "Data", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "country", "label": "Country", "fieldtype": "Data", "reqd": 1, "length": 2, "description": "ISO-3166 alpha-2"},
-  {"fieldname": "lat", "label": "Latitude", "fieldtype": "Float"},
-  {"fieldname": "lon", "label": "Longitude", "fieldtype": "Float"},
-  {"fieldname": "star_rating", "label": "Star Rating", "fieldtype": "Int", "description": "1-5"},
-  {"fieldname": "status", "label": "Status", "fieldtype": "Select", "options": "Active\nSuspended", "reqd": 1, "default": "Active", "in_list_view": 1}
+  {
+   "fieldname": "code",
+   "label": "Code",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "property_name",
+   "label": "Property Name",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "branch_name",
+   "label": "Branch Name",
+   "fieldtype": "Data"
+  },
+  {
+   "fieldname": "address",
+   "label": "Address",
+   "fieldtype": "Small Text"
+  },
+  {
+   "fieldname": "city",
+   "label": "City",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "country",
+   "label": "Country",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "length": 2,
+   "description": "ISO-3166 alpha-2"
+  },
+  {
+   "fieldname": "lat",
+   "label": "Latitude",
+   "fieldtype": "Float"
+  },
+  {
+   "fieldname": "lon",
+   "label": "Longitude",
+   "fieldtype": "Float"
+  },
+  {
+   "fieldname": "star_rating",
+   "label": "Star Rating",
+   "fieldtype": "Int",
+   "description": "1-5"
+  },
+  {
+   "fieldname": "status",
+   "label": "Status",
+   "fieldtype": "Select",
+   "options": "Active\nSuspended",
+   "reqd": 1,
+   "default": "Active",
+   "in_list_view": 1
+  }
  ],
  "permissions": [
-  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
-  {"role": "Hotel Front Desk", "read": 1},
-  {"role": "Hotel API", "read": 1}
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Hotel Front Desk",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1
+  },
+  {
+   "role": "Hotel API",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1
+  }
  ]
 }

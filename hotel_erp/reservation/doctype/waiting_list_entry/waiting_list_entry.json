@@ -8,19 +8,97 @@
  "autoname": "hash",
  "track_changes": 1,
  "fields": [
-  {"fieldname": "room_type", "fieldtype": "Link", "label": "Room Type", "options": "Room Type", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "rate_plan", "fieldtype": "Link", "label": "Rate Plan", "options": "Rate Plan", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "check_in", "fieldtype": "Date", "label": "Check In", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "check_out", "fieldtype": "Date", "label": "Check Out", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "rooms_requested", "fieldtype": "Int", "label": "Rooms Requested", "reqd": 1},
-  {"fieldname": "occupancy", "fieldtype": "JSON", "label": "Occupancy"},
-  {"fieldname": "contact_name", "fieldtype": "Data", "label": "Contact Name", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "contact_phone", "fieldtype": "Data", "label": "Contact Phone"},
-  {"fieldname": "contact_email", "fieldtype": "Data", "label": "Contact Email"},
-  {"fieldname": "status", "fieldtype": "Select", "label": "Status", "options": "waiting\nnotified\nexpired\nfulfilled", "reqd": 1, "default": "waiting", "in_list_view": 1}
+  {
+   "fieldname": "room_type",
+   "fieldtype": "Link",
+   "label": "Room Type",
+   "options": "Room Type",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "rate_plan",
+   "fieldtype": "Link",
+   "label": "Rate Plan",
+   "options": "Rate Plan",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "check_in",
+   "fieldtype": "Date",
+   "label": "Check In",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "check_out",
+   "fieldtype": "Date",
+   "label": "Check Out",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "rooms_requested",
+   "fieldtype": "Int",
+   "label": "Rooms Requested",
+   "reqd": 1
+  },
+  {
+   "fieldname": "occupancy",
+   "fieldtype": "JSON",
+   "label": "Occupancy"
+  },
+  {
+   "fieldname": "contact_name",
+   "fieldtype": "Data",
+   "label": "Contact Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "contact_phone",
+   "fieldtype": "Data",
+   "label": "Contact Phone"
+  },
+  {
+   "fieldname": "contact_email",
+   "fieldtype": "Data",
+   "label": "Contact Email"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "waiting\nnotified\nexpired\nfulfilled",
+   "reqd": 1,
+   "default": "waiting",
+   "in_list_view": 1
+  }
  ],
  "permissions": [
-  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
-  {"role": "Hotel API", "read": 1, "write": 1, "create": 1}
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Hotel API",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
  ]
 }

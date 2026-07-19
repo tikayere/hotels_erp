@@ -8,21 +8,105 @@
  "autoname": "hash",
  "track_changes": 1,
  "fields": [
-  {"fieldname": "property", "label": "Property", "fieldtype": "Link", "options": "Property", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "code", "label": "Code", "fieldtype": "Data", "reqd": 1, "in_list_view": 1, "description": "Bare room_type_id before namespacing; unique per property"},
-  {"fieldname": "room_type_name", "label": "Room Type Name", "fieldtype": "Data", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "description", "label": "Description", "fieldtype": "Text Editor"},
-  {"fieldname": "max_occupancy_adults", "label": "Max Occupancy Adults", "fieldtype": "Int", "reqd": 1},
-  {"fieldname": "max_occupancy_children", "label": "Max Occupancy Children", "fieldtype": "Int", "default": "0"},
-  {"fieldname": "bed_config", "label": "Bed Configuration", "fieldtype": "Data"},
-  {"fieldname": "size_sqm", "label": "Size (sqm)", "fieldtype": "Float"},
-  {"fieldname": "amenities", "label": "Amenities", "fieldtype": "JSON", "description": "Array of strings"},
-  {"fieldname": "photos", "label": "Photos", "fieldtype": "JSON", "description": "Array of URLs"},
-  {"fieldname": "active", "label": "Active", "fieldtype": "Check", "default": "1"}
+  {
+   "fieldname": "property",
+   "label": "Property",
+   "fieldtype": "Link",
+   "options": "Property",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "code",
+   "label": "Code",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "Bare room_type_id before namespacing; unique per property"
+  },
+  {
+   "fieldname": "room_type_name",
+   "label": "Room Type Name",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "description",
+   "label": "Description",
+   "fieldtype": "Text Editor"
+  },
+  {
+   "fieldname": "max_occupancy_adults",
+   "label": "Max Occupancy Adults",
+   "fieldtype": "Int",
+   "reqd": 1
+  },
+  {
+   "fieldname": "max_occupancy_children",
+   "label": "Max Occupancy Children",
+   "fieldtype": "Int",
+   "default": "0"
+  },
+  {
+   "fieldname": "bed_config",
+   "label": "Bed Configuration",
+   "fieldtype": "Data"
+  },
+  {
+   "fieldname": "size_sqm",
+   "label": "Size (sqm)",
+   "fieldtype": "Float"
+  },
+  {
+   "fieldname": "amenities",
+   "label": "Amenities",
+   "fieldtype": "JSON",
+   "description": "Array of strings"
+  },
+  {
+   "fieldname": "photos",
+   "label": "Photos",
+   "fieldtype": "JSON",
+   "description": "Array of URLs"
+  },
+  {
+   "fieldname": "active",
+   "label": "Active",
+   "fieldtype": "Check",
+   "default": "1"
+  }
  ],
  "permissions": [
-  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
-  {"role": "Revenue Manager", "read": 1, "write": 1, "create": 1},
-  {"role": "Hotel API", "read": 1}
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Revenue Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Hotel API",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1
+  }
  ]
 }

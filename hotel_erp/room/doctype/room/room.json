@@ -8,19 +8,92 @@
  "autoname": "hash",
  "track_changes": 1,
  "fields": [
-  {"fieldname": "property", "label": "Property", "fieldtype": "Link", "options": "Property", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "room_type", "label": "Room Type", "fieldtype": "Link", "options": "Room Type", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "room_number", "label": "Room Number", "fieldtype": "Data", "reqd": 1, "in_list_view": 1},
-  {"fieldname": "floor", "label": "Floor", "fieldtype": "Data"},
-  {"fieldname": "status", "label": "Status", "fieldtype": "Select", "options": "available\noccupied\ndirty\nclean\nmaintenance\nout_of_order", "reqd": 1, "default": "available", "in_list_view": 1},
-  {"fieldname": "amenities", "label": "Amenities", "fieldtype": "JSON", "description": "Room-specific overrides/additions to the room type's amenities"}
+  {
+   "fieldname": "property",
+   "label": "Property",
+   "fieldtype": "Link",
+   "options": "Property",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "room_type",
+   "label": "Room Type",
+   "fieldtype": "Link",
+   "options": "Room Type",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "room_number",
+   "label": "Room Number",
+   "fieldtype": "Data",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "floor",
+   "label": "Floor",
+   "fieldtype": "Data"
+  },
+  {
+   "fieldname": "status",
+   "label": "Status",
+   "fieldtype": "Select",
+   "options": "available\noccupied\ndirty\nclean\nmaintenance\nout_of_order",
+   "reqd": 1,
+   "default": "available",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "amenities",
+   "label": "Amenities",
+   "fieldtype": "JSON",
+   "description": "Room-specific overrides/additions to the room type's amenities"
+  }
  ],
  "indexes": [
-  {"fields": ["property", "room_number"], "unique": 1}
+  {
+   "fields": [
+    "property",
+    "room_number"
+   ],
+   "unique": 1
+  }
  ],
  "permissions": [
-  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
-  {"role": "Hotel Front Desk", "read": 1, "write": 1, "create": 1},
-  {"role": "Housekeeping Staff", "read": 1, "write": 1}
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Hotel Front Desk",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Housekeeping Staff",
+   "read": 1,
+   "write": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  }
  ]
 }
