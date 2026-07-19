@@ -45,6 +45,40 @@ fixed (`frappe.QueryDeadlockError` retry, and `auth_hooks` wiring).
   `System Manager`-only). Verified live with real reservation data,
   including the Late Checkouts boundary condition (`check_out < today`,
   not `<= today`) actually excluding a same-day checkout correctly.
+- **Frappe-native Desk UX** — 7 role-oriented Workspaces (Front Desk,
+  Housekeeping, Maintenance, Revenue Management, Finance, HR, and a Hotel
+  Management overview), 4 Number Cards + 1 Dashboard Chart, 2 Kanban Boards
+  (Housekeeping Task, Maintenance Request), 2 Print Formats (Reservation
+  Confirmation, Reservation Folio) + a Letter Head, and 2 disabled
+  Assignment Rule templates (need real staff populated before enabling —
+  shipping them pre-enabled with no real users would auto-assign nothing
+  usefully and is a worse default than an explicit opt-in). New
+  `Maintenance Staff`/`Finance Manager` roles, since Maintenance Request and
+  Finance Txn previously had no dedicated non-admin role to grant workspace
+  access to. Print formats verified live: correct confirmation number,
+  correct guest name (from `Reservation.guests` only, never the `Guest`
+  DocType), correct money formatting (minor units ÷ 100), no PII leakage.
+- **Report/export/print permission flags across every DocType** — every
+  permission row previously only set `read`/`write`/`create`/`delete`; the
+  separate `report` flag (which actually gates whether a role's reports on
+  that doctype are listed as navigable in the Desk UI) was never set
+  anywhere. This is why reports could appear inaccessible even to
+  Administrator when browsing the Desk normally, despite direct API
+  execution always working (Administrator's runtime bypass masks the gap
+  that a role-based user hits for real) — confirmed by directly comparing
+  `frappe.has_permission(doctype, "report")` for Administrator vs. a
+  `Hotel Front Desk` test user before and after the fix.
+- **Two-pass fixture sync bug, found and fixed** — `bench install-app`'s
+  own single process does not reliably sync fixture records for doctypes
+  registered via `hooks.py`'s `importable_doctypes` hook (Kanban Board,
+  Letter Head, Assignment Rule — confirmed reproducible on a genuinely
+  fresh site: zero rows after `install-app`, correct rows after an
+  immediately-following `bench migrate` in a fresh process). Looks like a
+  controller-cache ordering quirk internal to Frappe, not a mistake in the
+  fixture files themselves. Worked around in both `docker-compose.dev.yml`
+  and `docker-compose.prod.yml` by running `migrate` again right after
+  `install-app` for both sites — confirmed this actually closes the gap on
+  a from-scratch `docker compose down -v && up -d`, not just asserted.
 
 ## Implemented, but thinner than the spec describes
 
