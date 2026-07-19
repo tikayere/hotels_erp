@@ -32,6 +32,10 @@ doc_events = {
     "Reservation": {
         "on_update": "hotel_erp.reservation.events.on_reservation_update",
     },
+    "Room Type": {
+        "after_insert": "hotel_erp.room.events.on_room_type_after_insert",
+        "on_update": "hotel_erp.room.events.on_room_type_update",
+    },
 }
 
 # ---------------------------------------------------------------------------
