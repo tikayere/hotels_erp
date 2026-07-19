@@ -4,10 +4,15 @@ resolution, datetime formatting, bearer auth, and the @api_endpoint wrapper.
 from __future__ import annotations
 
 import functools
+import time
 from datetime import date, datetime
 from typing import Callable
 
 import frappe
+
+# Bound on retries for frappe.QueryDeadlockError (MariaDB error 1020/1213) --
+# see _call_with_deadlock_retry below.
+_MAX_DEADLOCK_RETRIES = 4
 
 from hotel_erp.api.errors import ApiError, respond_error
 from hotel_erp.booking.atomic_hold import RoomsUnavailableError
@@ -91,6 +96,30 @@ def _check_bearer() -> None:
         raise ApiError("UNAUTHORIZED", "Missing or invalid credentials", 401)
 
 
+def _call_with_deadlock_retry(fn: Callable, args: tuple, kwargs: dict):
+    """`atomic_hold.py`'s `SELECT ... FOR UPDATE` on Rate Calendar is the whole
+    point of NFR-A2 (never oversell under concurrent holds) -- and genuine
+    contention for that row lock under InnoDB is *expected*, not exceptional,
+    every time two holds race for the same (rate_plan, date). MariaDB surfaces
+    that contention as error 1020 or 1213, which Frappe explicitly classifies
+    as `frappe.QueryDeadlockError` (see frappe/database/database.py) precisely
+    so callers retry with a fresh transaction rather than fail the request.
+    Without this, a request that loses a lock race gets an opaque 500 instead
+    of either succeeding on retry or a proper 409 ROOMS_UNAVAILABLE once the
+    room is genuinely gone -- confirmed by load-testing concurrent holds
+    against real MariaDB, not just the stubbed-frappe unit tests."""
+    attempt = 0
+    while True:
+        try:
+            return fn(*args, **kwargs)
+        except frappe.QueryDeadlockError:
+            frappe.db.rollback()
+            attempt += 1
+            if attempt >= _MAX_DEADLOCK_RETRIES:
+                raise
+            time.sleep(0.05 * attempt)
+
+
 def api_endpoint(require_auth: bool = True) -> Callable:
     """Wraps a whitelisted /api/v1 method: strips framework keys, enforces bearer
     auth, and funnels every exception into the §4.9 error envelope with the right
@@ -104,7 +133,7 @@ def api_endpoint(require_auth: bool = True) -> Callable:
             try:
                 if require_auth:
                     _check_bearer()
-                return fn(*args, **kwargs)
+                return _call_with_deadlock_retry(fn, args, kwargs)
             except ApiError as e:
                 return respond_error(e.code, e.message, e.http_status, e.details)
             except IdempotencyConflict:
