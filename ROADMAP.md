@@ -17,18 +17,37 @@ lock contention (not just unit tests) — see the sibling `hotels` project's
 git history for the two real bugs that surfaced there and how they were
 fixed (`frappe.QueryDeadlockError` retry, and `auth_hooks` wiring).
 
+- **FR-A18 direct/walk-in sales** — `hotel_erp.booking.direct_sale.create_walkin_reservation`,
+  a `@frappe.whitelist()` method authenticated by Frappe's own session/role
+  layer (`Hotel Front Desk`/`Revenue Manager`/`System Manager`), not the
+  Aggregator's bearer scheme. Reuses the same `atomic_hold` decrement and
+  emits the same `availability.changed` events. Verified live: correct
+  inventory decrement, and a Guest-role (unauthenticated) session correctly
+  gets `403`.
+- **FR-A5 waiting list** — `Waiting List Entry` DocType, `POST
+  /api/v1/reservations/waitlist`, and a 1-minute `check_waitlist` scheduled
+  job that flips entries to `notified` and emits `waitlist.available`
+  (IDs/dates only, no contact info on the wire) once a stay's every night
+  has enough rooms again. Verified live end-to-end including the Aggregator
+  side picking the event up correctly (see `hotels_aggregator/ROADMAP.md` —
+  this surfaced a real forward-compatibility bug there, now fixed).
+- **FR-A4 dynamic pricing** — `Pricing Rule` DocType (season/holiday/
+  day-of-week/lead-time/occupancy, percentage or fixed adjustment, composed
+  in priority order) + a daily `apply_pricing_rules` job repricing existing
+  `Rate Calendar` rows from each Rate Plan's `base_price_minor` and emitting
+  `rate.changed` for nights that actually moved. Verified live: a
+  day-of-week weekend-surge rule correctly repriced only Saturday/Sunday
+  nights, left every other night untouched, and the resulting price landed
+  correctly in the Aggregator's index via the real webhook path.
+- **FR-A7 reception dashboard** — four Query Reports (Today's Arrivals,
+  Today's Departures, Late Checkouts, Arrivals Not Checked In) under
+  Analytics, granted to `Hotel Front Desk` too (the other reports are
+  `System Manager`-only). Verified live with real reservation data,
+  including the Late Checkouts boundary condition (`check_out < today`,
+  not `<= today`) actually excluding a same-day checkout correctly.
+
 ## Implemented, but thinner than the spec describes
 
-- **FR-A4 dynamic pricing** — `Rate Calendar` holds a price per (rate plan,
-  night); nothing *sets* that price based on season/occupancy/lead-time
-  automatically. Populating it dynamically is a scheduled job someone still
-  needs to write.
-- **FR-A5 waiting list** — no `Waiting List` DocType; a fully-booked date
-  range just returns `409 ROOMS_UNAVAILABLE` today.
-- **FR-A7 reception dashboard** — "today's arrivals/departures, late
-  checkouts, no-shows" isn't built as a dashboard; the underlying data
-  (`Reservation.status`, `check_in`/`check_out`) is all there, just not
-  surfaced as a desk page or report yet.
 - **FR-A8–A15 internal modules** (Housekeeping, Maintenance, Restaurant,
   Conference, Finance, HR, Inventory, CRM) — DocTypes exist with the fields
   the contract's logical schema (§2.4) calls for, but only as plain
@@ -38,24 +57,18 @@ fixed (`frappe.QueryDeadlockError` retry, and `auth_hooks` wiring).
   "internal-only, build per your usual Frappe conventions," but worth
   tracking since "a DocType exists" and "the workflow works" aren't the same
   claim.
-- **FR-A16 analytics** — two Query Reports (Hotel Occupancy, ADR/RevPAR),
-  not full dashboards.
-- **FR-A18 direct/walk-in sales** — `Reservation Hold.channel` supports
-  `direct` in the schema, and the atomic-hold/inventory logic doesn't care
-  which channel decremented a night, but there's no actual front-desk
-  whitelisted method or UI to *create* a direct booking yet — only the
-  Aggregator-facing `/api/v1/reservations/hold` path (which always sends
-  `channel: aggregator`) is wired up end-to-end.
+- **FR-A16 analytics** — the occupancy/ADR/RevPAR/reception reports above
+  are Query Reports, not full dashboards.
 
 ## Not implemented
 
 - **No automated test suite.** Verification so far has been real,
   end-to-end, against a live stack (concurrent holds, real MariaDB, real
-  HMAC-signed webhooks) — but there's no `pytest`/Frappe test-case suite
-  checked in, and the CI workflow only builds and pushes the image, it
-  doesn't run any tests first. Worth fixing before this is genuinely safe to
-  iterate on without a human re-running the manual verification pass every
-  time.
+  HMAC-signed webhooks, real dynamic-pricing/waitlist runs) — but there's no
+  `pytest`/Frappe test-case suite checked in, and the CI workflow only
+  builds and pushes the image, it doesn't run any tests first. Worth fixing
+  before this is genuinely safe to iterate on without a human re-running the
+  manual verification pass every time.
 - **NFR-A7 backups** — no automated daily snapshot/retention job; purely an
   ops/infra concern deferred to wherever this actually gets deployed.
 - Everything in the contract's own **§6 "Open Items for Future Phases"**:
