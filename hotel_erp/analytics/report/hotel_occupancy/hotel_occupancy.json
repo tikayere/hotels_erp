@@ -8,6 +8,7 @@
  "ref_doctype": "Reservation",
  "query": "SELECT r.check_in AS 'Date:Date', rt.property AS 'Property:Link/Property:150', COUNT(DISTINCT r.name) AS 'Reservations:Int:120', SUM(r.rooms_requested) AS 'Rooms Booked:Int:120' FROM `tabReservation` r JOIN `tabRoom Type` rt ON rt.name = r.room_type WHERE r.status NOT IN ('cancelled', 'no_show') GROUP BY r.check_in, rt.property ORDER BY r.check_in DESC",
  "roles": [
-  {"role": "System Manager"}
+  {"role": "System Manager"},
+  {"role": "Revenue Manager"}
  ]
 }

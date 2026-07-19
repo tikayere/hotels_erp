@@ -1,0 +1,70 @@
+{
+ "app": "hotel_erp",
+ "charts": [],
+ "content": "[{\"id\":\"qYDB9-JTjs\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Maintenance</span>\",\"col\":12}},{\"id\":\"9LIVdLG2k9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Maintenance Request\",\"col\":6}},{\"id\":\"flMRph4pMN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Maintenance Request Board\",\"col\":6}},{\"id\":\"ALH7nTpzQt\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"uWeD--enq7\",\"type\":\"card\",\"data\":{\"card_name\":\"Maintenance\",\"col\":4}}]",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "hammer",
+ "is_hidden": 0,
+ "label": "Maintenance",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Maintenance",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Maintenance Request",
+   "link_to": "Maintenance Request",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "module": "Maintenance",
+ "name": "Maintenance",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "Hotel Management",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [
+  {
+   "role": "Maintenance Staff"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 4.0,
+ "shortcuts": [
+  {
+   "color": "Red",
+   "doc_view": "List",
+   "label": "Maintenance Request",
+   "link_to": "Maintenance Request",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "Kanban",
+   "kanban_board": "Maintenance Request Board",
+   "label": "Maintenance Request Board",
+   "link_to": "Maintenance Request",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Maintenance",
+ "type": "Workspace"
+}

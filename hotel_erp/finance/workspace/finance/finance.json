@@ -1,0 +1,61 @@
+{
+ "app": "hotel_erp",
+ "charts": [],
+ "content": "[{\"id\":\"UttAzsiA8R\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Finance</span>\",\"col\":12}},{\"id\":\"5NtJasBLPD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Finance Txn\",\"col\":4}},{\"id\":\"CnE5YkfGOv\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"0WRombpE2e\",\"type\":\"card\",\"data\":{\"card_name\":\"Finance\",\"col\":4}}]",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "card",
+ "is_hidden": 0,
+ "label": "Finance",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Finance",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Finance Txn",
+   "link_to": "Finance Txn",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "module": "Finance",
+ "name": "Finance",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "Hotel Management",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [
+  {
+   "role": "Finance Manager"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 6.0,
+ "shortcuts": [
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Finance Txn",
+   "link_to": "Finance Txn",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Finance",
+ "type": "Workspace"
+}

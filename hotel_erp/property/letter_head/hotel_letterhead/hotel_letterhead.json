@@ -1,0 +1,14 @@
+{
+ "align": "Center",
+ "content": "{% set property = frappe.get_all(\"Property\", filters={\"status\": \"Active\"}, fields=[\"property_name\", \"address\", \"city\", \"country\"], limit_page_length=1) %}\n<div style=\"text-align:center; margin-bottom: 10px;\">\n{% if property %}\n  <h2 style=\"margin-bottom:4px;\">{{ property[0].property_name }}</h2>\n  <div style=\"font-size: 11px; color:#555;\">\n    {{ property[0].address ~ \", \" if property[0].address else \"\" }}{{ property[0].city }}, {{ property[0].country }}\n  </div>\n{% else %}\n  <h2 style=\"margin-bottom:4px;\">Hotel</h2>\n{% endif %}\n</div>\n",
+ "disabled": 0,
+ "doctype": "Letter Head",
+ "footer": "<div style=\"text-align:center; font-size:10px; color:#888;\">Thank you for staying with us.</div>\n",
+ "footer_align": "Center",
+ "footer_source": "HTML",
+ "is_default": 1,
+ "letter_head_name": "Hotel Letterhead",
+ "name": "Hotel Letterhead",
+ "owner": "Administrator",
+ "source": "HTML"
+}

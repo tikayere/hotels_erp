@@ -1,0 +1,162 @@
+{
+ "app": "hotel_erp",
+ "charts": [],
+ "content": "[{\"id\":\"44xk1TN-Pa\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Revenue Management</span>\",\"col\":12}},{\"id\":\"0tQ8ihgJrM\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Room Type\",\"col\":3}},{\"id\":\"TnOqF52fBr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Rate Plan\",\"col\":3}},{\"id\":\"aXOqVJBae4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Rate Calendar\",\"col\":3}},{\"id\":\"5I1Ljit5Y3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pricing Rule\",\"col\":3}},{\"id\":\"5npgX4ANj7\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"3_Z4bVv7Z3\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Analytics</span>\",\"col\":12}},{\"id\":\"ZrYg32o0Dt\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"ADR and RevPAR\",\"col\":4}},{\"id\":\"Yobmv39rPz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotel Occupancy\",\"col\":4}},{\"id\":\"_I8h_l9qgB\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"UuMGyKqTa7\",\"type\":\"card\",\"data\":{\"card_name\":\"Rates & Inventory\",\"col\":4}},{\"id\":\"IUVQxeQvu2\",\"type\":\"card\",\"data\":{\"card_name\":\"Analytics\",\"col\":4}}]",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "chart",
+ "is_hidden": 0,
+ "label": "Revenue Management",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rates & Inventory",
+   "link_count": 4,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Room Type",
+   "link_to": "Room Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rate Plan",
+   "link_to": "Rate Plan",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Rate Calendar",
+   "link_to": "Rate Calendar",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Pricing Rule",
+   "link_to": "Pricing Rule",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "description": "ADR/RevPAR and occupancy reporting (FR-A16).",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Analytics",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "Reservation",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "ADR and RevPAR",
+   "link_to": "ADR and RevPAR",
+   "link_type": "Report",
+   "onboard": 0,
+   "report_ref_doctype": "Reservation",
+   "type": "Link"
+  },
+  {
+   "dependencies": "Reservation",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Hotel Occupancy",
+   "link_to": "Hotel Occupancy",
+   "link_type": "Report",
+   "onboard": 0,
+   "report_ref_doctype": "Reservation",
+   "type": "Link"
+  }
+ ],
+ "module": "Room",
+ "name": "Revenue Management",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "Hotel Management",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [
+  {
+   "role": "Revenue Manager"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 5.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Room Type",
+   "link_to": "Room Type",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Rate Plan",
+   "link_to": "Rate Plan",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "Rate Calendar",
+   "link_to": "Rate Calendar",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "List",
+   "label": "Pricing Rule",
+   "link_to": "Pricing Rule",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "label": "ADR and RevPAR",
+   "link_to": "ADR and RevPAR",
+   "report_ref_doctype": "Reservation",
+   "stats_filter": "[]",
+   "type": "Report"
+  },
+  {
+   "color": "Cyan",
+   "label": "Hotel Occupancy",
+   "link_to": "Hotel Occupancy",
+   "report_ref_doctype": "Reservation",
+   "stats_filter": "[]",
+   "type": "Report"
+  }
+ ],
+ "title": "Revenue Management",
+ "type": "Workspace"
+}

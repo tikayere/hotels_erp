@@ -1,0 +1,39 @@
+{
+ "columns": [
+  {
+   "column_name": "open",
+   "indicator": "Red",
+   "status": "Active"
+  },
+  {
+   "column_name": "assigned",
+   "indicator": "Orange",
+   "status": "Active"
+  },
+  {
+   "column_name": "in_progress",
+   "indicator": "Yellow",
+   "status": "Active"
+  },
+  {
+   "column_name": "resolved",
+   "indicator": "Blue",
+   "status": "Active"
+  },
+  {
+   "column_name": "closed",
+   "indicator": "Green",
+   "status": "Active"
+  }
+ ],
+ "doctype": "Kanban Board",
+ "field_name": "status",
+ "fields": "[]",
+ "filters": "[]",
+ "kanban_board_name": "Maintenance Request Board",
+ "name": "Maintenance Request Board",
+ "owner": "Administrator",
+ "private": 0,
+ "reference_doctype": "Maintenance Request",
+ "show_labels": 0
+}

@@ -1,0 +1,38 @@
+{
+ "assign_condition": "status == \"pending\"",
+ "assignment_days": [
+  {
+   "day": "Monday"
+  },
+  {
+   "day": "Tuesday"
+  },
+  {
+   "day": "Wednesday"
+  },
+  {
+   "day": "Thursday"
+  },
+  {
+   "day": "Friday"
+  },
+  {
+   "day": "Saturday"
+  },
+  {
+   "day": "Sunday"
+  }
+ ],
+ "close_condition": "",
+ "description": "Round-robins new pending Housekeeping Tasks among Housekeeping Staff. Shipped disabled with an empty Users table -- add your hotel's Housekeeping Staff Users below and enable this rule to activate auto-assignment.",
+ "disabled": 1,
+ "doctype": "Assignment Rule",
+ "document_type": "Housekeeping Task",
+ "due_date_based_on": "due_at",
+ "name": "Housekeeping Task Auto Assign",
+ "owner": "Administrator",
+ "priority": 1,
+ "rule": "Round Robin",
+ "unassign_condition": "status in (\"completed\", \"verified\")",
+ "users": []
+}

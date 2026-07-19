@@ -1,0 +1,218 @@
+{
+ "app": "hotel_erp",
+ "charts": [],
+ "content": "[{\"id\":\"ObroVR5fBb\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Front Desk</span>\",\"col\":12}},{\"id\":\"nGbmPIoLZa\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Reservation\",\"col\":3}},{\"id\":\"ZSvj9vfg2M\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Reservation Hold\",\"col\":3}},{\"id\":\"ZUI_yJ1N3K\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Room Assignment\",\"col\":3}},{\"id\":\"TcosfogrOx\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Waiting List Entry\",\"col\":3}},{\"id\":\"xnr7PMkUky\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest\",\"col\":3}},{\"id\":\"-OJR1Xocur\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"n84uPz6Dqp\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Reception Reports</span>\",\"col\":12}},{\"id\":\"JqL5zo-Gfd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today's Arrivals\",\"col\":3}},{\"id\":\"hOYBey-H_3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Today's Departures\",\"col\":3}},{\"id\":\"aURIrPhBD9\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Late Checkouts\",\"col\":3}},{\"id\":\"4qGl63tOMj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Arrivals Not Checked In\",\"col\":3}},{\"id\":\"WIXHaub741\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"td48fFeWXi\",\"type\":\"card\",\"data\":{\"card_name\":\"Reservations\",\"col\":4}},{\"id\":\"EJq3BnIUmt\",\"type\":\"card\",\"data\":{\"card_name\":\"Reception Reports\",\"col\":4}}]",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "users",
+ "is_hidden": 0,
+ "label": "Front Desk",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reservations",
+   "link_count": 5,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reservation",
+   "link_to": "Reservation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reservation Hold",
+   "link_to": "Reservation Hold",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Room Assignment",
+   "link_to": "Room Assignment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Waiting List Entry",
+   "link_to": "Waiting List Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Guest",
+   "link_to": "Guest",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "description": "Real-time arrivals/departures views for the front desk (FR-A7).",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reception Reports",
+   "link_count": 4,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "Reservation",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Today's Arrivals",
+   "link_to": "Today's Arrivals",
+   "link_type": "Report",
+   "onboard": 0,
+   "report_ref_doctype": "Reservation",
+   "type": "Link"
+  },
+  {
+   "dependencies": "Reservation",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Today's Departures",
+   "link_to": "Today's Departures",
+   "link_type": "Report",
+   "onboard": 0,
+   "report_ref_doctype": "Reservation",
+   "type": "Link"
+  },
+  {
+   "dependencies": "Reservation",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Late Checkouts",
+   "link_to": "Late Checkouts",
+   "link_type": "Report",
+   "onboard": 0,
+   "report_ref_doctype": "Reservation",
+   "type": "Link"
+  },
+  {
+   "dependencies": "Reservation",
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Arrivals Not Checked In",
+   "link_to": "Arrivals Not Checked In",
+   "link_type": "Report",
+   "onboard": 0,
+   "report_ref_doctype": "Reservation",
+   "type": "Link"
+  }
+ ],
+ "module": "Reservation",
+ "name": "Front Desk",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "Hotel Management",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [
+  {
+   "role": "Hotel Front Desk"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 2.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Reservation",
+   "link_to": "Reservation",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "Reservation Hold",
+   "link_to": "Reservation Hold",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Room Assignment",
+   "link_to": "Room Assignment",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Yellow",
+   "doc_view": "List",
+   "label": "Waiting List Entry",
+   "link_to": "Waiting List Entry",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Guest",
+   "link_to": "Guest",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "label": "Today's Arrivals",
+   "link_to": "Today's Arrivals",
+   "report_ref_doctype": "Reservation",
+   "stats_filter": "[]",
+   "type": "Report"
+  },
+  {
+   "color": "Cyan",
+   "label": "Today's Departures",
+   "link_to": "Today's Departures",
+   "report_ref_doctype": "Reservation",
+   "stats_filter": "[]",
+   "type": "Report"
+  },
+  {
+   "color": "Red",
+   "label": "Late Checkouts",
+   "link_to": "Late Checkouts",
+   "report_ref_doctype": "Reservation",
+   "stats_filter": "[]",
+   "type": "Report"
+  },
+  {
+   "color": "Orange",
+   "label": "Arrivals Not Checked In",
+   "link_to": "Arrivals Not Checked In",
+   "report_ref_doctype": "Reservation",
+   "stats_filter": "[]",
+   "type": "Report"
+  }
+ ],
+ "title": "Front Desk",
+ "type": "Workspace"
+}

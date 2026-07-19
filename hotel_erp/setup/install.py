@@ -11,7 +11,21 @@ import frappe
 # Roles referenced by DocType permission tables. "Hotel API" is the identity the
 # external /api/v1 methods run under; it is deliberately NEVER granted any
 # permission on the Guest DocType (NFR-A9 / §5.6 guest-privacy boundary).
-ROLES = ["Hotel API", "Revenue Manager", "Hotel Front Desk", "Housekeeping Staff"]
+#
+# "Maintenance Staff" and "Finance Manager" were added alongside the Desk UX
+# layer (Workspaces/Kanban boards) once it became clear those two modules had
+# no dedicated UI-facing role to grant workspace/DocType permissions to --
+# Maintenance Request only granted "Housekeeping Staff", and Finance Txn only
+# granted "System Manager". See maintenance_request.json / finance_txn.json
+# permission tables for the corresponding grants.
+ROLES = [
+    "Hotel API",
+    "Revenue Manager",
+    "Hotel Front Desk",
+    "Housekeeping Staff",
+    "Maintenance Staff",
+    "Finance Manager",
+]
 
 
 SERVICE_USER_EMAIL = "hotel-api@service.local"

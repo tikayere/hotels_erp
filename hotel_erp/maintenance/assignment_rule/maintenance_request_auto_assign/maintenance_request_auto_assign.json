@@ -1,0 +1,38 @@
+{
+ "assign_condition": "status == \"open\"",
+ "assignment_days": [
+  {
+   "day": "Monday"
+  },
+  {
+   "day": "Tuesday"
+  },
+  {
+   "day": "Wednesday"
+  },
+  {
+   "day": "Thursday"
+  },
+  {
+   "day": "Friday"
+  },
+  {
+   "day": "Saturday"
+  },
+  {
+   "day": "Sunday"
+  }
+ ],
+ "close_condition": "",
+ "description": "Round-robins new open Maintenance Requests among Maintenance Staff. Shipped disabled with an empty Users table -- add your hotel's Maintenance Staff Users below and enable this rule to activate auto-assignment.",
+ "disabled": 1,
+ "doctype": "Assignment Rule",
+ "document_type": "Maintenance Request",
+ "due_date_based_on": "",
+ "name": "Maintenance Request Auto Assign",
+ "owner": "Administrator",
+ "priority": 1,
+ "rule": "Round Robin",
+ "unassign_condition": "status in (\"resolved\", \"closed\")",
+ "users": []
+}

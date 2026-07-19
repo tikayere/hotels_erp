@@ -1,0 +1,23 @@
+{
+ "aggregate_function_based_on": "",
+ "background_color": "",
+ "color": "#449CF0",
+ "currency": "",
+ "doctype": "Number Card",
+ "document_type": "Reservation",
+ "dynamic_filters_json": "[[\"Reservation\",\"check_out\",\"=\",\"frappe.datetime.get_today()\"]]",
+ "filters_json": "[[\"Reservation\",\"status\",\"in\",[\"confirmed\",\"checked_in\"]]]",
+ "function": "Count",
+ "is_public": 1,
+ "is_standard": 1,
+ "label": "Departures Today",
+ "module": "Analytics",
+ "name": "Departures Today",
+ "owner": "Administrator",
+ "parent_document_type": "",
+ "report_function": "Sum",
+ "show_full_number": 0,
+ "show_percentage_stats": 1,
+ "stats_time_interval": "Daily",
+ "type": "Document Type"
+}

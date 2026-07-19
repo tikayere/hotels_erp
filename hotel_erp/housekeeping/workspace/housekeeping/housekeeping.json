@@ -1,0 +1,88 @@
+{
+ "app": "hotel_erp",
+ "charts": [],
+ "content": "[{\"id\":\"-PCHhovLoo\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Housekeeping</span>\",\"col\":12}},{\"id\":\"eOo53epQni\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Housekeeping Task\",\"col\":4}},{\"id\":\"7KEYZmgBBD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Room\",\"col\":4}},{\"id\":\"UR_gzv3pmC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Housekeeping Task Board\",\"col\":4}},{\"id\":\"Brp7C3Jd-1\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"_72kFnzdy-\",\"type\":\"card\",\"data\":{\"card_name\":\"Housekeeping\",\"col\":4}}]",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "clipboard",
+ "is_hidden": 0,
+ "label": "Housekeeping",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Housekeeping",
+   "link_count": 2,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Housekeeping Task",
+   "link_to": "Housekeeping Task",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Room",
+   "link_to": "Room",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "module": "Housekeeping",
+ "name": "Housekeeping",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "Hotel Management",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [
+  {
+   "role": "Housekeeping Staff"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 3.0,
+ "shortcuts": [
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "Housekeeping Task",
+   "link_to": "Housekeeping Task",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "Room",
+   "link_to": "Room",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Purple",
+   "doc_view": "Kanban",
+   "kanban_board": "Housekeeping Task Board",
+   "label": "Housekeeping Task Board",
+   "link_to": "Housekeeping Task",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Housekeeping",
+ "type": "Workspace"
+}

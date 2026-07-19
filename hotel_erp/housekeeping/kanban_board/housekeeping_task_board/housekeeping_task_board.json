@@ -1,0 +1,34 @@
+{
+ "columns": [
+  {
+   "column_name": "pending",
+   "indicator": "Gray",
+   "status": "Active"
+  },
+  {
+   "column_name": "in_progress",
+   "indicator": "Orange",
+   "status": "Active"
+  },
+  {
+   "column_name": "completed",
+   "indicator": "Blue",
+   "status": "Active"
+  },
+  {
+   "column_name": "verified",
+   "indicator": "Green",
+   "status": "Active"
+  }
+ ],
+ "doctype": "Kanban Board",
+ "field_name": "status",
+ "fields": "[]",
+ "filters": "[]",
+ "kanban_board_name": "Housekeeping Task Board",
+ "name": "Housekeeping Task Board",
+ "owner": "Administrator",
+ "private": 0,
+ "reference_doctype": "Housekeeping Task",
+ "show_labels": 0
+}

@@ -1,0 +1,23 @@
+{
+ "aggregate_function_based_on": "",
+ "background_color": "",
+ "color": "#ffa00a",
+ "currency": "",
+ "doctype": "Number Card",
+ "document_type": "Housekeeping Task",
+ "dynamic_filters_json": "[]",
+ "filters_json": "[[\"Housekeeping Task\",\"status\",\"not in\",[\"completed\",\"verified\"]]]",
+ "function": "Count",
+ "is_public": 1,
+ "is_standard": 1,
+ "label": "Pending Housekeeping Tasks",
+ "module": "Analytics",
+ "name": "Pending Housekeeping Tasks",
+ "owner": "Administrator",
+ "parent_document_type": "",
+ "report_function": "Sum",
+ "show_full_number": 0,
+ "show_percentage_stats": 1,
+ "stats_time_interval": "Daily",
+ "type": "Document Type"
+}

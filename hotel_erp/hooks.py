@@ -12,6 +12,27 @@ app_version = "1.0.0"
 after_install = "hotel_erp.setup.install.after_install"
 
 # ---------------------------------------------------------------------------
+# Fixture record auto-sync (Desk UX layer: Workspaces, Number Cards,
+# Dashboard Charts, Kanban Boards, Print Formats, Letter Head)
+# ---------------------------------------------------------------------------
+# `bench migrate` auto-discovers standard-record fixtures placed at
+# <module>/<doctype_folder>/<name>/<name>.json for a fixed list of doctypes
+# hardcoded in frappe/model/sync.py's IMPORTABLE_DOCTYPES (DocType, Report,
+# Workspace, Print Format, Client Script, ... -- Print Format and Workspace
+# are already on that list, which is why those fixtures need no extra wiring
+# here). Number Card, Dashboard Chart, Kanban Board, Letter Head and
+# Assignment Rule are NOT on that built-in list; this `importable_doctypes`
+# hook is the documented Frappe mechanism for extending it so this app's
+# fixtures for those doctypes get picked up by `bench migrate` the same way.
+importable_doctypes = [
+    "Number Card",
+    "Dashboard Chart",
+    "Kanban Board",
+    "Letter Head",
+    "Assignment Rule",
+]
+
+# ---------------------------------------------------------------------------
 # Request routing
 # ---------------------------------------------------------------------------
 # The external contract (phase_2 §4.5) serves clean REST paths under /api/v1/*
