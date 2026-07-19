@@ -138,7 +138,7 @@ def get_availability(
     rate_plans = frappe.get_all(
         "Rate Plan",
         filters={"room_type": room_type.name, "active": 1},
-        fields=["name", "code"],
+        fields=["name", "code", "refundable"],
         order_by="code asc",
     )
 
@@ -177,6 +177,7 @@ def get_availability(
         quotes.append(
             {
                 "rate_plan_code": plan.code,
+                "refundable": bool(plan.refundable),
                 "nightly_rates": nightly,
                 "total_amount_minor": total,
                 "currency": currency,

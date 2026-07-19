@@ -60,7 +60,7 @@ def enqueue_availability_changed(room_type_name: str, rate_plan_name: str, check
     """One availability.changed event per affected night (contract §4.7) — the
     per-(room_type, date, rate_plan) shape Rate Calendar uses. Reads the current
     Rate Calendar rows so each event carries the post-change rooms_available."""
-    rate_plan_code = frappe.db.get_value("Rate Plan", rate_plan_name, "code")
+    rate_plan_code, refundable = frappe.db.get_value("Rate Plan", rate_plan_name, ["code", "refundable"])
     room_type_code = frappe.db.get_value("Room Type", room_type_name, "code")
     nights = _nights(check_in, check_out)
     if not nights:
@@ -84,6 +84,7 @@ def enqueue_availability_changed(room_type_name: str, rate_plan_name: str, check
                 "rooms_available": row.rooms_available,
                 "price_minor": row.price_minor,
                 "currency": row.currency,
+                "refundable": bool(refundable),
             },
         )
 

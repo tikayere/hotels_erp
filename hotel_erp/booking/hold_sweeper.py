@@ -66,7 +66,7 @@ def _enqueue_availability_changed(room_type_id: str, rate_plan_id: str, check_in
     Rate Calendar and the contract's NightlyAvailabilityData both use.
     """
     sync_config = frappe.get_single("Sync Config")
-    rate_plan_code = frappe.db.get_value("Rate Plan", rate_plan_id, "code")
+    rate_plan_code, refundable = frappe.db.get_value("Rate Plan", rate_plan_id, ["code", "refundable"])
 
     rows = frappe.db.sql(
         """
@@ -92,6 +92,7 @@ def _enqueue_availability_changed(room_type_id: str, rate_plan_id: str, check_in
                 "rooms_available": row.rooms_available,
                 "price_minor": row.price_minor,
                 "currency": row.currency,
+                "refundable": bool(refundable),
             },
         }
         frappe.get_doc(
