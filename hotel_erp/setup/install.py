@@ -8,6 +8,8 @@ from __future__ import annotations
 
 import frappe
 
+from hotel_erp.setup.workspace_icons import set_sidebar_icons
+
 # Roles referenced by DocType permission tables. "Hotel API" is the identity the
 # external /api/v1 methods run under; it is deliberately NEVER granted any
 # permission on the Guest DocType (NFR-A9 / §5.6 guest-privacy boundary).
@@ -35,6 +37,8 @@ def after_install() -> None:
     _create_roles()
     _create_service_user()
     _seed_sync_config()
+    _finish_setup()
+    set_sidebar_icons()
     frappe.db.commit()
 
 
@@ -67,6 +71,20 @@ def _create_service_user() -> None:
             "roles": [{"role": "Hotel API"}],
         }
     ).insert(ignore_permissions=True)
+
+
+def _finish_setup() -> None:
+    """`bench new-site` leaves the `desktop:home_page` default pointed at
+    "setup-wizard" (frappe/utils/install.py) -- normally corrected to
+    "workspace" only by the *interactive* Setup Wizard's own completion step
+    (frappe.desk.page.setup_wizard.setup_wizard.disable_future_access), which
+    this app never runs. Left uncorrected, every Desk boot computes
+    `home_page = "setup-wizard"`, the client navigates there, the wizard page
+    sees setup is already complete and bounces straight back to /desk, and
+    the cycle repeats forever -- visible in the browser as an infinite loop.
+    Mirrors exactly what that core function does."""
+    frappe.db.set_default("desktop:home_page", "workspace")
+    frappe.db.set_single_value("System Settings", "setup_complete", 1)
 
 
 def _seed_sync_config() -> None:
