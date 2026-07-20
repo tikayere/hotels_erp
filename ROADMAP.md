@@ -90,7 +90,37 @@ fixed (`frappe.QueryDeadlockError` retry, and `auth_hooks` wiring).
   compression — a plain `curl` without `--compressed` doesn't reproduce it —
   and a single one-off `GET /desk/undefined` in the logs was not
   reproducible and not connected to any malformed Workspace fixture data,
-  which was directly checked and is clean.)
+  which was directly checked and is clean.) This turned out to be real but
+  not the whole story — the user hit the loop again after this landed. The
+  actual remaining cause: `bench new-site` leaves the `desktop:home_page`
+  default at `"setup-wizard"` (`frappe/utils/install.py`), and it's only
+  ever corrected to `"workspace"` by the *interactive* Setup Wizard's own
+  completion step, which this app never runs (`after_install` sets
+  `System Settings.setup_complete` directly instead). Every Desk boot
+  therefore computed `home_page="setup-wizard"`, the client navigated
+  there, the wizard saw setup was already done and bounced straight back to
+  `/desk` — forever. Fixed in `hotel_erp.setup.install._finish_setup`
+  (mirrors exactly what `setup_wizard.py`'s own `disable_future_access`
+  does). Verified live: `home_page` now resolves to `"desktop"` and nginx
+  logs show zero `setup_wizard.*` calls after the fix.
+- **Real icons across every Workspace, sidebar item, and DocType** — two
+  separate rendering gaps, both root-caused by reading Frappe's own
+  icon-resolution code rather than guessing: 3 of the 7 top-level Workspace
+  icons (`chart`, `card`, `home`) weren't valid names in the bundled lucide
+  sprite and silently rendered nothing; and every left-sidebar menu entry
+  showed a generic fallback icon regardless of what a Workspace's own
+  shortcuts specified, because Frappe's own sidebar-generator
+  (`create_workspace_sidebar_for_workspaces`) builds sidebar rows from
+  `Workspace.shortcuts` but never copies `shortcut.icon` across — confirmed
+  by reading that function directly, not assumed. Fixed with a small
+  `hotel_erp.setup.workspace_icons` module that sets real icons on the
+  generated sidebar rows directly (wired into `after_install` for fresh
+  installs, plus a migrate-time patch for sites that installed before this
+  fix existed) and corrected the 3 invalid top-level Workspace icons. Also
+  added a real `icon` to all 28 DocTypes for breadcrumbs/global search.
+  Verified live against both hotel-alpha and hotel-beta: header icons,
+  sidebar item icons, and DocType icons all landed correctly after
+  `bench migrate`.
 - **Two-pass fixture sync bug, found and fixed** — `bench install-app`'s
   own single process does not reliably sync fixture records for doctypes
   registered via `hooks.py`'s `importable_doctypes` hook (Kanban Board,
