@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-building",
  "name": "Property",
  "module": "Property",
  "custom": 0,

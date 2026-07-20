@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-user",
  "name": "Guest",
  "module": "Guest",
  "custom": 0,

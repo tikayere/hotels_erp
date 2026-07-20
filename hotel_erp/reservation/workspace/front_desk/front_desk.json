@@ -21,6 +21,7 @@
   {
    "dependencies": "",
    "hidden": 0,
+   "icon": "calendar-check",
    "is_query_report": 0,
    "label": "Reservation",
    "link_to": "Reservation",
@@ -31,6 +32,7 @@
   {
    "dependencies": "",
    "hidden": 0,
+   "icon": "hourglass",
    "is_query_report": 0,
    "label": "Reservation Hold",
    "link_to": "Reservation Hold",
@@ -41,6 +43,7 @@
   {
    "dependencies": "",
    "hidden": 0,
+   "icon": "door-open",
    "is_query_report": 0,
    "label": "Room Assignment",
    "link_to": "Room Assignment",
@@ -51,6 +54,7 @@
   {
    "dependencies": "",
    "hidden": 0,
+   "icon": "list-plus",
    "is_query_report": 0,
    "label": "Waiting List Entry",
    "link_to": "Waiting List Entry",
@@ -61,6 +65,7 @@
   {
    "dependencies": "",
    "hidden": 0,
+   "icon": "user-round",
    "is_query_report": 0,
    "label": "Guest",
    "link_to": "Guest",
@@ -80,6 +85,7 @@
   {
    "dependencies": "Reservation",
    "hidden": 0,
+   "icon": "plane-landing",
    "is_query_report": 1,
    "label": "Today's Arrivals",
    "link_to": "Today's Arrivals",
@@ -91,6 +97,7 @@
   {
    "dependencies": "Reservation",
    "hidden": 0,
+   "icon": "plane-takeoff",
    "is_query_report": 1,
    "label": "Today's Departures",
    "link_to": "Today's Departures",
@@ -102,6 +109,7 @@
   {
    "dependencies": "Reservation",
    "hidden": 0,
+   "icon": "clock-alert",
    "is_query_report": 1,
    "label": "Late Checkouts",
    "link_to": "Late Checkouts",
@@ -113,6 +121,7 @@
   {
    "dependencies": "Reservation",
    "hidden": 0,
+   "icon": "user-x",
    "is_query_report": 1,
    "label": "Arrivals Not Checked In",
    "link_to": "Arrivals Not Checked In",
@@ -143,6 +152,7 @@
   {
    "color": "Blue",
    "doc_view": "List",
+   "icon": "calendar-check",
    "label": "Reservation",
    "link_to": "Reservation",
    "stats_filter": "[]",
@@ -151,6 +161,7 @@
   {
    "color": "Orange",
    "doc_view": "List",
+   "icon": "hourglass",
    "label": "Reservation Hold",
    "link_to": "Reservation Hold",
    "stats_filter": "[]",
@@ -159,6 +170,7 @@
   {
    "color": "Green",
    "doc_view": "List",
+   "icon": "door-open",
    "label": "Room Assignment",
    "link_to": "Room Assignment",
    "stats_filter": "[]",
@@ -167,6 +179,7 @@
   {
    "color": "Yellow",
    "doc_view": "List",
+   "icon": "list-plus",
    "label": "Waiting List Entry",
    "link_to": "Waiting List Entry",
    "stats_filter": "[]",
@@ -175,6 +188,7 @@
   {
    "color": "Grey",
    "doc_view": "List",
+   "icon": "user-round",
    "label": "Guest",
    "link_to": "Guest",
    "stats_filter": "[]",
@@ -182,6 +196,7 @@
   },
   {
    "color": "Blue",
+   "icon": "plane-landing",
    "label": "Today's Arrivals",
    "link_to": "Today's Arrivals",
    "report_ref_doctype": "Reservation",
@@ -190,6 +205,7 @@
   },
   {
    "color": "Cyan",
+   "icon": "plane-takeoff",
    "label": "Today's Departures",
    "link_to": "Today's Departures",
    "report_ref_doctype": "Reservation",
@@ -198,6 +214,7 @@
   },
   {
    "color": "Red",
+   "icon": "clock-alert",
    "label": "Late Checkouts",
    "link_to": "Late Checkouts",
    "report_ref_doctype": "Reservation",
@@ -206,6 +223,7 @@
   },
   {
    "color": "Orange",
+   "icon": "user-x",
    "label": "Arrivals Not Checked In",
    "link_to": "Arrivals Not Checked In",
    "report_ref_doctype": "Reservation",

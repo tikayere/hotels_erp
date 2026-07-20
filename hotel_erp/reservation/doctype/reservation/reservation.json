@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-bookmark",
  "name": "Reservation",
  "module": "Reservation",
  "custom": 0,

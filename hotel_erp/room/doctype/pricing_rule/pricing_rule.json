@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-percent",
  "name": "Pricing Rule",
  "module": "Room",
  "custom": 0,

@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-cube",
  "name": "Inventory Item",
  "module": "Inventory",
  "custom": 0,

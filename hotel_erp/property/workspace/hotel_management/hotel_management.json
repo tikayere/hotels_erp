@@ -11,7 +11,7 @@
  "doctype": "Workspace",
  "for_user": "",
  "hide_custom": 0,
- "icon": "home",
+ "icon": "house",
  "is_hidden": 0,
  "label": "Hotel Management",
  "links": [
@@ -27,6 +27,7 @@
   {
    "dependencies": "",
    "hidden": 0,
+   "icon": "building-2",
    "is_query_report": 0,
    "label": "Property",
    "link_to": "Property",
@@ -37,6 +38,7 @@
   {
    "dependencies": "",
    "hidden": 0,
+   "icon": "bed-double",
    "is_query_report": 0,
    "label": "Room Type",
    "link_to": "Room Type",
@@ -47,6 +49,7 @@
   {
    "dependencies": "",
    "hidden": 0,
+   "icon": "door-closed",
    "is_query_report": 0,
    "label": "Room",
    "link_to": "Room",
@@ -90,6 +93,7 @@
   {
    "color": "Blue",
    "doc_view": "List",
+   "icon": "building-2",
    "label": "Property",
    "link_to": "Property",
    "stats_filter": "[]",
@@ -98,6 +102,7 @@
   {
    "color": "Green",
    "doc_view": "List",
+   "icon": "bed-double",
    "label": "Room Type",
    "link_to": "Room Type",
    "stats_filter": "[]",
@@ -106,6 +111,7 @@
   {
    "color": "Orange",
    "doc_view": "List",
+   "icon": "door-closed",
    "label": "Room",
    "link_to": "Room",
    "stats_filter": "[]",
@@ -113,36 +119,42 @@
   },
   {
    "color": "Blue",
+   "icon": "users",
    "label": "Front Desk",
    "type": "URL",
    "url": "/app/front-desk"
   },
   {
    "color": "Green",
+   "icon": "clipboard",
    "label": "Housekeeping",
    "type": "URL",
    "url": "/app/housekeeping"
   },
   {
    "color": "Red",
+   "icon": "hammer",
    "label": "Maintenance",
    "type": "URL",
    "url": "/app/maintenance"
   },
   {
    "color": "Purple",
+   "icon": "chart-line",
    "label": "Revenue Management",
    "type": "URL",
    "url": "/app/revenue-management"
   },
   {
    "color": "Cyan",
+   "icon": "credit-card",
    "label": "Finance",
    "type": "URL",
    "url": "/app/finance"
   },
   {
    "color": "Yellow",
+   "icon": "user-check",
    "label": "HR",
    "type": "URL",
    "url": "/app/hr"

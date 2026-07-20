@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-refresh",
  "name": "Idempotency Record",
  "module": "Sync",
  "custom": 0,

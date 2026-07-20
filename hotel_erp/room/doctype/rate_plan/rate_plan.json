@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-tag",
  "name": "Rate Plan",
  "module": "Room",
  "custom": 0,

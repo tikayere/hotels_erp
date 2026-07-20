@@ -21,6 +21,7 @@
   {
    "dependencies": "",
    "hidden": 0,
+   "icon": "clipboard-list",
    "is_query_report": 0,
    "label": "Housekeeping Task",
    "link_to": "Housekeeping Task",
@@ -31,6 +32,7 @@
   {
    "dependencies": "",
    "hidden": 0,
+   "icon": "door-closed",
    "is_query_report": 0,
    "label": "Room",
    "link_to": "Room",
@@ -60,6 +62,7 @@
   {
    "color": "Blue",
    "doc_view": "List",
+   "icon": "clipboard-list",
    "label": "Housekeeping Task",
    "link_to": "Housekeeping Task",
    "stats_filter": "[]",
@@ -68,6 +71,7 @@
   {
    "color": "Green",
    "doc_view": "List",
+   "icon": "door-closed",
    "label": "Room",
    "link_to": "Room",
    "stats_filter": "[]",
@@ -76,6 +80,7 @@
   {
    "color": "Purple",
    "doc_view": "Kanban",
+   "icon": "kanban",
    "kanban_board": "Housekeeping Task Board",
    "label": "Housekeeping Task Board",
    "link_to": "Housekeeping Task",

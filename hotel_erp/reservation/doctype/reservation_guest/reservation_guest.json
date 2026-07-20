@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-user",
  "name": "Reservation Guest",
  "module": "Reservation",
  "custom": 0,

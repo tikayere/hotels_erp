@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-shopping-cart",
  "name": "Purchase Order",
  "module": "Inventory",
  "custom": 0,

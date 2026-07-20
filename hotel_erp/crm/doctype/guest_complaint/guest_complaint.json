@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-exclamation-triangle",
  "name": "Guest Complaint",
  "module": "CRM",
  "custom": 0,

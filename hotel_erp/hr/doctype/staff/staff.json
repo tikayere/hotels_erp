@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-users",
  "name": "Staff",
  "module": "HR",
  "custom": 0,

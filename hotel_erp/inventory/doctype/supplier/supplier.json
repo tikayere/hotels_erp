@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-truck",
  "name": "Supplier",
  "module": "Inventory",
  "custom": 0,

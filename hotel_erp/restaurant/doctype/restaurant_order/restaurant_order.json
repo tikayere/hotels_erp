@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-cutlery",
  "name": "Restaurant Order",
  "module": "Restaurant",
  "custom": 0,

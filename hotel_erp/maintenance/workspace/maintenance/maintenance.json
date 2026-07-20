@@ -21,6 +21,7 @@
   {
    "dependencies": "",
    "hidden": 0,
+   "icon": "wrench",
    "is_query_report": 0,
    "label": "Maintenance Request",
    "link_to": "Maintenance Request",
@@ -50,6 +51,7 @@
   {
    "color": "Red",
    "doc_view": "List",
+   "icon": "wrench",
    "label": "Maintenance Request",
    "link_to": "Maintenance Request",
    "stats_filter": "[]",
@@ -58,6 +60,7 @@
   {
    "color": "Purple",
    "doc_view": "Kanban",
+   "icon": "kanban",
    "kanban_board": "Maintenance Request Board",
    "label": "Maintenance Request Board",
    "link_to": "Maintenance Request",

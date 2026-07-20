@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-paper-plane",
  "name": "Webhook Outbox",
  "module": "Sync",
  "custom": 0,

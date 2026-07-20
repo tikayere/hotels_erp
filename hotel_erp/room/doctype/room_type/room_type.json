@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-bed",
  "name": "Room Type",
  "module": "Room",
  "custom": 0,

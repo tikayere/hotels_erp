@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-calendar",
  "name": "Rate Calendar",
  "module": "Room",
  "custom": 0,

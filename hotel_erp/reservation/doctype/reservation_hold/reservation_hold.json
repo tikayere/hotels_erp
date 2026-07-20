@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-clock-o",
  "name": "Reservation Hold",
  "module": "Reservation",
  "custom": 0,

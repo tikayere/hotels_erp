@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-calendar-times-o",
  "name": "Leave Application",
  "module": "HR",
  "custom": 0,

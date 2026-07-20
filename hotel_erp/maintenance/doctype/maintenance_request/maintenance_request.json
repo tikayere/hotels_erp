@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-wrench",
  "name": "Maintenance Request",
  "module": "Maintenance",
  "custom": 0,

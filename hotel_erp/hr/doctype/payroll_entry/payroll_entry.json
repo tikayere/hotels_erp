@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-money",
  "name": "Payroll Entry",
  "module": "HR",
  "custom": 0,

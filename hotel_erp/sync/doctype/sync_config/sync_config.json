@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-cog",
  "name": "Sync Config",
  "module": "Sync",
  "custom": 0,

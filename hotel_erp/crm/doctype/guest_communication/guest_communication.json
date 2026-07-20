@@ -1,5 +1,6 @@
 {
  "doctype": "DocType",
+ "icon": "fa fa-comment",
  "name": "Guest Communication",
  "module": "CRM",
  "custom": 0,
