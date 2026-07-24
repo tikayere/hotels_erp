@@ -7,8 +7,11 @@ note). A Frappe `unique=1` field constraint is global, so the docname uses
 from __future__ import annotations
 
 import json
+import shutil
+from pathlib import Path
 
 import frappe
+from frappe.core.doctype.file.utils import get_file_name
 from frappe.model.document import Document
 from frappe.utils import get_url
 
@@ -77,6 +80,11 @@ def _make_file_public(row) -> None:
     if not file_doc.is_private:
         return
 
+    duplicate_url = _avoid_public_name_collision(file_doc)
+    if duplicate_url:
+        row.image = duplicate_url
+        return
+
     if not _attached_to_is_resolvable(file_doc):
         # Desk's uploader records attach-inside-child-table files against the
         # *parent* doc (attached_to_doctype="Room Type", attached_to_name=the
@@ -98,6 +106,53 @@ def _make_file_public(row) -> None:
     file_doc.is_private = 0
     file_doc.save(ignore_permissions=True)
     row.image = file_doc.file_url
+
+
+def _avoid_public_name_collision(file_doc) -> str | None:
+    """Sidestep `File.save()`'s `FileExistsError` when moving to public
+    storage would collide with a same-named file already there (confirmed
+    live: re-uploading a photo that had already been made public earlier
+    crashed the move with "A file with same name ... already exists").
+
+    Frappe's own upload-time dedup (`frappe.core.doctype.file.utils`) only
+    checks for a name collision within the file's CURRENT privacy folder, so
+    it can't catch a fresh private upload colliding with an existing public
+    file -- that only surfaces later, at the move.
+
+    Same content (compared by `content_hash`, the same signal
+    `File.validate_duplicate_entry` already uses elsewhere in Frappe) means
+    it's a genuine re-upload of the same photo -- returns the existing
+    public file's URL to reuse instead of creating a redundant duplicate.
+    Different content that just happens to share an original filename (e.g.
+    two unrelated phone photos both named "IMG_0001.jpg") gets renamed to a
+    free name first so the later move doesn't collide; safe to do directly
+    here since it's a private-folder-only rename, not the private/public
+    boundary the buggy path crosses.
+    """
+    base_name = file_doc.file_url.rsplit("/", 1)[-1]
+    existing = frappe.db.get_value(
+        "File",
+        {"file_url": f"/files/{base_name}", "name": ["!=", file_doc.name]},
+        ["name", "content_hash", "file_url"],
+        as_dict=True,
+    )
+    if not existing:
+        return None
+
+    if not file_doc.content_hash:
+        file_doc.generate_content_hash()
+
+    if existing.content_hash and existing.content_hash == file_doc.content_hash:
+        return existing.file_url
+
+    new_name = get_file_name(base_name)
+    old_path = Path(frappe.get_site_path("private", "files", base_name))
+    new_path = Path(frappe.get_site_path("private", "files", new_name))
+    shutil.move(old_path, new_path)
+    file_doc.file_name = new_name
+    file_doc.file_url = f"/private/files/{new_name}"
+    file_doc.db_update()
+    return None
 
 
 def _attached_to_is_resolvable(file_doc) -> bool:
