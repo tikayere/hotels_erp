@@ -74,7 +74,23 @@ def _make_file_public(row) -> None:
     if not file_name:
         return
     file_doc = frappe.get_doc("File", file_name)
-    if file_doc.is_private:
-        file_doc.is_private = 0
-        file_doc.save(ignore_permissions=True)
-        row.image = file_doc.file_url
+    if not file_doc.is_private:
+        return
+
+    # Desk's uploader records attach-inside-child-table files against the
+    # *parent* doc (attached_to_doctype="Room Type", attached_to_name=the
+    # Room Type being edited), not the child row -- but attached_to_field is
+    # still the CHILD's fieldname ("image"), which isn't a real column on the
+    # parent. File.save()'s own is_private handling does an unconditional
+    # `UPDATE <attached_to_doctype> SET <attached_to_field> = ...` write-back
+    # and 1054s on that mismatch (confirmed live: "Unknown column 'image' in
+    # 'SET'" saving a Room Type with a freshly-uploaded, not-yet-saved
+    # photo). Harmless to clear here since we set row.image ourselves right
+    # after -- Frappe's write-back would just be redoing that.
+    if file_doc.attached_to_field and file_doc.attached_to_doctype:
+        if not frappe.get_meta(file_doc.attached_to_doctype).has_field(file_doc.attached_to_field):
+            file_doc.attached_to_field = None
+
+    file_doc.is_private = 0
+    file_doc.save(ignore_permissions=True)
+    row.image = file_doc.file_url
