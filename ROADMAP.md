@@ -153,6 +153,31 @@ fixed (`frappe.QueryDeadlockError` retry, and `auth_hooks` wiring).
   URL, `cover_image`/`amenities` populated correctly, and the public
   serializer's output shape confirmed unchanged for existing room types.
 
+  A real user then hit a live crash this testing hadn't caught: saving an
+  *existing* Room Type after uploading a fresh photo 500'd with
+  `MySQLdb.OperationalError: (1054, "Unknown column 'image' in 'SET'")`.
+  Root cause is a genuine Frappe quirk, not something specific to this app:
+  Desk's uploader records a file uploaded into a child table's `Attach
+  Image` field against the *parent* document (`attached_to_doctype="Room
+  Type"`, `attached_to_name=`the Room Type being edited) rather than the
+  child row, but leaves `attached_to_field` as the *child's* own fieldname
+  (`"image"`) — which isn't a real column on the parent at all. Flipping
+  `is_private` through `File.save()` (see above) triggers Frappe's own
+  is_private-changed handling, which then does an unconditional `UPDATE
+  <attached_to_doctype> SET <attached_to_field> = ...` write-back and 1054s
+  on that mismatch. Reproduced directly against the exact shape of the live
+  crash (an already-saved parent) before fixing, and in the process found a
+  *second* failure mode of the same quirk: if `attached_to_field` is unset,
+  Frappe falls back to loading the parent by name to guess the field, which
+  throws `DoesNotExistError` instead for a brand-new, not-yet-saved parent.
+  Fixed with `_attached_to_is_resolvable()`, which checks the parent
+  document actually exists and the field is real before trusting
+  `attached_to_*` at all, clearing all three otherwise — harmless, since
+  `row.image` is already set from the File's resulting `file_url` right
+  after regardless. Verified against both real scenarios (a fresh unsaved
+  parent, and editing an existing already-saved Room Type matching the live
+  crash exactly) before redeploying.
+
   Separately hit and worked around a Docker Compose footgun while deploying
   this: `erp-backend`/`erp-worker`/etc. mount a **named volume**
   (`erp_bench_apps`) at `apps/`, which — once created — persists across
