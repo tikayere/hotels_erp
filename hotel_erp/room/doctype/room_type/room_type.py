@@ -46,7 +46,7 @@ class RoomType(Document):
         for row in self.photo_gallery:
             if not row.image:
                 continue
-            _make_file_public(row.image)
+            _make_file_public(row)
             urls.append(row.image if row.image.startswith(("http://", "https://")) else get_url(row.image))
         self.photos = json.dumps(urls)
         self.cover_image = self.photo_gallery[0].image if self.photo_gallery else None
@@ -59,7 +59,22 @@ class RoomType(Document):
         self.amenities = json.dumps([row.amenity for row in self.amenity_list if row.amenity])
 
 
-def _make_file_public(file_url: str) -> None:
-    file_name = frappe.db.get_value("File", {"file_url": file_url}, "name")
-    if file_name:
-        frappe.db.set_value("File", file_name, "is_private", 0, update_modified=False)
+def _make_file_public(row) -> None:
+    """Flip a File from private to public, if needed.
+
+    `is_private` isn't just a DB flag -- Frappe physically stores private and
+    public files in different folders, and only `File.save()` moves the file
+    and rewrites its own `file_url` to match (a raw `frappe.db.set_value`
+    would desync the flag from where the file actually lives on disk, so it
+    has to go through the real controller). `row.image` is reassigned to the
+    File's resulting `file_url` since the move changes it (private files live
+    under `/private/files/...`, public ones under `/files/...`).
+    """
+    file_name = frappe.db.get_value("File", {"file_url": row.image}, "name")
+    if not file_name:
+        return
+    file_doc = frappe.get_doc("File", file_name)
+    if file_doc.is_private:
+        file_doc.is_private = 0
+        file_doc.save(ignore_permissions=True)
+        row.image = file_doc.file_url
