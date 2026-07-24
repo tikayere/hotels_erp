@@ -178,6 +178,32 @@ fixed (`frappe.QueryDeadlockError` retry, and `auth_hooks` wiring).
   parent, and editing an existing already-saved Room Type matching the live
   crash exactly) before redeploying.
 
+  A second live crash surfaced right after, on the same Room Type:
+  `FileExistsError: A file with same name .../public/files/kari-shea-....jpg
+  already exists`. Different root cause: Frappe's own upload-time filename
+  dedup (`frappe.core.doctype.file.utils`) only checks for a collision
+  within the file's *current* privacy folder, so it can't catch a fresh
+  private upload that collides with a file of the same name already public
+  elsewhere — that only surfaces later, at the move. Confirmed directly
+  against the live DB: two separate `File` rows both named
+  `kari-shea-....jpg`, one already public from an earlier save, one freshly
+  uploaded and still private, identical `content_hash` — genuinely the same
+  photo re-uploaded (a plausible retry after the first crash above, but not
+  specific to it — re-uploading any previously-added photo hits this the
+  same way). Fixed with `_avoid_public_name_collision()`, following the same
+  convention Frappe's own `File.validate_duplicate_entry` already uses
+  elsewhere (compare by `content_hash`, not filename): same content as the
+  existing public file → reuse its URL instead of creating a duplicate;
+  different content that only coincidentally shares a name (e.g. two
+  unrelated phone photos both named `IMG_0001.jpg`) → rename to a free name
+  first (a private-folder-only move, safe to do directly) so the later move
+  doesn't collide. First test of the second path was itself flawed —
+  accidentally reused identical photo bytes across both branches, so
+  Frappe's own dedup silently merged them before the new code ever ran and
+  the rename branch went untested — caught by asserting the two branches'
+  `content_hash`es actually differ, fixed, and reverified for real before
+  shipping.
+
   Separately hit and worked around a Docker Compose footgun while deploying
   this: `erp-backend`/`erp-worker`/etc. mount a **named volume**
   (`erp_bench_apps`) at `apps/`, which — once created — persists across
