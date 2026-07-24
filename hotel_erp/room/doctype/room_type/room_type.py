@@ -77,20 +77,34 @@ def _make_file_public(row) -> None:
     if not file_doc.is_private:
         return
 
-    # Desk's uploader records attach-inside-child-table files against the
-    # *parent* doc (attached_to_doctype="Room Type", attached_to_name=the
-    # Room Type being edited), not the child row -- but attached_to_field is
-    # still the CHILD's fieldname ("image"), which isn't a real column on the
-    # parent. File.save()'s own is_private handling does an unconditional
-    # `UPDATE <attached_to_doctype> SET <attached_to_field> = ...` write-back
-    # and 1054s on that mismatch (confirmed live: "Unknown column 'image' in
-    # 'SET'" saving a Room Type with a freshly-uploaded, not-yet-saved
-    # photo). Harmless to clear here since we set row.image ourselves right
-    # after -- Frappe's write-back would just be redoing that.
-    if file_doc.attached_to_field and file_doc.attached_to_doctype:
-        if not frappe.get_meta(file_doc.attached_to_doctype).has_field(file_doc.attached_to_field):
-            file_doc.attached_to_field = None
+    if not _attached_to_is_resolvable(file_doc):
+        # Desk's uploader records attach-inside-child-table files against the
+        # *parent* doc (attached_to_doctype="Room Type", attached_to_name=the
+        # Room Type being edited) rather than the child row, with
+        # attached_to_field left as the CHILD's own fieldname ("image") --
+        # never a real column on the parent. File.save()'s own is_private
+        # handling then either does a doomed `UPDATE <attached_to_doctype>
+        # SET image = ...` (1054 "Unknown column 'image' in 'SET'", from a
+        # real live crash saving a Room Type with a freshly-uploaded photo),
+        # or -- if attached_to_field happens to be unset -- falls back to
+        # loading the parent doc by name to guess the field, which throws
+        # DoesNotExistError for a not-yet-saved parent (reproduced directly).
+        # Clearing all three sidesteps both: harmless, since row.image is set
+        # from the resulting file_url right after this returns regardless.
+        file_doc.attached_to_doctype = None
+        file_doc.attached_to_name = None
+        file_doc.attached_to_field = None
 
     file_doc.is_private = 0
     file_doc.save(ignore_permissions=True)
     row.image = file_doc.file_url
+
+
+def _attached_to_is_resolvable(file_doc) -> bool:
+    if not file_doc.attached_to_doctype or not file_doc.attached_to_name:
+        return False
+    if file_doc.attached_to_field and not frappe.get_meta(file_doc.attached_to_doctype).has_field(
+        file_doc.attached_to_field
+    ):
+        return False
+    return bool(frappe.db.exists(file_doc.attached_to_doctype, file_doc.attached_to_name))
