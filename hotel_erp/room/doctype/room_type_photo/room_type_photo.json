@@ -1,0 +1,15 @@
+{
+ "doctype": "DocType",
+ "icon": "fa fa-image",
+ "name": "Room Type Photo",
+ "module": "Room",
+ "custom": 0,
+ "istable": 1,
+ "engine": "InnoDB",
+ "editable_grid": 1,
+ "fields": [
+  {"fieldname": "image", "label": "Image", "fieldtype": "Attach Image", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "caption", "label": "Caption", "fieldtype": "Data", "in_list_view": 1}
+ ],
+ "permissions": []
+}

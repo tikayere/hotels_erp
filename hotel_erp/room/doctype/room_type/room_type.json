@@ -8,6 +8,7 @@
  "engine": "InnoDB",
  "autoname": "hash",
  "track_changes": 1,
+ "image_field": "cover_image",
  "fields": [
   {
    "fieldname": "property",
@@ -60,16 +61,41 @@
    "fieldtype": "Float"
   },
   {
-   "fieldname": "amenities",
+   "fieldname": "amenity_list",
    "label": "Amenities",
+   "fieldtype": "Table",
+   "options": "Room Type Amenity"
+  },
+  {
+   "fieldname": "amenities",
+   "label": "Amenities (raw)",
    "fieldtype": "JSON",
-   "description": "Array of strings"
+   "read_only": 1,
+   "hidden": 1,
+   "description": "Auto-generated from the Amenities table above -- do not edit directly."
+  },
+  {
+   "fieldname": "photo_gallery",
+   "label": "Photos",
+   "fieldtype": "Table",
+   "options": "Room Type Photo",
+   "description": "Drag to reorder -- the first photo is used as the cover image on the Portal/Web listing."
   },
   {
    "fieldname": "photos",
-   "label": "Photos",
+   "label": "Photos (URLs)",
    "fieldtype": "JSON",
-   "description": "Array of URLs"
+   "read_only": 1,
+   "hidden": 1,
+   "description": "Auto-generated from the Photos gallery above -- do not edit directly."
+  },
+  {
+   "fieldname": "cover_image",
+   "label": "Cover Image",
+   "fieldtype": "Attach Image",
+   "read_only": 1,
+   "hidden": 1,
+   "description": "Auto-set to the first photo above -- shown as the thumbnail in list/report views."
   },
   {
    "fieldname": "active",

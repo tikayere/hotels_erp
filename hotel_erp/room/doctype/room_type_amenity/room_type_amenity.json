@@ -1,0 +1,14 @@
+{
+ "doctype": "DocType",
+ "icon": "fa fa-check-circle",
+ "name": "Room Type Amenity",
+ "module": "Room",
+ "custom": 0,
+ "istable": 1,
+ "engine": "InnoDB",
+ "editable_grid": 1,
+ "fields": [
+  {"fieldname": "amenity", "label": "Amenity", "fieldtype": "Data", "reqd": 1, "in_list_view": 1}
+ ],
+ "permissions": []
+}
