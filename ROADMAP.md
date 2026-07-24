@@ -121,6 +121,51 @@ fixed (`frappe.QueryDeadlockError` retry, and `auth_hooks` wiring).
   Verified live against both hotel-alpha and hotel-beta: header icons,
   sidebar item icons, and DocType icons all landed correctly after
   `bench migrate`.
+- **Room Type photos/amenities: real upload widgets instead of hand-typed
+  JSON** — `photos` and `amenities` were raw `JSON`-fieldtype textareas: a
+  hotel operator wanting to add a photo had to host the file somewhere else
+  themselves and paste the URL in by hand, and amenities needed literal
+  `["wifi", "parking"]` array syntax typed correctly. Neither is realistic
+  for actual hotel staff. Fixed by adding two child tables — `Room Type
+  Photo` (an `Attach Image` field per row, so it's real drag-and-drop/browse
+  upload, plus an optional caption; row order sets display order) and `Room
+  Type Amenity` (one plain-text row per amenity) — and syncing them into the
+  existing `photos`/`amenities` JSON fields from `RoomType.validate()`, which
+  are now hidden/read-only on the form. This keeps the §4.4 API contract
+  (`hotel_erp.api.serializers.serialize_room_type`) and every downstream
+  consumer (Aggregator/Portal/Web) completely unaffected — verified directly
+  against the serializer post-fix, output shape unchanged. Also added a
+  `cover_image` field (auto-set to the first gallery photo) wired to the
+  DocType's `image_field`, so the Room Type list/report view shows a real
+  thumbnail instead of a blank row.
+
+  Uploaded files must be public, since the Aggregator/Portal/Web render
+  these URLs cross-origin with no Frappe session — a private (login-gated)
+  file would silently 403 for everyone but the uploader. First cut flipped
+  `is_private` with a raw `frappe.db.set_value`, which desyncs the flag from
+  reality: Frappe physically relocates the file between `/private/files/`
+  and `/files/` on disk, and only `File.save()` does that move — caught by a
+  functional test (`is_private` read back as still `1` after the "fix" ran)
+  before it shipped. Corrected to go through `File.save()` and re-read the
+  resulting `file_url` (the move changes it) onto the gallery row. Verified
+  live end-to-end against a real site: uploaded-file DB row correctly moved
+  to `/files/...` with `is_private=0`, `photos` landed as a real absolute
+  URL, `cover_image`/`amenities` populated correctly, and the public
+  serializer's output shape confirmed unchanged for existing room types.
+
+  Separately hit and worked around a Docker Compose footgun while deploying
+  this: `erp-backend`/`erp-worker`/etc. mount a **named volume**
+  (`erp_bench_apps`) at `apps/`, which — once created — persists across
+  image rebuilds and silently shadows the image's own `apps/` directory.
+  Rebuilding the image (even with `--no-cache`) was not enough for a code
+  change to actually reach the running containers; the volume itself had to
+  be deleted (safe — it only holds installed app code, reproducible from the
+  image/git, not the database or site config) and repopulated fresh. Worth
+  remembering for any future local iteration on this repo, not just this
+  fix. Also hit BuildKit caching the `https://github.com/.../hotels_erp.git`
+  git-context fetch across builds despite `--no-cache` (which only
+  invalidates `RUN` layer cache, not the git source fetch) — needed
+  `docker buildx prune -af` to force a truly fresh clone after a push.
 - **Two-pass fixture sync bug, found and fixed** — `bench install-app`'s
   own single process does not reliably sync fixture records for doctypes
   registered via `hooks.py`'s `importable_doctypes` hook (Kanban Board,
