@@ -228,6 +228,54 @@ fixed (`frappe.QueryDeadlockError` retry, and `auth_hooks` wiring).
   and `docker-compose.prod.yml` by running `migrate` again right after
   `install-app` for both sites — confirmed this actually closes the gap on
   a from-scratch `docker compose down -v && up -d`, not just asserted.
+- **Room Type photo URLs unreachable outside the container, found and
+  fixed** — reported as "room type images don't load on the web/portal, not
+  a Frappe problem." Two independent bugs stacked on the same document:
+
+  1. `_sync_photos_from_gallery()`'s `get_url(row.image)` call (see above)
+     resolves against `frappe.utils.get_url()`, which — with no `host_name`
+     configured and no HTTP request context (any background job, script, or
+     webhook-triggered save) — falls back to a bare `http://<site>` with
+     **no port**. `erp-nginx` publishes both sites on host port 8001, not
+     80, so every photo URL synced this way pointed at a port nothing is
+     listening on; confirmed directly (`get_url()` returns
+     `http://hotel-alpha.localhost/files/...` outside a request, vs.
+     `...localhost:8001/files/...` once `host_name` is set — `get_url()`
+     checks `conf.host_name` before anything else, so setting it makes the
+     URL correct and deterministic in every context, not just real desk-UI
+     saves). Fixed by setting `host_name` on both sites (now baked into
+     `erp-install-app`'s bootstrap command in both compose files) and
+     re-saving the affected Room Type to regenerate its `photos` field.
+  2. That re-save initially had no effect — traced to the *existing* Room
+     Type carrying `docstatus=1` despite the doctype not being submittable
+     (`is_submittable=0`), almost certainly a leftover artifact from an
+     earlier debugging session's test script. Frappe's `_save()` maps that
+     docstatus transition to `_action = "update_after_submit"`, which
+     **skips calling `validate()` entirely** — so none of this controller's
+     logic (photo/amenity sync, the per-property unique-code check) has run
+     on any save of that document since. Fixed by resetting `docstatus` to
+     `0` directly, confirmed a subsequent real `.save()` now invokes
+     `validate()` and regenerates `photos` correctly.
+
+  Chasing why the corrected URL still wasn't reaching the Aggregator
+  surfaced a third, larger gap: **Sync Config's `aggregator_base_url` /
+  `aggregator_webhook_secret` had never been set for either site**, so
+  `dispatch_pending_webhooks` (`hotel_erp/sync/dispatcher.py`) was
+  returning immediately on every scheduled run — confirmed live: 388
+  Webhook Outbox rows going back to this environment's creation, 100% still
+  `status=pending`, meaning *no* ERP-side change (not just this one) had
+  ever reached the Aggregator via webhook. Fixed by setting
+  `aggregator_base_url` to the internal service DNS name
+  (`http://aggregator:8000`, now also baked into both compose files'
+  bootstrap) and provisioning a fresh `aggregator_webhook_secret` matching
+  what's registered for `hotel-alpha` on the Aggregator side (via its
+  `PATCH /admin/hotels/{slug}` operator endpoint) — the secret itself is
+  deliberately *not* in compose, since it must match a credential issued at
+  hotel-onboarding time, not a fixed default. Manually drained the 388-row
+  backlog afterward; new changes now dispatch within the cron's normal
+  1-minute cadence. `hotel-beta` has no Room Types yet and isn't onboarded
+  on the Aggregator side at all, so it only got the `host_name` /
+  `aggregator_base_url` half of this fix for parity — nothing to drain.
 
 ## Implemented, but thinner than the spec describes
 
