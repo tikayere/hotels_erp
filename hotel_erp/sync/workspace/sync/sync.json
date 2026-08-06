@@ -1,0 +1,100 @@
+{
+ "app": "hotel_erp",
+ "charts": [],
+ "content": "[{\"id\":\"YXrKs5q8Pk\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Sync</span>\",\"col\":12}},{\"id\":\"gP81VC1paE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Webhook Outbox\",\"col\":4}},{\"id\":\"Zg3D0to90s\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sync Config\",\"col\":4}},{\"id\":\"-HZ4WtJeDF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Idempotency Record\",\"col\":4}},{\"id\":\"Gyp1VAopjT\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"pq_9R_CNSp\",\"type\":\"card\",\"data\":{\"card_name\":\"Sync\",\"col\":4}}]",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "refresh-cw",
+ "is_hidden": 0,
+ "label": "Sync",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sync",
+   "link_count": 3,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "icon": "webhook",
+   "is_query_report": 0,
+   "label": "Webhook Outbox",
+   "link_to": "Webhook Outbox",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "icon": "settings",
+   "is_query_report": 0,
+   "label": "Sync Config",
+   "link_to": "Sync Config",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "icon": "shield-check",
+   "is_query_report": 0,
+   "label": "Idempotency Record",
+   "link_to": "Idempotency Record",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "module": "Sync",
+ "name": "Sync",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "Hotel Management",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 12.0,
+ "shortcuts": [
+  {
+   "color": "Cyan",
+   "doc_view": "List",
+   "icon": "webhook",
+   "label": "Webhook Outbox",
+   "link_to": "Webhook Outbox",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "icon": "settings",
+   "label": "Sync Config",
+   "link_to": "Sync Config",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "icon": "shield-check",
+   "label": "Idempotency Record",
+   "link_to": "Idempotency Record",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Sync",
+ "type": "Workspace"
+}

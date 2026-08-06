@@ -5,8 +5,14 @@
  "module": "CRM",
  "custom": 0,
  "istable": 0,
+ "allow_rename": 0,
  "engine": "InnoDB",
- "autoname": "hash",
+ "autoname": "GCM-.#####",
+ "title_field": "guest",
+ "show_title_field_in_link": 1,
+ "search_fields": "guest,category",
+ "sort_field": "modified",
+ "sort_order": "desc",
  "track_changes": 1,
  "fields": [
   {

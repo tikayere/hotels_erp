@@ -26,6 +26,11 @@ HEADER_ICONS = {
     "Revenue Management": "chart-line",
     "Finance": "credit-card",
     "HR": "user-check",
+    "CRM": "headset",
+    "Restaurant": "utensils",
+    "Conference": "presentation",
+    "Inventory": "package",
+    "Sync": "refresh-cw",
 }
 
 ITEM_ICONS = {
@@ -60,6 +65,21 @@ ITEM_ICONS = {
     "Staff": "users-round",
     "Payroll Entry": "banknote",
     "Leave Application": "calendar-x",
+    "CRM": "headset",
+    "Restaurant": "utensils",
+    "Conference": "presentation",
+    "Inventory": "package",
+    "Sync": "refresh-cw",
+    "Guest Communication": "message-circle",
+    "Guest Complaint": "octagon-alert",
+    "Restaurant Order": "utensils",
+    "Conference Booking": "presentation",
+    "Inventory Item": "package",
+    "Purchase Order": "shopping-cart",
+    "Supplier": "truck",
+    "Webhook Outbox": "webhook",
+    "Sync Config": "settings",
+    "Idempotency Record": "shield-check",
 }
 
 

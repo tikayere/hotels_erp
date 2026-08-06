@@ -5,8 +5,14 @@
  "module": "Restaurant",
  "custom": 0,
  "istable": 0,
+ "allow_rename": 0,
  "engine": "InnoDB",
- "autoname": "hash",
+ "autoname": "RO-.#####",
+ "title_field": "reservation",
+ "show_title_field_in_link": 1,
+ "search_fields": "reservation,status",
+ "sort_field": "modified",
+ "sort_order": "desc",
  "track_changes": 1,
  "fields": [
   {
@@ -21,7 +27,15 @@
    "label": "Items",
    "fieldtype": "JSON",
    "reqd": 1,
-   "description": "Array of {item, qty, price_minor}"
+   "description": "Array of {item, qty, price_minor}. An entry whose \"item\" exactly matches an Inventory Item's item_name is stock-tracked (decremented when the order is served); freeform menu items with no matching Inventory Item are not."
+  },
+  {
+   "fieldname": "assigned_to",
+   "label": "Assigned To",
+   "fieldtype": "Link",
+   "options": "User",
+   "in_list_view": 1,
+   "description": "Kitchen staff auto-assigned (least-loaded active Restaurant-department Staff) when the order enters in_kitchen"
   },
   {
    "fieldname": "amount_minor",

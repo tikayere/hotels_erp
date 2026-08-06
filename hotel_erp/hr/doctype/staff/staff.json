@@ -5,8 +5,14 @@
  "module": "HR",
  "custom": 0,
  "istable": 0,
+ "allow_rename": 0,
  "engine": "InnoDB",
- "autoname": "hash",
+ "autoname": "EMP-.#####",
+ "title_field": "employee_name",
+ "show_title_field_in_link": 1,
+ "search_fields": "employee_name,phone,email",
+ "sort_field": "modified",
+ "sort_order": "desc",
  "track_changes": 1,
  "fields": [
   {
@@ -56,6 +62,12 @@
    "label": "Linked User",
    "fieldtype": "Link",
    "options": "User"
+  },
+  {
+   "fieldname": "daily_rate_minor",
+   "label": "Daily Rate (minor units)",
+   "fieldtype": "Int",
+   "description": "Used by hotel_erp.hr.payroll.generate_payroll_entries; unset means this staff member is skipped when generating a pay period"
   }
  ],
  "permissions": [
@@ -65,6 +77,17 @@
    "write": 1,
    "create": 1,
    "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "HR Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
    "report": 1,
    "export": 1,
    "print": 1,

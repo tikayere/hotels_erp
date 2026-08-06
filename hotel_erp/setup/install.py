@@ -27,6 +27,11 @@ ROLES = [
     "Housekeeping Staff",
     "Maintenance Staff",
     "Finance Manager",
+    # HR Manager: mirrors the Finance Manager gap above -- Staff, Payroll Entry
+    # and Leave Application previously granted only "System Manager", forcing
+    # HR administration through the Frappe super-admin role. Added so payroll
+    # can run without full System Manager rights.
+    "HR Manager",
 ]
 
 

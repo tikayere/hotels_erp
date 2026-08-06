@@ -26,7 +26,8 @@ See [`ROADMAP.md`](ROADMAP.md) for what's implemented vs. what's still open.
 | `hotel_erp/sync/` | The transactional webhook outbox, HMAC signing, idempotency handling, and the dispatcher that delivers events to the Aggregator. |
 | `hotel_erp/api/` | The `/api/v1/*` REST surface (health, room-types, availability, reservations hold/confirm/release/cancel), custom routing on top of Frappe's method dispatch, and the bearer-auth hook. |
 | `hotel_erp/housekeeping/`, `maintenance/`, `restaurant/`, `conference/`, `finance/`, `hr/`, `inventory/`, `crm/`, `analytics/` | Internal-only operational modules — never exposed across the API boundary. |
-| `Dockerfile` | Bakes this app into `frappe/erpnext:v16.28.0` (and strips `erpnext` itself out — see the file's own comments for why). Published to Docker Hub by `.github/workflows/docker-publish.yml` on every push to `main`. |
+| `hotel_erp/api/pms.py` + one `hotel_erp/api/<module>.py` per module above, `hotel_erp/api/pms_common.py`, `hotel_erp/www/pms.py`, `frontend/` | The staff SPA — a Vue 3 + frappe-ui app served at `/pms`, now covering every module above (only revenue/rate management is still Desk-only). Session-authenticated (Desk login, not bearer), distinct from the `/api/v1/*` Aggregator contract. See [`frontend/README.md`](frontend/README.md). |
+| `Dockerfile` | Bakes this app into `frappe/erpnext:v16.28.0` (and strips `erpnext` itself out — see the file's own comments for why), and builds the staff SPA. Published to Docker Hub by `.github/workflows/docker-publish.yml` on every push to `main`. |
 
 ## Guest privacy (read this before touching anything guest-related)
 

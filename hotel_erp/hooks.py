@@ -46,6 +46,35 @@ importable_doctypes = [
 before_request = ["hotel_erp.api.router.route_v1"]
 after_request = ["hotel_erp.api.router.unwrap_v1"]
 
+# ---------------------------------------------------------------------------
+# Front Desk SPA (Vue 3 + frappe-ui, see frontend/)
+# ---------------------------------------------------------------------------
+# The Vite build (frontend/vite.config.js's frappeui({frontendRoute: "/pms"}))
+# outputs to hotel_erp/public/frontend and copies its index.html to
+# hotel_erp/www/pms.html; www/pms.py supplies that page's boot context
+# (csrf_token, session user) via the jinjaBootData plugin's contract. Frappe's
+# website router only serves the www page verbatim at the bare "/pms" path --
+# this rule makes every client-side sub-route (e.g. /pms/reservations/RES-1)
+# resolve to the same page too, so a hard refresh/deep link on a Vue Router
+# route doesn't 404 at the server before Vue Router ever sees it.
+website_route_rules = [
+    {"from_route": "/pms/<path:app_path>", "to_route": "pms"},
+]
+
+# Staff who live in the SPA land there after login instead of Desk (`/app`)
+# -- one entry per role now that every staff role has at least one module in
+# the SPA (see `hotel_erp.api.pms._MODULE_ROLES`/frontend/README.md's
+# coverage table); Desk remains reachable for whatever a given role's own
+# modules don't cover yet.
+role_home_page = {
+    "Hotel Front Desk": "pms",
+    "Revenue Manager": "pms",
+    "Housekeeping Staff": "pms",
+    "Maintenance Staff": "pms",
+    "Finance Manager": "pms",
+    "HR Manager": "pms",
+}
+
 # Authenticates a static `Authorization: Bearer <api_key>` request (contract
 # §4.2) as the dedicated "Hotel API" service user. Required because Frappe's
 # own request-auth layer intercepts any 2-part Authorization header itself
@@ -64,6 +93,9 @@ doc_events = {
     "Room Type": {
         "after_insert": "hotel_erp.room.events.on_room_type_after_insert",
         "on_update": "hotel_erp.room.events.on_room_type_update",
+    },
+    "Restaurant Order": {
+        "on_update": "hotel_erp.restaurant.events.on_restaurant_order_update",
     },
 }
 
@@ -96,5 +128,14 @@ scheduler_events = {
         # base_price_minor via its active Pricing Rules, emitting rate.changed
         # for every night whose price moved (FR-A4).
         "hotel_erp.pricing.rules.apply_pricing_rules",
+        # Night audit — flags confirmed reservations whose check_in date has
+        # passed without a check-in as no_show (internal workflow, FR-A8-A15).
+        "hotel_erp.reservation.night_audit.run_night_audit",
+    ],
+    # daily_long (not daily): a DB+files dump can run past a "daily" job's
+    # expected quick duration, and Frappe schedules daily_long jobs with
+    # that expectation baked in (NFR-A7).
+    "daily_long": [
+        "hotel_erp.ops.backup.run_daily_backup",
     ],
 }

@@ -277,31 +277,151 @@ fixed (`frappe.QueryDeadlockError` retry, and `auth_hooks` wiring).
   on the Aggregator side at all, so it only got the `host_name` /
   `aggregator_base_url` half of this fix for parity — nothing to drain.
 
+- **Internal module workflow logic** (FR-A8–A15, a scoped subset — the
+  contract's own note allows "internal-only, build per usual Frappe
+  conventions," lowest priority of anything tracked in this repo's gap
+  list): five real workflows, none crossing the §4.5 API boundary
+  themselves (only the webhooks they trigger, where applicable, do).
+    - **Housekeeping auto-assignment** — a Reservation transitioning to
+      `checked_out` (`reservation/events.py`) flips its Room to `dirty` and
+      creates a `Housekeeping Task` (type `cleaning`), auto-assigned to the
+      least-loaded active Housekeeping-department Staff member with a
+      linked User.
+    - **Kitchen order routing** — a `Restaurant Order` transitioning to
+      `in_kitchen` is auto-assigned the same way, among active
+      Restaurant-department Staff.
+    - **Stock consumption** — a `Restaurant Order` transitioning to
+      `served` decrements `Inventory Item.quantity_on_hand` for every line
+      whose `item` name exactly matches a tracked Inventory Item (floored
+      at 0, never negative). Deliberately scoped: there's no recipe/BOM
+      doctype mapping menu items to ingredients, so only line items that
+      themselves name a tracked item (e.g. a bottled drink) are decremented
+      — real recipe-based consumption is a genuine feature, not "internal
+      workflow" scope.
+    - **Payroll calculation** — `hotel_erp.hr.payroll.generate_payroll_entries`
+      creates one draft `Payroll Entry` per active Staff member with a
+      `daily_rate_minor` set, `gross = daily_rate_minor × days_in_period`
+      (flat day-rate; there's no Attendance/timesheet doctype to derive
+      hours from), a flat 10% deduction placeholder, idempotent per
+      (staff, period). `Payroll Entry.net_amount_minor` is now always
+      derived in `validate()`, for hand-created entries too.
+    - **Night audit** — a new daily scheduled job
+      (`hotel_erp.reservation.night_audit.run_night_audit`) flags
+      `confirmed` reservations whose `check_in` has passed without a
+      check-in as `no_show`, going through the normal `doc.save()` path so
+      the existing `reservation.no_show` webhook (§4.7) fires exactly as it
+      would for a manually-marked no-show. No inventory is released — a
+      no-show is a revenue event, not a cancellation (matches
+      `atomic_hold.py`'s own "stays decremented through confirm" rule).
+
+  The auto-assignment helper (`hotel_erp/hr/staff_assignment.py`) picks the
+  active Staff member in a department with the fewest currently-open
+  records, but only among Staff with a linked `User` — `assigned_to` on
+  both Housekeeping Task and Restaurant Order is a Link to `User`, not
+  `Staff`, and an early version of this that fell back to the `Staff`
+  docname when no User was linked produced an invalid link and threw on
+  save; caught by live verification, not by inspection.
+
+  **Verified live** (2026-07-28) against the running dev containers, all
+  five in one pass: created a checked-in reservation and transitioned it to
+  `checked_out` (task created, room flipped to `dirty`, assigned to the
+  test Housekeeping user); created a Restaurant Order and drove it through
+  `placed → in_kitchen → served` (auto-assigned to the test kitchen user;
+  a tracked line item's stock went 10 → 7, an untracked freeform line was
+  correctly left alone); called `generate_payroll_entries` for a 7-day
+  period against a 15000-minor-unit/day test rate (gross 105000,
+  deductions 10500, net 94500 — all exactly as computed); created an
+  overdue-check-in
+  reservation and ran `run_night_audit()` (flipped to `no_show`). All test
+  fixtures removed afterward — confirmed no residue left in the shared dev
+  database. Along the way, discovered and worked around a real deployment
+  gotcha specific to this repo: the dev stack's `erp_bench_apps` Docker
+  volume shadows the image's baked-in app code once created, so rebuilding
+  `hotels-erp:dev` alone does **not** deploy source changes to an
+  already-running stack — needs a direct `docker cp` into the volume plus
+  `bench migrate` plus a container restart (see this session's memory notes
+  for the full mechanism; not specific to this feature, but this is where
+  it was first hit).
+
+- **NFR-A7 automated backups** — `hotel_erp/ops/backup.py`'s
+  `run_daily_backup`, registered per-site in `scheduler_events["daily_long"]`
+  (a longer slot than plain `"daily"`, matching that a DB+files dump can
+  run past a quick job's expected duration). Calls the same
+  `frappe.utils.backups.new_backup` a manual `bench backup` does (DB dump +
+  public/private files, `force=True` so the daily cadence isn't skipped by
+  `new_backup`'s own "skip if last backup < 6h old" throttle), then prunes
+  backup sets older than `backup_retention_days` in that site's
+  `site_config.json` (default 7) — matching on the whole
+  `YYYYMMDD_HHMMSS-` timestamp prefix every file in one backup set shares,
+  so a purge is always atomic per set, never half-deleting one. Retention
+  window is deliberately per-site config, not a hotel_erp-wide setting —
+  backup storage policy is an infra decision for whoever deploys a given
+  site. **Verified live** (2026-07-28): ran it for real against
+  `hotel-alpha.localhost` and confirmed 4 genuine, non-trivial backup files
+  landed in `private/backups/` (database.sql.gz ~330KB, files.tar ~174KB,
+  private-files.tar ~133KB, site_config_backup.json); separately planted a
+  fake 10-day-old backup set and a fake same-day one, ran the purge, and
+  confirmed only the stale set was removed — the fresh fake file and the
+  real backup just taken were both left alone.
+
 ## Implemented, but thinner than the spec describes
 
 - **FR-A8–A15 internal modules** (Housekeeping, Maintenance, Restaurant,
   Conference, Finance, HR, Inventory, CRM) — DocTypes exist with the fields
-  the contract's logical schema (§2.4) calls for, but only as plain
-  CRUD — no assignment/scheduling logic (housekeeping task auto-assignment,
-  kitchen order routing, payroll calculation, stock consumption tracking,
-  night audit, etc.). Matches the spec's own framing of these as
-  "internal-only, build per your usual Frappe conventions," but worth
+  the contract's logical schema (§2.4) calls for. Five of these now have
+  real workflow logic, not just plain CRUD (see "Fully implemented" above
+  for the full writeup); the rest — Maintenance repair-request routing,
+  Conference booking/catering, Finance invoicing, CRM complaint routing —
+  are still plain CRUD. Matches the spec's own framing of this whole group
+  as "internal-only, build per your usual Frappe conventions," but worth
   tracking since "a DocType exists" and "the workflow works" aren't the same
   claim.
 - **FR-A16 analytics** — the occupancy/ADR/RevPAR/reception reports above
   are Query Reports, not full dashboards.
 
+- **`hotel-beta` onboarded for real** — was a completely empty site (zero
+  Property/Room Type/Rate Plan/Rate Calendar rows), so it existed in the
+  compose topology but wasn't a real second hotel in the marketplace.
+  `hotel_erp/patches/onboard_beta_demo_data.py` (run via `bench --site
+  hotel-beta.localhost execute hotel_erp.patches.onboard_beta_demo_data.execute`,
+  idempotent) seeds a Property ("Coral Beach Resort", Zanzibar City),
+  one Room Type, one Rate Plan, and 60 days of Rate Calendar rows. Sync
+  Config's `aggregator_base_url`/`aggregator_webhook_secret`/`aggregator_api_key`
+  are now set (previously unset — the same silent-no-op gap `hotel-alpha` had
+  before it was fixed, see above), and a matching `Hotel`/`HotelCredential`
+  now exists on the Aggregator side. Verified live end-to-end: the seeded
+  Room Type's `room_type.created` webhook was delivered and marked `sent`
+  in Webhook Outbox, a manual reconciliation pull populated
+  `rate_availability_index`, and `GET /api/v1/search` (no filters) now
+  returns both `hotel-alpha` and `hotel-beta`.
+
+- **First automated test suite** — `tests/`: a live-HTTP integration suite
+  (deliberately not `bench run-tests`/FrappeTestCase — the two things worth
+  proving here, NFR-A2 concurrency under real MariaDB lock contention and
+  the bearer-auth service-user permission boundary, only mean something
+  over a real HTTP+DB round trip). Covers **NFR-A2** (`ThreadPoolExecutor`-driven
+  genuinely concurrent holds against the same room-type/dates never oversell,
+  and disjoint-date holds never wrongly serialize against each other — both
+  run against a real running site, not mocked), **§4.10 idempotency**
+  (replay-same-body vs. replay-different-body), **NFR-A9/§5.6 guest privacy**
+  (the `hotel-api@service.local` bearer-auth user can't read the `Guest`
+  DocType at all, and a confirmed reservation's response never carries
+  `passport_no`/`national_id`), and a pure round-trip test of
+  `webhook_signing.py`. `docker-compose.ci.yml` bootstraps a fresh
+  single-site instance of this exact image from scratch (new-site,
+  install-app, migrate, seed via `onboard_beta_demo_data.py`, known test
+  bearer token) so CI tests exactly what ships — wired into
+  `.github/workflows/docker-publish.yml` as a required `test` job the image
+  build now depends on. Verified twice locally end-to-end against the real
+  CI recipe (`docker compose -f docker-compose.ci.yml up -d --build`,
+  poll-until-ready, run `pytest tests/`) — the first attempt surfaced a real
+  test-authoring mistake (a stray `docker cp` nested `tests/` inside itself,
+  doubling concurrent requests and producing a false "oversold" read from
+  leftover unreleased holds, not a real bug), the second, from a genuinely
+  fresh site, passed clean: 12/12.
+
 ## Not implemented
 
-- **No automated test suite.** Verification so far has been real,
-  end-to-end, against a live stack (concurrent holds, real MariaDB, real
-  HMAC-signed webhooks, real dynamic-pricing/waitlist runs) — but there's no
-  `pytest`/Frappe test-case suite checked in, and the CI workflow only
-  builds and pushes the image, it doesn't run any tests first. Worth fixing
-  before this is genuinely safe to iterate on without a human re-running the
-  manual verification pass every time.
-- **NFR-A7 backups** — no automated daily snapshot/retention job; purely an
-  ops/infra concern deferred to wherever this actually gets deployed.
 - Everything in the contract's own **§6 "Open Items for Future Phases"**:
   channel-manager/OTA integration, Event Marketplace, digital
   check-in/smart-lock/IoT, cross-hotel loyalty, corporate booking with

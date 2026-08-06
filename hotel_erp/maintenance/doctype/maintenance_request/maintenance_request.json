@@ -5,8 +5,14 @@
  "module": "Maintenance",
  "custom": 0,
  "istable": 0,
+ "allow_rename": 0,
  "engine": "InnoDB",
- "autoname": "hash",
+ "autoname": "MR-.#####",
+ "title_field": "issue",
+ "show_title_field_in_link": 1,
+ "search_fields": "issue,room",
+ "sort_field": "opened_at",
+ "sort_order": "desc",
  "track_changes": 1,
  "fields": [
   {

@@ -1,0 +1,55 @@
+# Minimal, self-contained bring-up for CI (GAP_CLOSURE_PLAN.md Wave 1) --
+# NOT the dev topology (that's the sibling `hotels` project's own
+# docker-compose.dev.yml, which isn't part of this repo's git history and
+# builds this image from a remote GitHub URL rather than the local
+# checkout). Single MariaDB, single Redis (cache+queue), one site
+# ("citest.localhost"), no erp-nginx/websocket/scheduler -- tests
+# (tests/) hit erp-backend's own gunicorn directly via a Host header, which
+# is all Frappe's multi-tenant routing needs; nothing under test here is
+# socket.io/Desk-UI-dependent.
+services:
+  erp-db:
+    image: mariadb:11.8
+    environment:
+      MARIADB_ROOT_PASSWORD: admin
+      MARIADB_ROOT_HOST: "%"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  erp-redis:
+    image: redis:6.2-alpine
+
+  erp-backend:
+    build: .
+    depends_on:
+      erp-db:
+        condition: service_healthy
+    environment:
+      DB_HOST: erp-db
+      DB_PORT: "3306"
+    ports:
+      - "8000:8000"
+    entrypoint: ["bash", "-c"]
+    command:
+      - >
+        bench set-config -g db_host erp-db;
+        bench set-config -gp db_port 3306;
+        bench set-config -g redis_cache "redis://erp-redis:6379";
+        bench set-config -g redis_queue "redis://erp-redis:6379";
+        bench set-config -g redis_socketio "redis://erp-redis:6379";
+        wait-for-it -t 120 erp-db:3306;
+        bench new-site citest.localhost --mariadb-root-password admin --admin-password admin --no-mariadb-socket;
+        bench --site citest.localhost install-app hotel_erp;
+        bench --site citest.localhost migrate;
+        bench --site citest.localhost set-config host_name http://citest.localhost:8000;
+        bench --site citest.localhost execute frappe.client.set_value --kwargs '{"doctype": "Sync Config", "name": "Sync Config", "fieldname": {"aggregator_api_key": "ci-test-bearer-token", "hotel_slug": "citest"}}';
+        bench --site citest.localhost execute hotel_erp.patches.onboard_beta_demo_data.execute;
+        exec start.sh

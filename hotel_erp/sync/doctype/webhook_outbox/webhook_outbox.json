@@ -5,8 +5,14 @@
  "module": "Sync",
  "custom": 0,
  "istable": 0,
+ "allow_rename": 0,
  "engine": "InnoDB",
  "autoname": "hash",
+ "title_field": "event_type",
+ "show_title_field_in_link": 1,
+ "search_fields": "event_type,status",
+ "sort_field": "next_attempt_at",
+ "sort_order": "asc",
  "track_changes": 0,
  "fields": [
   {

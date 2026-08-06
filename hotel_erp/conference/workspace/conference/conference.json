@@ -1,0 +1,63 @@
+{
+ "app": "hotel_erp",
+ "charts": [],
+ "content": "[{\"id\":\"3sWUL_xZjx\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Conference</span>\",\"col\":12}},{\"id\":\"ilLnbmqVjE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Conference Booking\",\"col\":6}},{\"id\":\"fJH2_gqivI\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"qphtyoq-V8\",\"type\":\"card\",\"data\":{\"card_name\":\"Conference\",\"col\":4}}]",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "presentation",
+ "is_hidden": 0,
+ "label": "Conference",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Conference",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "icon": "presentation",
+   "is_query_report": 0,
+   "label": "Conference Booking",
+   "link_to": "Conference Booking",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "module": "Conference",
+ "name": "Conference",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "Hotel Management",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [
+  {
+   "role": "Hotel Front Desk"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 10.0,
+ "shortcuts": [
+  {
+   "color": "Purple",
+   "doc_view": "List",
+   "icon": "presentation",
+   "label": "Conference Booking",
+   "link_to": "Conference Booking",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Conference",
+ "type": "Workspace"
+}

@@ -5,6 +5,7 @@
  "module": "Reservation",
  "custom": 0,
  "istable": 0,
+ "allow_rename": 0,
  "engine": "InnoDB",
  "naming_rule": "By script",
  "track_changes": 1,
@@ -126,5 +127,10 @@
    "email": 1,
    "share": 1
   }
- ]
+ ],
+ "title_field": "room_type",
+ "show_title_field_in_link": 1,
+ "search_fields": "room_type,idempotency_key",
+ "sort_field": "modified",
+ "sort_order": "desc"
 }

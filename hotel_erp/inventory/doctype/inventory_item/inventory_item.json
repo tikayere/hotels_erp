@@ -5,8 +5,14 @@
  "module": "Inventory",
  "custom": 0,
  "istable": 0,
+ "allow_rename": 0,
  "engine": "InnoDB",
- "autoname": "hash",
+ "autoname": "ITM-.#####",
+ "title_field": "item_name",
+ "show_title_field_in_link": 1,
+ "search_fields": "item_name,category",
+ "sort_field": "modified",
+ "sort_order": "desc",
  "track_changes": 1,
  "fields": [
   {

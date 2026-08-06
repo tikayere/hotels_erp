@@ -1,0 +1,63 @@
+{
+ "app": "hotel_erp",
+ "charts": [],
+ "content": "[{\"id\":\"3jnmDfbF_b\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Restaurant</span>\",\"col\":12}},{\"id\":\"2RcvvbdaF0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Restaurant Order\",\"col\":6}},{\"id\":\"4Hbbrlkino\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"hdzQWbaxcx\",\"type\":\"card\",\"data\":{\"card_name\":\"Restaurant\",\"col\":4}}]",
+ "custom_blocks": [],
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "utensils",
+ "is_hidden": 0,
+ "label": "Restaurant",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Restaurant",
+   "link_count": 1,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "icon": "utensils",
+   "is_query_report": 0,
+   "label": "Restaurant Order",
+   "link_to": "Restaurant Order",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "module": "Restaurant",
+ "name": "Restaurant",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "Hotel Management",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [
+  {
+   "role": "Hotel Front Desk"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 9.0,
+ "shortcuts": [
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "icon": "utensils",
+   "label": "Restaurant Order",
+   "link_to": "Restaurant Order",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Restaurant",
+ "type": "Workspace"
+}

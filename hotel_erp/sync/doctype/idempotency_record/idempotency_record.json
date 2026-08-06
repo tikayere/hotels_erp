@@ -5,6 +5,7 @@
  "module": "Sync",
  "custom": 0,
  "istable": 0,
+ "allow_rename": 0,
  "engine": "InnoDB",
  "naming_rule": "Set by user",
  "autoname": "prompt",

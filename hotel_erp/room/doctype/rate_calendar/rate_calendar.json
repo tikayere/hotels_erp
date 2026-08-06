@@ -5,8 +5,14 @@
  "module": "Room",
  "custom": 0,
  "istable": 0,
+ "allow_rename": 0,
  "engine": "InnoDB",
  "autoname": "hash",
+ "title_field": "date",
+ "show_title_field_in_link": 1,
+ "search_fields": "rate_plan,date",
+ "sort_field": "date",
+ "sort_order": "asc",
  "track_changes": 1,
  "fields": [
   {

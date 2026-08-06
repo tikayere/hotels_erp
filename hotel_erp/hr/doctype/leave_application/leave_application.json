@@ -5,8 +5,14 @@
  "module": "HR",
  "custom": 0,
  "istable": 0,
+ "allow_rename": 0,
  "engine": "InnoDB",
- "autoname": "hash",
+ "autoname": "LA-.#####",
+ "title_field": "staff",
+ "show_title_field_in_link": 1,
+ "search_fields": "staff,leave_type",
+ "sort_field": "modified",
+ "sort_order": "desc",
  "track_changes": 1,
  "fields": [
   {
@@ -59,6 +65,17 @@
    "write": 1,
    "create": 1,
    "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "HR Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
    "report": 1,
    "export": 1,
    "print": 1,

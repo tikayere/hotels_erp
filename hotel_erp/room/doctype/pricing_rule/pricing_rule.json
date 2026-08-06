@@ -5,8 +5,14 @@
  "module": "Room",
  "custom": 0,
  "istable": 0,
+ "allow_rename": 0,
  "engine": "InnoDB",
- "autoname": "hash",
+ "autoname": "PRC-.#####",
+ "title_field": "rule_name",
+ "show_title_field_in_link": 1,
+ "search_fields": "rule_name,rate_plan",
+ "sort_field": "modified",
+ "sort_order": "desc",
  "track_changes": 1,
  "fields": [
   {

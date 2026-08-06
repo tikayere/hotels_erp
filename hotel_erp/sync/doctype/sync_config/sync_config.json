@@ -6,6 +6,7 @@
  "custom": 0,
  "issingle": 1,
  "istable": 0,
+ "allow_rename": 0,
  "engine": "InnoDB",
  "track_changes": 1,
  "fields": [
@@ -56,5 +57,10 @@
    "email": 1,
    "share": 1
   }
- ]
+ ],
+ "title_field": "hotel_slug",
+ "show_title_field_in_link": 1,
+ "search_fields": "hotel_slug",
+ "sort_field": "modified",
+ "sort_order": "desc"
 }

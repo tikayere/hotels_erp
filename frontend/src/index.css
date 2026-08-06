@@ -1,0 +1,24 @@
+@import 'frappe-ui/style.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* disable webkit tap highlight color */
+body {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Shared form-control look, matching the inline classes the original
+   Rooms/Reservations pages already used on their <select>/<input> — named
+   here once the Housekeeping-and-onward pages made typing that four-line
+   class list out by hand on every field too repetitive to keep doing. */
+@layer components {
+  .select-field,
+  .input-field {
+    @apply rounded-md border-gray-200 bg-white py-1.5 text-sm text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:ring-0 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200;
+  }
+  .input-field {
+    @apply w-full;
+  }
+}

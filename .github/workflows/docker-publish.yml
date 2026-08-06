@@ -21,7 +21,59 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  test:
+    # Live-HTTP integration suite (tests/) against a freshly bootstrapped,
+    # single-site instance of this exact image -- NFR-A2 concurrent-hold
+    # correctness, contract §4.10 idempotency, and the NFR-A9 guest-privacy
+    # boundary. See docker-compose.ci.yml and GAP_CLOSURE_PLAN.md Wave 1.
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start hotel_erp (fresh site, this commit's code)
+        run: docker compose -f docker-compose.ci.yml up -d --build
+
+      - name: Wait for the site to be ready
+        run: |
+          for i in $(seq 1 60); do
+            if curl -sf -H "Host: citest.localhost" http://localhost:8000/api/method/ping | grep -q pong; then
+              echo "ready"; exit 0
+            fi
+            echo "waiting for citest.localhost ($i/60)..."; sleep 10
+          done
+          echo "site never became ready"; docker compose -f docker-compose.ci.yml logs; exit 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test dependencies
+        run: pip install pytest requests
+
+      - name: Run tests
+        env:
+          ERP_BASE_URL: http://localhost:8000
+          ERP_HOST_HEADER: citest.localhost
+          ERP_BEARER_TOKEN: ci-test-bearer-token
+          ERP_ROOM_TYPE_CODE: DLX-SEA
+          ERP_RATE_PLAN_CODE: FLEX
+          ERP_ROOMS_PER_NIGHT: "3"
+        run: pytest tests/ -v
+
+      - name: Dump logs on failure
+        if: failure()
+        run: docker compose -f docker-compose.ci.yml logs
+
+      - name: Tear down
+        if: always()
+        run: docker compose -f docker-compose.ci.yml down -v
+
   build-and-push:
+    needs: test
     runs-on: ubuntu-latest
     permissions:
       contents: read
