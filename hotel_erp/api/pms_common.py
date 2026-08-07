@@ -40,9 +40,20 @@ HOUSEKEEPING_ROLES = ("Housekeeping Staff", "System Manager")
 MAINTENANCE_ROLES = ("Housekeeping Staff", "Maintenance Staff", "System Manager")
 RESTAURANT_ROLES = ("Hotel Front Desk", "System Manager")
 FINANCE_ROLES = ("Finance Manager", "System Manager")
+# Folio reads/payment recording: front desk collects payment at checkout in
+# most small/mid hotels, finance reconciles later -- narrower than
+# FINANCE_ROLES (ledger CRUD) but wider than DESK_ROLES (adds Finance
+# Manager), matching who actually touches a guest bill in practice.
+FOLIO_ROLES = ("Hotel Front Desk", "Revenue Manager", "Finance Manager", "System Manager")
 HR_ROLES = ("HR Manager", "System Manager")
 CRM_ROLES = ("Hotel Front Desk", "System Manager")
 CONFERENCE_ROLES = ("Hotel Front Desk", "System Manager")
+# Rate Plan / Pricing Rule / Rate Calendar's own `permissions` blocks grant
+# System Manager and Revenue Manager alone (no Hotel Front Desk) -- pricing
+# strategy isn't a front-desk concern the way a folio balance is. Analytics
+# reuses the same tuple: occupancy/ADR/RevPAR are the same audience as the
+# Desk-only Query Reports they summarize (see `analytics/report/*.json`).
+REVENUE_ROLES = ("Revenue Manager", "System Manager")
 # Inventory Item's own permissions grant Housekeeping Staff read-only and
 # System Manager read/write; Purchase Order and Supplier grant System
 # Manager alone. One read tier and one (narrower) write tier here mirrors
@@ -96,6 +107,10 @@ def require_crm_role() -> None:
 
 def require_conference_role() -> None:
     _require_role(CONFERENCE_ROLES, "Only Hotel Front Desk may do this")
+
+
+def require_revenue_role() -> None:
+    _require_role(REVENUE_ROLES, "Only Revenue Manager may do this")
 
 
 def require_inventory_read() -> None:

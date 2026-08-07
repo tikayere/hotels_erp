@@ -1,11 +1,11 @@
 <template>
   <div class="space-y-4">
     <div class="flex flex-wrap items-center justify-between gap-3">
-      <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Suppliers</h1>
-      <Button v-if="canWrite" variant="solid" @click="openNew">+ New Supplier</Button>
+      <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $t('suppliers.title') }}</h1>
+      <Button v-if="canWrite" variant="solid" @click="openNew">{{ $t('suppliers.newSupplier') }}</Button>
     </div>
 
-    <p v-if="suppliers.error" class="text-sm text-red-600">{{ suppliers.error.messages?.[0] || 'Failed to load' }}</p>
+    <p v-if="suppliers.error" class="text-sm text-red-600">{{ suppliers.error.messages?.[0] || $t('common.failedToLoad') }}</p>
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
       <div
         v-for="s in suppliers.data"
@@ -14,32 +14,32 @@
       >
         <div class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ s.supplier_name }}</div>
         <div class="text-xs text-gray-500 dark:text-gray-400">{{ s.contact_person || '—' }}</div>
-        <div class="text-xs text-gray-500 dark:text-gray-400">{{ s.phone || s.email || 'No contact on file' }}</div>
+        <div class="text-xs text-gray-500 dark:text-gray-400">{{ s.phone || s.email || $t('common.noContact') }}</div>
         <div class="text-xs text-gray-400">{{ statusLabel(s.category) }}</div>
       </div>
       <p v-if="!suppliers.loading && !suppliers.data?.length" class="text-sm text-gray-500 dark:text-gray-400">
-        No suppliers yet.
+        {{ $t('suppliers.noSuppliersYet') }}
       </p>
     </div>
 
-    <Dialog v-model="newOpen" :options="{ title: 'New Supplier' }">
+    <Dialog v-model="newOpen" :options="{ title: $t('suppliers.newDialogTitle') }">
       <template #body-content>
         <div class="space-y-3">
-          <Field label="Supplier Name">
+          <Field :label="$t('suppliers.supplierNameField')">
             <input v-model="form.supplier_name" type="text" class="input-field" />
           </Field>
-          <Field label="Contact Person">
+          <Field :label="$t('suppliers.contactPersonField')">
             <input v-model="form.contact_person" type="text" class="input-field" />
           </Field>
           <div class="grid grid-cols-2 gap-3">
-            <Field label="Phone">
+            <Field :label="$t('suppliers.phoneField')">
               <input v-model="form.phone" type="text" class="input-field" />
             </Field>
-            <Field label="Email">
+            <Field :label="$t('suppliers.emailField')">
               <input v-model="form.email" type="text" class="input-field" />
             </Field>
           </div>
-          <Field label="Category">
+          <Field :label="$t('suppliers.categoryField')">
             <select v-model="form.category" class="select-field w-full">
               <option v-for="c in CATEGORIES" :key="c" :value="c">{{ statusLabel(c) }}</option>
             </select>
@@ -47,9 +47,9 @@
         </div>
         <p v-if="createSupplier.error" class="mt-3 text-sm text-red-600">{{ createSupplier.error.messages?.[0] }}</p>
         <div class="mt-4 flex justify-end gap-2">
-          <Button variant="outline" @click="newOpen = false">Cancel</Button>
+          <Button variant="outline" @click="newOpen = false">{{ $t('common.cancel') }}</Button>
           <Button variant="solid" :disabled="!form.supplier_name" :loading="createSupplier.loading" @click="submit">
-            Create
+            {{ $t('suppliers.createBtn') }}
           </Button>
         </div>
       </template>

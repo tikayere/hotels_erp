@@ -11,3 +11,10 @@ hotel_erp/www/pms.html
 frontend/node_modules/
 frontend/dist/
 frontend/src/types/doctypes.ts
+
+# Guest booking portal (frontend-guest/) — same deal, build output only.
+hotel_erp/public/booking/
+hotel_erp/www/book.html
+frontend-guest/node_modules/
+frontend-guest/dist/
+frontend-guest/src/types/doctypes.ts

@@ -43,7 +43,8 @@ def list_requests(property=None, status=None, priority=None, room=None):
     return frappe.db.sql(
         f"""
         SELECT m.name, m.room, rm.room_number, rm.floor, rm.property, m.issue,
-               m.status, m.priority, m.technician, m.opened_at, m.closed_at
+               m.status, m.priority, m.technician, m.opened_at, m.closed_at,
+               m.cost_minor, m.currency
         FROM `tabMaintenance Request` m
         LEFT JOIN `tabRoom` rm ON rm.name = m.room
         WHERE {" AND ".join(conditions)}
@@ -128,12 +129,15 @@ def resolve_request(name):
 
 
 @frappe.whitelist()
-def close_request(name):
+def close_request(name, cost_minor=None, currency=None):
     require_maintenance_role()
     req = frappe.get_doc("Maintenance Request", name)
     if req.status != "resolved":
         frappe.throw("Only a resolved request can be closed")
     req.status = "closed"
     req.closed_at = frappe.utils.now_datetime()
+    if cost_minor:
+        req.cost_minor = cost_minor
+        req.currency = currency
     req.save(ignore_permissions=True)
     return get_request(name)

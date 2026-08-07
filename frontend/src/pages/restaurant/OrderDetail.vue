@@ -1,11 +1,11 @@
 <template>
   <div class="max-w-2xl space-y-6">
     <RouterLink :to="{ name: 'RestaurantOrders' }" class="text-sm text-gray-500 hover:text-gray-900 dark:hover:text-gray-100">
-      ← Back to restaurant
+      {{ $t('restaurantDetail.backLink') }}
     </RouterLink>
 
-    <p v-if="order.error" class="text-sm text-red-600">{{ order.error.messages?.[0] || 'Failed to load this order' }}</p>
-    <div v-if="order.loading && !order.data" class="text-sm text-gray-500 dark:text-gray-400">Loading…</div>
+    <p v-if="order.error" class="text-sm text-red-600">{{ order.error.messages?.[0] || $t('restaurantDetail.failedToLoad') }}</p>
+    <div v-if="order.loading && !order.data" class="text-sm text-gray-500 dark:text-gray-400">{{ $t('common.loading') }}</div>
 
     <template v-else-if="order.data">
       <div class="flex items-start justify-between rounded-lg border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
@@ -18,7 +18,7 @@
         <StatusBadge :status="order.data.status" />
       </div>
 
-      <Card title="Items">
+      <Card :title="$t('restaurantDetail.itemsTitle')">
         <ul class="divide-y divide-gray-50 text-sm dark:divide-gray-800/60">
           <li v-for="(l, i) in order.data.items" :key="i" class="flex items-center justify-between py-2">
             <span class="text-gray-700 dark:text-gray-300">{{ l.item }} × {{ l.qty }}</span>
@@ -29,14 +29,14 @@
 
       <Card>
         <div class="grid grid-cols-2 gap-x-6 gap-y-4">
-          <InfoRow label="Reservation" :value="order.data.reservation" />
-          <InfoRow label="Assigned To" :value="order.data.assigned_to || 'Unassigned'" />
+          <InfoRow :label="$t('restaurantDetail.reservationLabel')" :value="order.data.reservation" />
+          <InfoRow :label="$t('restaurantDetail.assignedToLabel')" :value="order.data.assigned_to || $t('common.unassigned')" />
         </div>
       </Card>
 
       <div class="flex flex-wrap gap-2">
         <Button v-if="NEXT_STEP[order.data.status]" variant="solid" :loading="advance.loading" @click="doAdvance">
-          {{ NEXT_STEP[order.data.status] }}
+          {{ $t(NEXT_STEP[order.data.status]) }}
         </Button>
         <Button
           v-if="!['billed', 'cancelled'].includes(order.data.status)"
@@ -45,7 +45,7 @@
           :loading="cancel.loading"
           @click="doCancel"
         >
-          Cancel Order
+          {{ $t('restaurantDetail.cancelOrder') }}
         </Button>
       </div>
       <p v-if="actionError" class="text-sm text-red-600">{{ actionError }}</p>
@@ -64,9 +64,9 @@ import InfoRow from '@/components/InfoRow.vue'
 import Card from '@/components/Card.vue'
 
 const NEXT_STEP = {
-  placed: 'Send to Kitchen',
-  in_kitchen: 'Mark Served',
-  served: 'Bill Order',
+  placed: 'restaurantDetail.sendToKitchen',
+  in_kitchen: 'restaurantDetail.markServed',
+  served: 'restaurantDetail.billOrder',
 }
 
 const props = defineProps({ id: { type: String, required: true } })

@@ -1,16 +1,16 @@
 <template>
   <div class="max-w-2xl space-y-6">
     <RouterLink :to="{ name: 'Housekeeping' }" class="text-sm text-gray-500 hover:text-gray-900 dark:hover:text-gray-100">
-      ← Back to housekeeping
+      {{ $t('housekeepingDetail.backLink') }}
     </RouterLink>
 
-    <p v-if="task.error" class="text-sm text-red-600">{{ task.error.messages?.[0] || 'Failed to load this task' }}</p>
-    <div v-if="task.loading && !task.data" class="text-sm text-gray-500 dark:text-gray-400">Loading…</div>
+    <p v-if="task.error" class="text-sm text-red-600">{{ task.error.messages?.[0] || $t('housekeepingDetail.failedToLoad') }}</p>
+    <div v-if="task.loading && !task.data" class="text-sm text-gray-500 dark:text-gray-400">{{ $t('common.loading') }}</div>
 
     <template v-else-if="task.data">
       <div class="flex items-start justify-between rounded-lg border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-900">
         <div>
-          <div class="text-xs text-gray-500 dark:text-gray-400">Room {{ task.data.room_number || task.data.room }}</div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">{{ $t('housekeepingDetail.roomPrefix') }} {{ task.data.room_number || task.data.room }}</div>
           <div class="text-xl font-semibold text-gray-900 dark:text-gray-100">{{ statusLabel(task.data.type) }}</div>
         </div>
         <StatusBadge :status="task.data.status" />
@@ -18,9 +18,9 @@
 
       <Card>
         <div class="grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-3">
-          <InfoRow label="Floor" :value="task.data.floor" />
-          <InfoRow label="Assigned To" :value="task.data.assigned_to || 'Unassigned'" />
-          <InfoRow label="Due" :value="formatDateTime(task.data.due_at)" />
+          <InfoRow :label="$t('housekeepingDetail.floorLabel')" :value="task.data.floor" />
+          <InfoRow :label="$t('housekeepingDetail.assignedToLabel')" :value="task.data.assigned_to || $t('common.unassigned')" />
+          <InfoRow :label="$t('housekeepingDetail.dueLabel')" :value="formatDateTime(task.data.due_at)" />
         </div>
         <p v-if="task.data.notes" class="mt-4 text-sm text-gray-700 dark:text-gray-300">{{ task.data.notes }}</p>
       </Card>
@@ -29,18 +29,18 @@
         <input
           v-model="assignee"
           type="text"
-          placeholder="Reassign to (user email)"
+          :placeholder="$t('housekeepingDetail.reassignPlaceholder')"
           class="input-field w-56"
         />
-        <Button variant="outline" :disabled="!assignee" :loading="assign.loading" @click="doAssign">Assign</Button>
+        <Button variant="outline" :disabled="!assignee" :loading="assign.loading" @click="doAssign">{{ $t('housekeepingDetail.assignBtn') }}</Button>
         <Button v-if="task.data.status === 'pending'" variant="solid" :loading="start.loading" @click="doStart">
-          Start
+          {{ $t('housekeepingDetail.startBtn') }}
         </Button>
         <Button v-if="task.data.status === 'in_progress'" variant="solid" :loading="complete.loading" @click="doComplete">
-          Mark Completed
+          {{ $t('housekeepingDetail.markCompletedBtn') }}
         </Button>
         <Button v-if="task.data.status === 'completed'" variant="solid" theme="green" :loading="verify.loading" @click="doVerify">
-          Verify
+          {{ $t('housekeepingDetail.verifyBtn') }}
         </Button>
       </div>
       <p v-if="actionError" class="text-sm text-red-600">{{ actionError }}</p>

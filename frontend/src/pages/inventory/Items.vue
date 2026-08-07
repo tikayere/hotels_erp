@@ -1,38 +1,38 @@
 <template>
   <div class="space-y-4">
     <div class="flex flex-wrap items-center justify-between gap-3">
-      <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Inventory</h1>
+      <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $t('inventory.title') }}</h1>
       <div class="flex flex-wrap items-center gap-2">
         <select v-model="categoryFilter" class="select-field">
-          <option value="">All categories</option>
+          <option value="">{{ $t('inventory.allCategories') }}</option>
           <option v-for="c in CATEGORIES" :key="c" :value="c">{{ statusLabel(c) }}</option>
         </select>
         <label class="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-300">
           <input v-model="lowStockOnly" type="checkbox" class="rounded border-gray-300" />
-          Low stock only
+          {{ $t('inventory.lowStockOnly') }}
         </label>
-        <Button v-if="canWrite" variant="solid" @click="openNewItem">+ New Item</Button>
+        <Button v-if="canWrite" variant="solid" @click="openNewItem">{{ $t('inventory.newItem') }}</Button>
       </div>
     </div>
 
-    <p v-if="items.error" class="text-sm text-red-600">{{ items.error.messages?.[0] || 'Failed to load' }}</p>
+    <p v-if="items.error" class="text-sm text-red-600">{{ items.error.messages?.[0] || $t('common.failedToLoad') }}</p>
     <div class="overflow-x-auto rounded-lg border border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900">
       <table class="min-w-full divide-y divide-gray-100 dark:divide-gray-800">
         <thead>
           <tr class="text-left text-xs font-medium text-gray-500 dark:text-gray-400">
-            <th class="px-4 py-3">Item</th>
-            <th class="px-4 py-3">Category</th>
-            <th class="px-4 py-3 text-right">On Hand</th>
-            <th class="px-4 py-3 text-right">Reorder Level</th>
+            <th class="px-4 py-3">{{ $t('inventory.itemCol') }}</th>
+            <th class="px-4 py-3">{{ $t('inventory.categoryCol') }}</th>
+            <th class="px-4 py-3 text-right">{{ $t('inventory.onHandCol') }}</th>
+            <th class="px-4 py-3 text-right">{{ $t('inventory.reorderLevelCol') }}</th>
             <th class="px-4 py-3"></th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-50 text-sm dark:divide-gray-800/60">
           <tr v-if="items.loading && !items.data?.length">
-            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="5">Loading…</td>
+            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="5">{{ $t('common.loading') }}</td>
           </tr>
           <tr v-else-if="!items.data?.length">
-            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="5">No items match these filters.</td>
+            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="5">{{ $t('inventory.noneMatch') }}</td>
           </tr>
           <tr
             v-for="i in items.data"
@@ -50,40 +50,40 @@
             </td>
             <td class="px-4 py-3 text-right text-gray-500 dark:text-gray-400">{{ i.reorder_level ?? '—' }}</td>
             <td class="px-4 py-3 text-right">
-              <span v-if="isLow(i)" class="text-xs font-medium text-red-600 dark:text-red-400">Reorder</span>
+              <span v-if="isLow(i)" class="text-xs font-medium text-red-600 dark:text-red-400">{{ $t('inventory.reorder') }}</span>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <Dialog v-model="dialogOpen" :options="{ title: editing ? `Edit ${editing.item_name}` : 'New Inventory Item' }">
+    <Dialog v-model="dialogOpen" :options="{ title: editing ? $t('inventory.editDialogTitle', { name: editing.item_name }) : $t('inventory.newDialogTitle') }">
       <template #body-content>
         <div class="space-y-3">
-          <Field v-if="!editing" label="Item Name">
+          <Field v-if="!editing" :label="$t('inventory.itemNameField')">
             <input v-model="form.item_name" type="text" class="input-field" />
           </Field>
-          <Field v-if="!editing" label="Category">
+          <Field v-if="!editing" :label="$t('inventory.categoryField')">
             <select v-model="form.category" class="select-field w-full">
               <option v-for="c in CATEGORIES" :key="c" :value="c">{{ statusLabel(c) }}</option>
             </select>
           </Field>
           <div class="grid grid-cols-2 gap-3">
-            <Field label="Quantity On Hand">
+            <Field :label="$t('inventory.quantityOnHandField')">
               <input v-model.number="form.quantity_on_hand" type="number" min="0" class="input-field" />
             </Field>
-            <Field label="Reorder Level">
+            <Field :label="$t('inventory.reorderLevelField')">
               <input v-model.number="form.reorder_level" type="number" min="0" class="input-field" />
             </Field>
           </div>
-          <Field label="Unit (optional)">
-            <input v-model="form.unit" type="text" placeholder="e.g. each, roll, kg" class="input-field" />
+          <Field :label="$t('inventory.unitOptionalField')">
+            <input v-model="form.unit" type="text" :placeholder="$t('inventory.unitPlaceholder')" class="input-field" />
           </Field>
         </div>
         <p v-if="actionError" class="mt-3 text-sm text-red-600">{{ actionError }}</p>
         <div class="mt-4 flex justify-end gap-2">
-          <Button variant="outline" @click="dialogOpen = false">Cancel</Button>
-          <Button variant="solid" :loading="saving" @click="save">{{ editing ? 'Save' : 'Create Item' }}</Button>
+          <Button variant="outline" @click="dialogOpen = false">{{ $t('common.cancel') }}</Button>
+          <Button variant="solid" :loading="saving" @click="save">{{ editing ? $t('common.save') : $t('inventory.createItemBtn') }}</Button>
         </div>
       </template>
     </Dialog>

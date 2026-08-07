@@ -32,7 +32,8 @@ def list_bookings(status=None, from_date=None, to_date=None):
 
     return frappe.db.sql(
         f"""
-        SELECT name, space_name, booked_by, start_at, end_at, catering, status
+        SELECT name, space_name, booked_by, start_at, end_at, catering, status,
+               total_amount_minor, currency
         FROM `tabConference Booking`
         WHERE {" AND ".join(conditions)}
         ORDER BY start_at
@@ -51,8 +52,12 @@ def get_booking(name):
 
 
 @frappe.whitelist()
-def create_booking(space_name, booked_by, start_at, end_at, catering=None):
+def create_booking(space_name, booked_by, start_at, end_at, catering=None, total_amount_minor=None, currency=None):
     require_conference_role()
+    # The doctype's own `validate()` also blocks an overlapping booking (so
+    # Desk-created bookings are protected too); this SQL check runs first so
+    # the SPA gets the friendlier "which booking conflicts" message before
+    # `insert()` even attempts to save.
     overlap = frappe.db.sql(
         """
         SELECT name FROM `tabConference Booking`
@@ -73,6 +78,8 @@ def create_booking(space_name, booked_by, start_at, end_at, catering=None):
             "start_at": start_at,
             "end_at": end_at,
             "catering": catering,
+            "total_amount_minor": total_amount_minor or None,
+            "currency": currency,
             "status": "tentative",
         }
     ).insert(ignore_permissions=True)
@@ -86,6 +93,17 @@ def confirm_booking(name):
     if doc.status != "tentative":
         frappe.throw(f"Only a tentative booking can be confirmed (current status: {doc.status})")
     doc.status = "confirmed"
+    doc.save(ignore_permissions=True)
+    return get_booking(name)
+
+
+@frappe.whitelist()
+def complete_booking(name):
+    require_conference_role()
+    doc = frappe.get_doc("Conference Booking", name)
+    if doc.status != "confirmed":
+        frappe.throw(f"Only a confirmed booking can be marked completed (current status: {doc.status})")
+    doc.status = "completed"
     doc.save(ignore_permissions=True)
     return get_booking(name)
 

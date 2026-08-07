@@ -1,0 +1,49 @@
+{
+ "doctype": "DocType",
+ "icon": "fa fa-globe",
+ "name": "Booking Portal Settings",
+ "module": "Property",
+ "custom": 0,
+ "issingle": 1,
+ "istable": 0,
+ "allow_rename": 0,
+ "engine": "InnoDB",
+ "track_changes": 1,
+ "fields": [
+  {
+   "fieldname": "enabled",
+   "label": "Guest Booking Portal Enabled",
+   "fieldtype": "Check",
+   "default": "1",
+   "description": "Master switch for the public /book portal. When off, hotel_erp.www.book.get_context serves a closed notice instead of the booking app, and every hotel_erp.api.public_booking write/read endpoint refuses with the message below -- so disabling here blocks both the page and the API, not just navigation."
+  },
+  {
+   "fieldname": "closed_message",
+   "label": "Closed Message",
+   "fieldtype": "Small Text",
+   "default": "Online booking is temporarily unavailable. Please call us to reserve a room."
+  }
+ ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "print": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "Revenue Manager",
+   "read": 1,
+   "write": 1,
+   "print": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "desc"
+}

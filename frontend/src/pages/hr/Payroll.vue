@@ -1,36 +1,36 @@
 <template>
   <div class="space-y-4">
     <div class="flex flex-wrap items-center justify-between gap-3">
-      <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Payroll</h1>
+      <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $t('payroll.title') }}</h1>
       <div class="flex flex-wrap items-center gap-2">
         <select v-model="statusFilter" class="select-field">
-          <option value="">All statuses</option>
+          <option value="">{{ $t('common.allStatuses') }}</option>
           <option v-for="s in STATUSES" :key="s" :value="s">{{ statusLabel(s) }}</option>
         </select>
-        <Button variant="solid" @click="genOpen = true">Run Payroll</Button>
+        <Button variant="solid" @click="genOpen = true">{{ $t('payroll.runPayroll') }}</Button>
       </div>
     </div>
 
-    <p v-if="entries.error" class="text-sm text-red-600">{{ entries.error.messages?.[0] || 'Failed to load' }}</p>
+    <p v-if="entries.error" class="text-sm text-red-600">{{ entries.error.messages?.[0] || $t('common.failedToLoad') }}</p>
     <div class="overflow-x-auto rounded-lg border border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900">
       <table class="min-w-full divide-y divide-gray-100 dark:divide-gray-800">
         <thead>
           <tr class="text-left text-xs font-medium text-gray-500 dark:text-gray-400">
-            <th class="px-4 py-3">Staff</th>
-            <th class="px-4 py-3">Period</th>
-            <th class="px-4 py-3 text-right">Gross</th>
-            <th class="px-4 py-3 text-right">Deductions</th>
-            <th class="px-4 py-3 text-right">Net</th>
-            <th class="px-4 py-3">Status</th>
+            <th class="px-4 py-3">{{ $t('payroll.staffCol') }}</th>
+            <th class="px-4 py-3">{{ $t('payroll.periodCol') }}</th>
+            <th class="px-4 py-3 text-right">{{ $t('payroll.grossCol') }}</th>
+            <th class="px-4 py-3 text-right">{{ $t('payroll.deductionsCol') }}</th>
+            <th class="px-4 py-3 text-right">{{ $t('payroll.netCol') }}</th>
+            <th class="px-4 py-3">{{ $t('payroll.statusCol') }}</th>
             <th class="px-4 py-3"></th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-50 text-sm dark:divide-gray-800/60">
           <tr v-if="entries.loading && !entries.data?.length">
-            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="7">Loading…</td>
+            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="7">{{ $t('common.loading') }}</td>
           </tr>
           <tr v-else-if="!entries.data?.length">
-            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="7">No payroll entries yet.</td>
+            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="7">{{ $t('payroll.noneYet') }}</td>
           </tr>
           <tr v-for="e in entries.data" :key="e.name">
             <td class="px-4 py-3 font-medium text-gray-900 dark:text-gray-100">{{ e.staff_name }}</td>
@@ -40,9 +40,9 @@
             <td class="px-4 py-3 text-right font-medium text-gray-900 dark:text-gray-100">{{ formatMoney(e.net_amount_minor, e.currency) }}</td>
             <td class="px-4 py-3"><StatusBadge :status="e.status" /></td>
             <td class="px-4 py-3 text-right">
-              <Button v-if="e.status === 'draft'" size="sm" variant="outline" @click="doProcess(e.name)">Process</Button>
+              <Button v-if="e.status === 'draft'" size="sm" variant="outline" @click="doProcess(e.name)">{{ $t('payroll.processBtn') }}</Button>
               <Button v-else-if="e.status === 'processed'" size="sm" variant="outline" theme="green" @click="doPay(e.name)">
-                Mark Paid
+                {{ $t('payroll.markPaidBtn') }}
               </Button>
             </td>
           </tr>
@@ -50,38 +50,37 @@
       </table>
     </div>
 
-    <Dialog v-model="genOpen" :options="{ title: 'Run Payroll' }">
+    <Dialog v-model="genOpen" :options="{ title: $t('payroll.runDialogTitle') }">
       <template #body-content>
         <div class="space-y-3">
           <div class="grid grid-cols-2 gap-3">
-            <Field label="Period Start">
+            <Field :label="$t('payroll.periodStartField')">
               <input v-model="genForm.pay_period_start" type="date" class="input-field" />
             </Field>
-            <Field label="Period End">
+            <Field :label="$t('payroll.periodEndField')">
               <input v-model="genForm.pay_period_end" type="date" class="input-field" />
             </Field>
           </div>
-          <Field label="Currency">
+          <Field :label="$t('payroll.currencyField')">
             <input v-model="genForm.currency" type="text" placeholder="USD" class="input-field" />
           </Field>
-          <Field label="Deduction Rate (0–1)">
+          <Field :label="$t('payroll.deductionRateField')">
             <input v-model.number="genForm.deduction_rate" type="number" step="0.01" min="0" max="1" class="input-field" />
           </Field>
         </div>
         <p class="mt-3 text-xs text-gray-500 dark:text-gray-400">
-          Creates one draft entry per active staff member with a daily rate set, skipping anyone who
-          already has an entry for this period.
+          {{ $t('payroll.helpText') }}
         </p>
         <p v-if="generatePayroll.error" class="mt-2 text-sm text-red-600">{{ generatePayroll.error.messages?.[0] }}</p>
         <div class="mt-4 flex justify-end gap-2">
-          <Button variant="outline" @click="genOpen = false">Cancel</Button>
+          <Button variant="outline" @click="genOpen = false">{{ $t('common.cancel') }}</Button>
           <Button
             variant="solid"
             :disabled="!genForm.pay_period_start || !genForm.pay_period_end || !genForm.currency"
             :loading="generatePayroll.loading"
             @click="runPayroll"
           >
-            Generate
+            {{ $t('payroll.generateBtn') }}
           </Button>
         </div>
       </template>

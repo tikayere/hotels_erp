@@ -5,6 +5,7 @@
  "module": "Analytics",
  "report_type": "Query Report",
  "is_standard": "Yes",
+ "javascript": "// Non-empty on purpose: frappe.desk.query_report.get_script() falls\n// back to `\"frappe.query_reports['{}']={{}}\".format(report_name)` when a\n// report has neither a .js file nor this field set. That .format() call\n// doesn't escape the apostrophe in \"Today's Departures\", so the generated\n// script breaks out of its JS string literal early and the browser throws\n// `SyntaxError: Unexpected identifier 's'`, aborting the whole report page\n// (blank -- no title, filters, or columns render). Setting any truthy\n// javascript here skips that fallback branch entirely.\n",
  "ref_doctype": "Reservation",
  "query": "SELECT r.confirmation_number AS 'Confirmation:Data:130', rt.code AS 'Room Type:Data:120', r.check_in AS 'Check In:Date:100', r.check_out AS 'Check Out:Date:100', r.rooms_requested AS 'Rooms:Int:80', r.status AS 'Status:Data:110', (SELECT GROUP_CONCAT(rg.guest_name SEPARATOR ', ') FROM `tabReservation Guest` rg WHERE rg.parent = r.name) AS 'Guests:Data:220', (SELECT GROUP_CONCAT(rg.phone SEPARATOR ', ') FROM `tabReservation Guest` rg WHERE rg.parent = r.name AND rg.phone IS NOT NULL AND rg.phone != '') AS 'Phone:Data:150' FROM `tabReservation` r JOIN `tabRoom Type` rt ON rt.name = r.room_type WHERE r.check_out = CURDATE() AND r.status IN ('confirmed', 'checked_in') ORDER BY rt.code",
  "roles": [

@@ -1,35 +1,35 @@
 <template>
   <div class="space-y-4">
     <div class="flex flex-wrap items-center justify-between gap-3">
-      <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Staff</h1>
+      <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $t('staff.title') }}</h1>
       <div class="flex flex-wrap items-center gap-2">
-        <input v-model="search" type="search" placeholder="Search name…" class="input-field w-48" />
+        <input v-model="search" type="search" :placeholder="$t('staff.searchPlaceholder')" class="input-field w-48" />
         <select v-model="departmentFilter" class="select-field">
-          <option value="">All departments</option>
-          <option v-for="d in DEPARTMENTS" :key="d" :value="d">{{ d }}</option>
+          <option value="">{{ $t('staff.allDepartments') }}</option>
+          <option v-for="d in DEPARTMENTS" :key="d" :value="d">{{ departmentLabel(d) }}</option>
         </select>
-        <Button variant="solid" @click="openNewStaff">+ Add Staff</Button>
+        <Button variant="solid" @click="openNewStaff">{{ $t('staff.addStaff') }}</Button>
       </div>
     </div>
 
-    <p v-if="staffList.error" class="text-sm text-red-600">{{ staffList.error.messages?.[0] || 'Failed to load' }}</p>
+    <p v-if="staffList.error" class="text-sm text-red-600">{{ staffList.error.messages?.[0] || $t('common.failedToLoad') }}</p>
     <div class="overflow-x-auto rounded-lg border border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900">
       <table class="min-w-full divide-y divide-gray-100 dark:divide-gray-800">
         <thead>
           <tr class="text-left text-xs font-medium text-gray-500 dark:text-gray-400">
-            <th class="px-4 py-3">Name</th>
-            <th class="px-4 py-3">Department</th>
-            <th class="px-4 py-3">Designation</th>
-            <th class="px-4 py-3">Contact</th>
-            <th class="px-4 py-3">Status</th>
+            <th class="px-4 py-3">{{ $t('staff.nameCol') }}</th>
+            <th class="px-4 py-3">{{ $t('staff.departmentCol') }}</th>
+            <th class="px-4 py-3">{{ $t('staff.designationCol') }}</th>
+            <th class="px-4 py-3">{{ $t('staff.contactCol') }}</th>
+            <th class="px-4 py-3">{{ $t('staff.statusCol') }}</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-50 text-sm dark:divide-gray-800/60">
           <tr v-if="staffList.loading && !staffList.data?.length">
-            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="5">Loading…</td>
+            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="5">{{ $t('common.loading') }}</td>
           </tr>
           <tr v-else-if="!staffList.data?.length">
-            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="5">No staff match these filters.</td>
+            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="5">{{ $t('staff.noneMatch') }}</td>
           </tr>
           <tr
             v-for="s in staffList.data"
@@ -38,7 +38,7 @@
             @click="openEditStaff(s)"
           >
             <td class="px-4 py-3 font-medium text-gray-900 dark:text-gray-100">{{ s.employee_name }}</td>
-            <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{{ s.department }}</td>
+            <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{{ departmentLabel(s.department) }}</td>
             <td class="px-4 py-3 text-gray-500 dark:text-gray-400">{{ s.designation || '—' }}</td>
             <td class="px-4 py-3 text-gray-500 dark:text-gray-400">{{ s.phone || s.email || '—' }}</td>
             <td class="px-4 py-3"><StatusBadge :status="s.status" /></td>
@@ -47,35 +47,35 @@
       </table>
     </div>
 
-    <Dialog v-model="dialogOpen" :options="{ title: editing ? `Edit ${editing.employee_name}` : 'Add Staff' }">
+    <Dialog v-model="dialogOpen" :options="{ title: editing ? $t('staff.editDialogTitle', { name: editing.employee_name }) : $t('staff.addDialogTitle') }">
       <template #body-content>
         <div class="space-y-3">
-          <Field v-if="!editing" label="Employee Name">
+          <Field v-if="!editing" :label="$t('staff.employeeNameField')">
             <input v-model="form.employee_name" type="text" class="input-field" />
           </Field>
-          <Field label="Department">
+          <Field :label="$t('staff.departmentField')">
             <select v-model="form.department" class="select-field w-full">
-              <option v-for="d in DEPARTMENTS" :key="d" :value="d">{{ d }}</option>
+              <option v-for="d in DEPARTMENTS" :key="d" :value="d">{{ departmentLabel(d) }}</option>
             </select>
           </Field>
-          <Field label="Designation">
+          <Field :label="$t('staff.designationField')">
             <input v-model="form.designation" type="text" class="input-field" />
           </Field>
           <div class="grid grid-cols-2 gap-3">
-            <Field label="Phone">
+            <Field :label="$t('staff.phoneField')">
               <input v-model="form.phone" type="text" class="input-field" />
             </Field>
-            <Field label="Email">
+            <Field :label="$t('staff.emailField')">
               <input v-model="form.email" type="text" class="input-field" />
             </Field>
           </div>
-          <Field label="Daily Rate (minor units)">
+          <Field :label="$t('staff.dailyRateField')">
             <input v-model.number="form.daily_rate_minor" type="number" min="0" class="input-field" />
           </Field>
-          <Field label="Linked User (optional)">
+          <Field :label="$t('staff.linkedUserField')">
             <input v-model="form.user" type="text" placeholder="user@example.com" class="input-field" />
           </Field>
-          <Field v-if="editing" label="Status">
+          <Field v-if="editing" :label="$t('staff.statusField')">
             <select v-model="form.status" class="select-field w-full">
               <option v-for="s in STATUSES" :key="s" :value="s">{{ statusLabel(s) }}</option>
             </select>
@@ -83,8 +83,8 @@
         </div>
         <p v-if="actionError" class="mt-3 text-sm text-red-600">{{ actionError }}</p>
         <div class="mt-4 flex justify-end gap-2">
-          <Button variant="outline" @click="dialogOpen = false">Cancel</Button>
-          <Button variant="solid" :loading="saving" @click="save">{{ editing ? 'Save' : 'Add Staff' }}</Button>
+          <Button variant="outline" @click="dialogOpen = false">{{ $t('common.cancel') }}</Button>
+          <Button variant="solid" :loading="saving" @click="save">{{ editing ? $t('staff.saveBtn') : $t('staff.addStaffBtn') }}</Button>
         </div>
       </template>
     </Dialog>
@@ -95,7 +95,7 @@
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 import { Button, Dialog } from 'frappe-ui'
 import { createStaffResource, staffListResource, updateStaffResource } from '@/api/hr'
-import { statusLabel } from '@/utils/format'
+import { departmentLabel, statusLabel } from '@/utils/format'
 import StatusBadge from '@/components/StatusBadge.vue'
 import Field from '@/components/Field.vue'
 

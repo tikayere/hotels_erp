@@ -47,7 +47,7 @@ def get_guest(name):
     guest["complaints"] = frappe.get_all(
         "Guest Complaint",
         filters={"guest": name},
-        fields=["name", "reservation", "category", "description", "status", "raised_at"],
+        fields=["name", "reservation", "category", "description", "status", "priority", "assigned_to", "due_by", "raised_at"],
         order_by="raised_at desc",
         limit_page_length=20,
     )
@@ -94,6 +94,9 @@ def create_communication(guest, channel, direction, subject=None, message=None):
 # ---------------------------------------------------------------------------
 # Complaints
 # ---------------------------------------------------------------------------
+_PRIORITY_SORT_WEIGHT = {"urgent": 0, "high": 1, "medium": 2, "low": 3}
+
+
 @frappe.whitelist()
 def list_complaints(status=None, guest=None, reservation=None):
     require_crm_role()
@@ -104,12 +107,22 @@ def list_complaints(status=None, guest=None, reservation=None):
         filters["guest"] = guest
     if reservation:
         filters["reservation"] = reservation
-    return frappe.get_all(
+    # frappe.get_all's order_by validator only allows plain `field`/`link.field`
+    # forms (SQL-injection guard), so a raw FIELD(priority, ...) SQL function is
+    # rejected outright -- sort by priority in Python instead.
+    rows = frappe.get_all(
         "Guest Complaint",
         filters=filters,
-        fields=["name", "guest", "reservation", "category", "description", "status", "raised_at"],
+        fields=[
+            "name", "guest", "reservation", "category", "description", "status",
+            "priority", "assigned_to", "due_by", "raised_at",
+        ],
         order_by="raised_at desc",
     )
+    # DB already ordered by raised_at desc; a stable sort on priority weight
+    # alone preserves that as the secondary/tie-break order.
+    rows.sort(key=lambda r: _PRIORITY_SORT_WEIGHT.get(r.priority, 99))
+    return rows
 
 
 @frappe.whitelist()
@@ -119,7 +132,7 @@ def get_complaint(name):
 
 
 @frappe.whitelist()
-def create_complaint(guest, description, category=None, reservation=None):
+def create_complaint(guest, description, category=None, reservation=None, priority="medium"):
     require_crm_role()
     doc = frappe.get_doc(
         {
@@ -129,7 +142,7 @@ def create_complaint(guest, description, category=None, reservation=None):
             "category": category,
             "description": description,
             "status": "open",
-            "raised_at": frappe.utils.now_datetime(),
+            "priority": priority,
         }
     ).insert(ignore_permissions=True)
     return doc.as_dict()

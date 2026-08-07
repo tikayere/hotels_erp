@@ -54,6 +54,7 @@ _MODULE_ROLES = {
     "crm": pms_common.CRM_ROLES,
     "conference": pms_common.CONFERENCE_ROLES,
     "inventory": pms_common.INVENTORY_READ_ROLES,
+    "revenue": pms_common.REVENUE_ROLES,
 }
 
 
@@ -196,6 +197,146 @@ def list_rooms(property=None, status=None, room_type=None):
             entry["guest_name"] = occ.guest_name
             entry["check_out"] = str(occ.check_out)
         out.append(entry)
+    return out
+
+
+@frappe.whitelist()
+def get_room_hierarchy(property=None, status=None):
+    """Property -> Floor -> Room Type -> Room, with each room type's cover
+    image + full photo gallery attached, for the visual "building map" view
+    on Rooms.vue (redesigned so staff can see -- and picture -- the physical
+    relationship from building down to room number, not just a flat list).
+
+    A Room itself carries no photo of its own -- two rooms of the same Room
+    Type look the same, so pictures live one level up, same place the guest
+    booking portal already sources them from (see public_booking.py's
+    `list_room_types`, whose Room Type Photo query this mirrors)."""
+    _require_staff()
+    prop_filters: dict = {"status": "Active"}
+    if property:
+        prop_filters["name"] = property
+    properties = frappe.get_all(
+        "Property",
+        filters=prop_filters,
+        fields=["name", "property_name", "city", "country", "logo"],
+        order_by="property_name",
+    )
+    if not properties:
+        return []
+
+    room_filters: dict = {"property": ["in", [p.name for p in properties]]}
+    if status:
+        room_filters["status"] = status
+    rooms = frappe.get_all(
+        "Room",
+        filters=room_filters,
+        fields=["name", "property", "room_type", "room_number", "floor", "status"],
+        order_by="floor, room_number",
+    )
+    if not rooms:
+        return [{**p, "floors": [], "room_count": 0} for p in properties]
+
+    type_names = {r.room_type for r in rooms}
+    room_types = {
+        rt.name: rt
+        for rt in frappe.get_all(
+            "Room Type",
+            filters={"name": ["in", list(type_names)]},
+            fields=[
+                "name", "code", "room_type_name", "bed_config",
+                "max_occupancy_adults", "max_occupancy_children",
+                "size_sqm", "cover_image",
+            ],
+        )
+    }
+    # Full gallery (image + caption) per room type -- same Room Type Photo
+    # child-table query public_booking.py's list_room_types already uses,
+    # rather than the derived `photos` JSON field (loses captions).
+    photos_by_type: dict = {}
+    for row in frappe.get_all(
+        "Room Type Photo",
+        filters={"parent": ["in", list(type_names)]},
+        fields=["parent", "image", "caption"],
+        order_by="parent, idx",
+    ):
+        photos_by_type.setdefault(row.parent, []).append({"image": row.image, "caption": row.caption})
+
+    occupied = [r.name for r in rooms if r.status == "occupied"]
+    guest_by_room: dict = {}
+    if occupied:
+        occ_rows = frappe.db.sql(
+            """
+            SELECT ra.room, r.name AS reservation, r.check_out,
+                   COALESCE(rg.guest_name, '') AS guest_name
+            FROM `tabRoom Assignment` ra
+            JOIN `tabReservation` r ON r.name = ra.reservation
+            LEFT JOIN `tabReservation Guest` rg ON rg.parent = r.name AND rg.idx = 1
+            WHERE ra.room IN %(rooms)s AND r.status = 'checked_in'
+            """,
+            {"rooms": tuple(occupied)},
+            as_dict=True,
+        )
+        guest_by_room = {row.room: row for row in occ_rows}
+
+    # property -> floor -> room_type -> [room entry]
+    tree: dict = {}
+    for r in rooms:
+        floor_bucket = tree.setdefault(r.property, {}).setdefault(r.floor or None, {})
+        entry = {"name": r.name, "room_number": r.room_number, "status": r.status}
+        occ = guest_by_room.get(r.name)
+        if occ:
+            entry["reservation"] = occ.reservation
+            entry["guest_name"] = occ.guest_name
+            entry["check_out"] = str(occ.check_out)
+        floor_bucket.setdefault(r.room_type, []).append(entry)
+
+    def _floor_sort_key(floor):
+        # Numeric floors sort numerically ("2" before "10"); non-numeric
+        # ("Ground", "Mezzanine") sort after them alphabetically; unassigned
+        # (None) always last.
+        if floor is None:
+            return (2, "", 0)
+        try:
+            return (0, "", int(floor))
+        except ValueError:
+            return (1, floor, 0)
+
+    out = []
+    for p in properties:
+        prop_bucket = tree.get(p.name, {})
+        floors = []
+        for floor_key in sorted(prop_bucket.keys(), key=_floor_sort_key):
+            type_bucket = prop_bucket[floor_key]
+            room_types_out = []
+            for rt_name, room_list in type_bucket.items():
+                rt = room_types.get(rt_name) or {}
+                room_types_out.append({
+                    "room_type": rt_name,
+                    "room_type_name": rt.get("room_type_name", rt_name),
+                    "code": rt.get("code"),
+                    "bed_config": rt.get("bed_config"),
+                    "max_occupancy_adults": rt.get("max_occupancy_adults"),
+                    "max_occupancy_children": rt.get("max_occupancy_children"),
+                    "size_sqm": rt.get("size_sqm"),
+                    "cover_image": rt.get("cover_image"),
+                    "photos": photos_by_type.get(rt_name, []),
+                    "rooms": sorted(room_list, key=lambda x: x["room_number"]),
+                })
+            room_types_out.sort(key=lambda rt: rt["room_type_name"])
+            floors.append({
+                "floor": floor_key,
+                "room_types": room_types_out,
+                "room_count": sum(len(rt["rooms"]) for rt in room_types_out),
+            })
+        out.append({
+            "property": p.name,
+            "property_name": p.property_name,
+            "city": p.city,
+            "country": p.country,
+            "logo": p.logo,
+            "floors": floors,
+            "room_count": sum(f["room_count"] for f in floors),
+        })
     return out
 
 

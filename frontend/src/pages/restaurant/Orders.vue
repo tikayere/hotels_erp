@@ -1,29 +1,29 @@
 <template>
   <div class="space-y-4">
     <div class="flex flex-wrap items-center justify-between gap-3">
-      <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Restaurant</h1>
+      <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $t('restaurant.title') }}</h1>
       <div class="flex flex-wrap items-center gap-2">
         <select v-model="statusFilter" class="select-field">
-          <option value="">All statuses</option>
+          <option value="">{{ $t('common.allStatuses') }}</option>
           <option v-for="s in STATUSES" :key="s" :value="s">{{ statusLabel(s) }}</option>
         </select>
-        <Button variant="solid" @click="$router.push({ name: 'NewRestaurantOrder' })">+ New Order</Button>
+        <Button variant="solid" @click="$router.push({ name: 'NewRestaurantOrder' })">{{ $t('restaurant.newOrder') }}</Button>
       </div>
     </div>
 
-    <p v-if="orders.error" class="text-sm text-red-600">{{ orders.error.messages?.[0] || 'Failed to load' }}</p>
-    <div v-if="orders.loading && !orders.data" class="text-sm text-gray-500 dark:text-gray-400">Loading…</div>
-    <div v-else-if="!orders.data?.length" class="text-sm text-gray-500 dark:text-gray-400">No orders match these filters.</div>
+    <p v-if="orders.error" class="text-sm text-red-600">{{ orders.error.messages?.[0] || $t('common.failedToLoad') }}</p>
+    <div v-if="orders.loading && !orders.data" class="text-sm text-gray-500 dark:text-gray-400">{{ $t('common.loading') }}</div>
+    <div v-else-if="!orders.data?.length" class="text-sm text-gray-500 dark:text-gray-400">{{ $t('restaurant.noneMatch') }}</div>
 
     <div v-else class="overflow-x-auto rounded-lg border border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900">
       <table class="min-w-full divide-y divide-gray-100 dark:divide-gray-800">
         <thead>
           <tr class="text-left text-xs font-medium text-gray-500 dark:text-gray-400">
-            <th class="px-4 py-3">Order</th>
-            <th class="px-4 py-3">Reservation</th>
-            <th class="px-4 py-3">Assigned To</th>
-            <th class="px-4 py-3">Status</th>
-            <th class="px-4 py-3 text-right">Amount</th>
+            <th class="px-4 py-3">{{ $t('restaurant.orderCol') }}</th>
+            <th class="px-4 py-3">{{ $t('restaurant.reservationCol') }}</th>
+            <th class="px-4 py-3">{{ $t('restaurant.assignedToCol') }}</th>
+            <th class="px-4 py-3">{{ $t('restaurant.statusCol') }}</th>
+            <th class="px-4 py-3 text-right">{{ $t('restaurant.amountCol') }}</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-50 text-sm dark:divide-gray-800/60">

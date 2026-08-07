@@ -127,6 +127,24 @@ const routes = [
     component: () => import('@/pages/conference/NewBooking.vue'),
   },
 
+  // Revenue Management
+  {
+    path: '/revenue',
+    name: 'RatePlans',
+    component: () => import('@/pages/revenue/RatePlans.vue'),
+  },
+  {
+    path: '/revenue/:id',
+    name: 'RatePlanDetail',
+    component: () => import('@/pages/revenue/RatePlanDetail.vue'),
+    props: true,
+  },
+  {
+    path: '/analytics',
+    name: 'Analytics',
+    component: () => import('@/pages/revenue/Analytics.vue'),
+  },
+
   // Inventory
   {
     path: '/inventory',

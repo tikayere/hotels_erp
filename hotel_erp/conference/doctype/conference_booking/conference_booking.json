@@ -49,10 +49,22 @@
    "fieldtype": "JSON"
   },
   {
+   "fieldname": "total_amount_minor",
+   "label": "Total Amount (minor units)",
+   "fieldtype": "Int",
+   "description": "Venue + catering total. Posted as revenue when confirmed, if set."
+  },
+  {
+   "fieldname": "currency",
+   "label": "Currency",
+   "fieldtype": "Data",
+   "length": 3
+  },
+  {
    "fieldname": "status",
    "label": "Status",
    "fieldtype": "Select",
-   "options": "tentative\nconfirmed\ncancelled",
+   "options": "tentative\nconfirmed\ncancelled\ncompleted",
    "default": "tentative",
    "in_list_view": 1
   }

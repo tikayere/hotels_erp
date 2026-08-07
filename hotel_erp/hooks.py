@@ -57,8 +57,15 @@ after_request = ["hotel_erp.api.router.unwrap_v1"]
 # this rule makes every client-side sub-route (e.g. /pms/reservations/RES-1)
 # resolve to the same page too, so a hard refresh/deep link on a Vue Router
 # route doesn't 404 at the server before Vue Router ever sees it.
+#
+# Same mechanism, second SPA: `frontend-guest/vite.config.js`'s
+# frappeui({frontendRoute: "/book"}) builds the public guest booking portal
+# and copies its index.html to www/book.html; www/book.py supplies that
+# page's boot context (portal enabled/disabled + branding) and is
+# deliberately allow-Guest, unlike pms.py's login-gate.
 website_route_rules = [
     {"from_route": "/pms/<path:app_path>", "to_route": "pms"},
+    {"from_route": "/book/<path:app_path>", "to_route": "book"},
 ]
 
 # Staff who live in the SPA land there after login instead of Desk (`/app`)
@@ -88,6 +95,7 @@ auth_hooks = ["hotel_erp.api.auth.validate_bearer_token"]
 # ---------------------------------------------------------------------------
 doc_events = {
     "Reservation": {
+        "after_insert": "hotel_erp.reservation.events.on_reservation_after_insert",
         "on_update": "hotel_erp.reservation.events.on_reservation_update",
     },
     "Room Type": {

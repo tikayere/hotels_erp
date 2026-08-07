@@ -16,9 +16,17 @@ from __future__ import annotations
 import frappe
 from frappe.utils import getdate
 
-from hotel_erp.api.pms_common import require_finance_role
+from hotel_erp.api.pms_common import FOLIO_ROLES, require_finance_role
+from hotel_erp.finance import billing
 
-_TYPES = ("revenue", "refund", "tax", "expense")
+_TYPES = ("revenue", "refund", "tax", "expense", "payment")
+
+
+def _require_folio_role() -> None:
+    if frappe.session.user in ("", "Guest"):
+        frappe.throw("Authentication required", frappe.AuthenticationError)
+    if not set(frappe.get_roles(frappe.session.user)) & set(FOLIO_ROLES):
+        frappe.throw(f"Requires one of: {', '.join(FOLIO_ROLES)}", frappe.PermissionError)
 
 
 @frappe.whitelist()
@@ -54,7 +62,7 @@ def get_txn(name):
 
 
 @frappe.whitelist()
-def create_txn(type, amount_minor, currency, ref=None):
+def create_txn(type, amount_minor, currency, ref=None, reservation=None):
     require_finance_role()
     if type not in _TYPES:
         frappe.throw(f"type must be one of: {', '.join(_TYPES)}")
@@ -64,7 +72,8 @@ def create_txn(type, amount_minor, currency, ref=None):
             "type": type,
             "amount_minor": amount_minor,
             "currency": currency,
-            "ref": ref,
+            "ref": ref or reservation,
+            "reservation": reservation,
         }
     ).insert(ignore_permissions=True)
     return doc.as_dict()
@@ -128,3 +137,25 @@ def get_summary(from_date=None, to_date=None):
         - by_type["expense"]["total_minor"]
     )
     return {"by_type": by_type, "net_minor": net_minor}
+
+
+@frappe.whitelist()
+def get_folio(reservation):
+    """Itemized guest folio for one reservation -- charges, payments, and
+    the computed balance due. Readable by front desk too (not just Finance
+    roles): checkout is when this actually gets used, and front desk is who
+    stands at the desk when a guest is checking out. See finance/billing.py."""
+    _require_folio_role()
+    if not frappe.db.exists("Reservation", reservation):
+        frappe.throw("Unknown reservation")
+    return billing.get_folio(reservation)
+
+
+@frappe.whitelist()
+def record_payment(reservation, amount_minor, currency, method):
+    """Records a manual/offline payment (cash/mobile money/bank transfer/
+    card) against a reservation's folio. No payment-gateway integration --
+    see ENTERPRISE_READINESS_PLAN.md Wave A for why that's deliberate."""
+    _require_folio_role()
+    name = billing.record_payment(reservation, amount_minor, currency, method)
+    return frappe.get_doc("Finance Txn", name).as_dict()

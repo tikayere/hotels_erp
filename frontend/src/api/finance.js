@@ -9,3 +9,5 @@ export const createTxnResource = () => createResource({ url: M('create_txn'), au
 export const submitTxnResource = () => createResource({ url: M('submit_txn'), auto: false })
 export const cancelTxnResource = () => createResource({ url: M('cancel_txn'), auto: false })
 export const financeSummaryResource = () => createResource({ url: M('get_summary'), auto: false })
+export const folioResource = () => createResource({ url: M('get_folio'), auto: false })
+export const recordPaymentResource = () => createResource({ url: M('record_payment'), auto: false })

@@ -1,0 +1,114 @@
+{
+  "common": {
+    "hotelFallback": "Hôtel",
+    "loading": "Chargement…",
+    "bookNow": "Réserver",
+    "night": "nuit",
+    "nights": "nuits",
+    "adults": "adultes",
+    "upTo": "jusqu'à {n} adultes",
+    "more": "de plus",
+    "welcome": "Bienvenue"
+  },
+  "header": {
+    "home": "Accueil",
+    "rooms": "Chambres",
+    "myBooking": "Ma réservation",
+    "bookNow": "Réserver"
+  },
+  "footer": {
+    "rights": "Tous droits réservés.",
+    "findBooking": "Retrouver ma réservation"
+  },
+  "home": {
+    "checkAvailability": "Vérifier les disponibilités →",
+    "defaultTagline": "Réservez directement chez nous — meilleur tarif garanti.",
+    "aboutUs": "À propos de nous",
+    "ourRooms": "Nos chambres",
+    "viewAllRooms": "Voir toutes les chambres →",
+    "loadRoomsError": "Impossible de charger les chambres pour le moment.",
+    "loadingRooms": "Chargement des chambres…",
+    "noRoomsPublished": "Aucune chambre publiée pour le moment."
+  },
+  "rooms": {
+    "title": "Nos chambres",
+    "subtitle": "Choisissez une chambre pour commencer votre réservation, ou vérifiez d'abord des dates précises.",
+    "loadError": "Impossible de charger les chambres pour le moment.",
+    "loading": "Chargement des chambres…",
+    "noneYet": "Aucune chambre publiée pour le moment."
+  },
+  "roomCard": {
+    "from": "à partir de",
+    "upToAdults": "jusqu'à {n} adultes",
+    "sizeSqm": "{n} m²",
+    "more": "de plus",
+    "bookThisRoom": "Réserver cette chambre"
+  },
+  "book": {
+    "title": "Réservez votre séjour",
+    "subtitle": "Sans compte — réservez maintenant, payez à l'hôtel.",
+    "checkIn": "Arrivée",
+    "checkOut": "Départ",
+    "rooms": "Chambres",
+    "search": "Rechercher",
+    "optionsFor": "option(s) pour {nights} nuit(s)",
+    "noRoomsForDates": "Aucune chambre disponible pour ces dates. Essayez une autre période.",
+    "upToAdults": "jusqu'à {n} adultes",
+    "freeCancellation": "✅ Annulation gratuite",
+    "nonRefundable": "⚠️ Non remboursable",
+    "breakfastIncluded": "🥐 Petit-déjeuner inclus",
+    "roomsLeft": "{n} chambre(s) restante(s)",
+    "totalForNights": "total pour {n} nuit(s)",
+    "yourDetails": "Vos informations",
+    "fullName": "Nom complet *",
+    "email": "E-mail *",
+    "phone": "Téléphone",
+    "guestNamePlaceholder": "Nom de l'invité {n}",
+    "addAnotherGuest": "+ Ajouter un autre invité",
+    "totalDueAtHotel": "Total dû à l'hôtel",
+    "confirmBooking": "Confirmer la réservation",
+    "genericError": "Impossible de finaliser la réservation. Veuillez réessayer.",
+    "errChooseDates": "Veuillez choisir une date d'arrivée et de départ.",
+    "errCheckoutAfterCheckin": "La date de départ doit être après la date d'arrivée."
+  },
+  "confirmation": {
+    "loading": "Chargement de votre réservation…",
+    "notFoundTitle": "Nous n'avons pas trouvé cette réservation",
+    "notFoundSubtitle": "Vérifiez le numéro de confirmation et l'e-mail utilisés lors de la réservation.",
+    "lookUpMyBooking": "Retrouver ma réservation",
+    "confirmedTitle": "Réservation confirmée !",
+    "confirmedSubtitle": "Un récapitulatif figure ci-dessous — téléchargez-le comme billet à présenter à l'arrivée.",
+    "downloadTicket": "⬇ Télécharger le billet (PDF)",
+    "bookAnotherStay": "Réserver un autre séjour",
+    "downloadError": "Impossible de générer le PDF. Veuillez réessayer."
+  },
+  "lookup": {
+    "title": "Retrouver ma réservation",
+    "subtitle": "Entrez votre numéro de confirmation et l'e-mail utilisé lors de la réservation.",
+    "confirmationNumber": "Numéro de confirmation",
+    "email": "E-mail",
+    "findBooking": "Rechercher",
+    "notFound": "Réservation introuvable. Vérifiez les informations et réessayez."
+  },
+  "ticket": {
+    "bookingTicket": "Billet de réservation",
+    "confirmationNumber": "Numéro de confirmation",
+    "checkIn": "Arrivée",
+    "checkOut": "Départ",
+    "room": "Chambre",
+    "rooms": "Chambres",
+    "guests": "Invités",
+    "payment": "Paiement",
+    "payAtHotel": "Paiement à l'hôtel",
+    "total": "Total",
+    "footerNote": "Veuillez présenter ce billet (imprimé ou sur votre téléphone) à l'arrivée.",
+    "questionsCall": "Des questions ? Appelez le {phone}."
+  },
+  "closed": {
+    "title": "La réservation en ligne est fermée pour le moment",
+    "defaultMessage": "La réservation en ligne est temporairement indisponible. Merci de nous appeler pour réserver une chambre."
+  },
+  "lang": {
+    "switchTo": "English"
+  }
+}

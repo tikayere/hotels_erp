@@ -20,7 +20,7 @@
    "fieldname": "type",
    "label": "Type",
    "fieldtype": "Select",
-   "options": "revenue\nrefund\ntax\nexpense",
+   "options": "revenue\nrefund\ntax\nexpense\npayment",
    "reqd": 1,
    "in_list_view": 1
   },
@@ -43,6 +43,22 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "description": "e.g. Reservation name or payment_reference"
+  },
+  {
+   "fieldname": "reservation",
+   "label": "Reservation",
+   "fieldtype": "Link",
+   "options": "Reservation",
+   "in_list_view": 1,
+   "description": "Set for folio charges/payments; blank for standalone expenses etc."
+  },
+  {
+   "fieldname": "payment_method",
+   "label": "Payment Method",
+   "fieldtype": "Select",
+   "options": "\ncash\nmobile_money\nbank_transfer\ncard\nother",
+   "depends_on": "eval:doc.type=='payment'",
+   "description": "Manual/offline payment recording only -- no gateway wired up yet"
   }
  ],
  "permissions": [

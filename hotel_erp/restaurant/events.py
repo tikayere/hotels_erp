@@ -14,11 +14,15 @@ boundary:
   tracked Inventory Item (e.g. a bottled drink sold as-is) are decremented.
   Building full recipe-based consumption is a real feature, not an
   "internal module workflow" gap -- out of scope here.
+* **Folio billing** (Wave A, ENTERPRISE_READINESS_PLAN.md) -- on transition
+  to `billed`, post the order's revenue line to `Finance Txn`, linked to the
+  guest's folio when `reservation` is set.
 """
 from __future__ import annotations
 
 import frappe
 
+from hotel_erp.finance.billing import post_restaurant_charge
 from hotel_erp.hr.staff_assignment import pick_least_loaded_staff
 
 _OPEN_ORDER_STATUSES = ["placed", "in_kitchen"]
@@ -34,6 +38,9 @@ def on_restaurant_order_update(doc, method=None):
 
     if doc.status == "served":
         _consume_stock(doc)
+
+    if doc.status == "billed":
+        post_restaurant_charge(doc)
 
 
 def _route_to_kitchen(doc) -> None:

@@ -6,7 +6,7 @@
    "label": "Occupancy Trend"
   }
  ],
- "content": "[{\"id\":\"yawW29AVIM\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Hotel Management</span>\",\"col\":12}},{\"id\":\"ooBbvRzkDi\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Occupancy Trend\",\"col\":12}},{\"id\":\"NbzKbPiDdy\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Arrivals Today\",\"col\":4}},{\"id\":\"nuWyW1qfbI\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Departures Today\",\"col\":4}},{\"id\":\"-wPXPW8mbj\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Open Maintenance Requests\",\"col\":4}},{\"id\":\"iQKnSXkMVh\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Pending Housekeeping Tasks\",\"col\":4}},{\"id\":\"09gbtR9zTe\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"SOgX2Mh_Yw\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Property Setup</span>\",\"col\":12}},{\"id\":\"BxGv20g9O1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Property\",\"col\":3}},{\"id\":\"TBU9rZIEBU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Room Type\",\"col\":3}},{\"id\":\"r21f4pDNyb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Room\",\"col\":3}},{\"id\":\"2lnZv4Sra8\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"fUFWSPFYfo\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Workspaces</span>\",\"col\":12}},{\"id\":\"StLEHBVvSr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Front Desk\",\"col\":3}},{\"id\":\"qhmhIWlnEU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Housekeeping\",\"col\":3}},{\"id\":\"_HsgmolaIr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Maintenance\",\"col\":3}},{\"id\":\"_JSi3F3KEC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Revenue Management\",\"col\":3}},{\"id\":\"ld8E0zeOdj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Finance\",\"col\":3}},{\"id\":\"Kt-hWMYoHC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"HR\",\"col\":3}},{\"id\":\"DCFtdg1iIm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CRM\",\"col\":3}},{\"id\":\"cWb7Cro6BF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Restaurant\",\"col\":3}},{\"id\":\"8EqOjBvve1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Conference\",\"col\":3}},{\"id\":\"XHpgWUAwhc\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Inventory\",\"col\":3}},{\"id\":\"dZwOKMLIJE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sync\",\"col\":3}},{\"id\":\"C3-tNNV8nn\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"QkleaCMsoT\",\"type\":\"card\",\"data\":{\"card_name\":\"Property\",\"col\":4}}]",
+ "content": "[{\"id\":\"yawW29AVIM\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Hotel Management</span>\",\"col\":12}},{\"id\":\"ooBbvRzkDi\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Occupancy Trend\",\"col\":12}},{\"id\":\"NbzKbPiDdy\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Arrivals Today\",\"col\":4}},{\"id\":\"nuWyW1qfbI\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Departures Today\",\"col\":4}},{\"id\":\"-wPXPW8mbj\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Open Maintenance Requests\",\"col\":4}},{\"id\":\"iQKnSXkMVh\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Pending Housekeeping Tasks\",\"col\":4}},{\"id\":\"09gbtR9zTe\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"SOgX2Mh_Yw\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Property Setup</span>\",\"col\":12}},{\"id\":\"BxGv20g9O1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Property\",\"col\":3}},{\"id\":\"TBU9rZIEBU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Room Type\",\"col\":3}},{\"id\":\"r21f4pDNyb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Room\",\"col\":3}},{\"id\":\"bpsSettingsShortcut\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Booking Portal Settings\",\"col\":3}},{\"id\":\"bpsGuestPortalShortcut\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Guest Booking Portal\",\"col\":3}},{\"id\":\"2lnZv4Sra8\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"fUFWSPFYfo\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Workspaces</span>\",\"col\":12}},{\"id\":\"pmsSpaShortcut\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Staff App\",\"col\":3}},{\"id\":\"StLEHBVvSr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Front Desk\",\"col\":3}},{\"id\":\"qhmhIWlnEU\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Housekeeping\",\"col\":3}},{\"id\":\"_HsgmolaIr\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Maintenance\",\"col\":3}},{\"id\":\"_JSi3F3KEC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Revenue Management\",\"col\":3}},{\"id\":\"ld8E0zeOdj\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Finance\",\"col\":3}},{\"id\":\"Kt-hWMYoHC\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"HR\",\"col\":3}},{\"id\":\"DCFtdg1iIm\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"CRM\",\"col\":3}},{\"id\":\"cWb7Cro6BF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Restaurant\",\"col\":3}},{\"id\":\"8EqOjBvve1\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Conference\",\"col\":3}},{\"id\":\"XHpgWUAwhc\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Inventory\",\"col\":3}},{\"id\":\"dZwOKMLIJE\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sync\",\"col\":3}},{\"id\":\"C3-tNNV8nn\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"QkleaCMsoT\",\"type\":\"card\",\"data\":{\"card_name\":\"Property\",\"col\":4}}]",
  "custom_blocks": [],
  "doctype": "Workspace",
  "for_user": "",
@@ -20,7 +20,7 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Property",
-   "link_count": 3,
+   "link_count": 4,
    "onboard": 0,
    "type": "Card Break"
   },
@@ -53,6 +53,18 @@
    "is_query_report": 0,
    "label": "Room",
    "link_to": "Room",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "description": "Enable/disable the public guest booking portal (/book) and its closed-notice text.",
+   "hidden": 0,
+   "icon": "globe",
+   "is_query_report": 0,
+   "label": "Booking Portal Settings",
+   "link_to": "Booking Portal Settings",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -91,6 +103,13 @@
  "sequence_id": 1.0,
  "shortcuts": [
   {
+   "color": "Grey",
+   "icon": "layout-dashboard",
+   "label": "Staff App",
+   "type": "URL",
+   "url": "/pms"
+  },
+  {
    "color": "Blue",
    "doc_view": "List",
    "icon": "building-2",
@@ -116,6 +135,22 @@
    "link_to": "Room",
    "stats_filter": "[]",
    "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "",
+   "icon": "globe",
+   "label": "Booking Portal Settings",
+   "link_to": "Booking Portal Settings",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "icon": "external-link",
+   "label": "Guest Booking Portal",
+   "type": "URL",
+   "url": "/book"
   },
   {
    "color": "Blue",

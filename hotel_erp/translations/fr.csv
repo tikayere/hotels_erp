@@ -1,0 +1,297 @@
+Conference Booking,Réservation de conférence
+Space Name,Nom de l'espace
+Booked By,Réservé par
+Start At,Début le
+End At,Fin le
+Catering,Restauration
+Status,Statut
+tentative,provisoire
+confirmed,confirmée
+cancelled,annulée
+Guest Communication,Communication client
+Guest,Client
+Channel,Canal
+email,e-mail
+phone,téléphone
+sms,SMS
+in_person,en personne
+Direction,Sens
+inbound,entrant
+outbound,sortant
+Subject,Sujet
+Message,Message
+Sent At,Envoyé le
+Guest Complaint,Réclamation client
+Reservation,Réservation
+Category,Catégorie
+room,chambre
+service,service
+billing,facturation
+cleanliness,propreté
+noise,bruit
+other,autre
+Description,Description
+open,ouverte
+in_progress,en cours
+resolved,résolue
+escalated,escaladée
+Resolution,Résolution
+Raised At,Signalée le
+Finance Txn,Transaction financière
+Type,Type
+revenue,revenu
+refund,remboursement
+tax,taxe
+expense,dépense
+Amount (minor units),Montant (unités mineures)
+Currency,Devise
+Reference,Référence
+Guest Name,Nom du client
+Passport No,N° de passeport
+National ID,N° de carte d'identité
+Phone,Téléphone
+Email,E-mail
+Preferences,Préférences
+VIP Status,Statut VIP
+Loyalty Points,Points de fidélité
+Housekeeping Task,Tâche de ménage
+Room,Chambre
+cleaning,nettoyage
+inspection,inspection
+turndown,couverture du soir
+deep_clean,nettoyage approfondi
+laundry,blanchisserie
+pending,en attente
+completed,terminée
+verified,vérifiée
+Assigned To,Assigné à
+Due At,Échéance
+Notes,Notes
+Leave Application,Demande de congé
+Staff,Employé
+Leave Type,Type de congé
+annual,annuel
+sick,maladie
+unpaid,non payé
+maternity_paternity,maternité/paternité
+From Date,Date de début
+To Date,Date de fin
+approved,approuvée
+rejected,refusée
+Reason,Motif
+Payroll Entry,Fiche de paie
+Pay Period Start,Début de la période de paie
+Pay Period End,Fin de la période de paie
+Gross Amount (minor units),Montant brut (unités mineures)
+Deductions (minor units),Déductions (unités mineures)
+Net Amount (minor units),Montant net (unités mineures)
+draft,brouillon
+processed,traitée
+paid,payée
+Employee Name,Nom de l'employé
+Department,Département
+Front Desk,Réception
+Housekeeping,Ménage
+Maintenance,Maintenance
+Restaurant,Restaurant
+Finance,Finance
+HR,RH
+Management,Direction
+Designation,Poste
+Date of Joining,Date d'embauche
+active,actif
+on_leave,en congé
+terminated,terminé
+Linked User,Utilisateur lié
+Daily Rate (minor units),Taux journalier (unités mineures)
+Inventory Item,Article d'inventaire
+Item Name,Nom de l'article
+linen,linge
+cleaning_supplies,produits d'entretien
+food,nourriture
+maintenance_supplies,fournitures de maintenance
+Unit,Unité
+Quantity On Hand,Quantité en stock
+Reorder Level,Seuil de réapprovisionnement
+Preferred Supplier,Fournisseur préféré
+Purchase Order,Bon de commande
+Supplier,Fournisseur
+Items,Articles
+Total Amount (minor units),Montant total (unités mineures)
+ordered,commandé
+received,reçu
+Ordered At,Commandée le
+Supplier Name,Nom du fournisseur
+Contact Person,Personne à contacter
+Active,Actif
+Maintenance Request,Demande de maintenance
+Issue,Problème
+assigned,assignée
+closed,fermée
+Priority,Priorité
+low,faible
+medium,moyenne
+high,élevée
+urgent,urgente
+Technician,Technicien
+Opened At,Ouverte le
+Closed At,Fermée le
+Booking Portal Settings,Paramètres du portail de réservation
+Guest Booking Portal Enabled,Portail de réservation client activé
+Closed Message,Message de fermeture
+Property,Propriété
+Code,Code
+Property Name,Nom de la propriété
+Branch Name,Nom de la succursale
+Address,Adresse
+City,Ville
+Country,Pays
+Latitude,Latitude
+Longitude,Longitude
+Star Rating,Classement (étoiles)
+Guest Booking Portal Branding,Image de marque du portail de réservation
+Logo,Logo
+Website,Site web
+Tagline,Slogan
+About / Description,À propos / Description
+Suspended,Suspendu
+Hold,Blocage
+Confirmation Number,Numéro de confirmation
+Room Type,Type de chambre
+Rate Plan,Plan tarifaire
+Check In,Arrivée
+Check Out,Départ
+Rooms Requested,Chambres demandées
+Guests,Clients
+Payment Reference,Référence de paiement
+checked_in,enregistrée
+checked_out,départ effectué
+no_show,non présentée
+Reservation Guest,Client de la réservation
+Reservation Hold,Blocage de réservation
+Occupancy,Occupation
+aggregator,agrégateur
+direct,direct
+website,site web
+Idempotency Key,Clé d'idempotence
+Expires At,Expire le
+held,bloquée
+released,libérée
+expired,expirée
+Room Assignment,Attribution de chambre
+Assigned At,Assignée le
+Waiting List Entry,Liste d'attente
+Contact Name,Nom du contact
+Contact Phone,Téléphone du contact
+Contact Email,E-mail du contact
+waiting,en attente
+notified,notifiée
+fulfilled,satisfaite
+Restaurant Order,Commande du restaurant
+placed,passée
+in_kitchen,en cuisine
+served,servie
+billed,facturée
+Pricing Rule,Règle de tarification
+Rule Name,Nom de la règle
+Rule Type,Type de règle
+season,saison
+holiday,jour férié
+day_of_week,jour de la semaine
+lead_time,délai de réservation
+occupancy,occupation
+Start Date,Date de début
+End Date,Date de fin
+Days of Week,Jours de la semaine
+Lead Time Days (min),Délai en jours (min)
+Lead Time Days (max),Délai en jours (max)
+Occupancy Threshold,Seuil d'occupation
+Adjustment Type,Type d'ajustement
+percentage,pourcentage
+fixed_amount,montant fixe
+Adjustment Value,Valeur de l'ajustement
+Rate Calendar,Calendrier tarifaire
+Date,Date
+Price (minor units),Prix (unités mineures)
+Rooms Available,Chambres disponibles
+Plan Name,Nom du plan
+Refundable,Remboursable
+Free Cancellation Until (hours before check-in),Annulation gratuite jusqu'à (heures avant l'arrivée)
+Includes Breakfast,Petit-déjeuner inclus
+Base Price (minor units),Prix de base (unités mineures)
+Room Number,Numéro de chambre
+Floor,Étage
+available,disponible
+occupied,occupée
+dirty,sale
+clean,propre
+maintenance,maintenance
+out_of_order,hors service
+Amenities,Équipements
+Room Type Name,Nom du type de chambre
+Max Occupancy Adults,Occupation max. (adultes)
+Max Occupancy Children,Occupation max. (enfants)
+Bed Configuration,Configuration des lits
+Size (sqm),Superficie (m²)
+Amenities (raw),Équipements (brut)
+Photos,Photos
+Photos (URLs),Photos (URLs)
+Cover Image,Image de couverture
+Room Type Amenity,Équipement du type de chambre
+Amenity,Équipement
+Room Type Photo,Photo du type de chambre
+Image,Image
+Caption,Légende
+Idempotency Record,Enregistrement d'idempotence
+Request Body Hash,Hachage du corps de la requête
+Response Body,Corps de la réponse
+Response Status,Statut de la réponse
+Sync Config,Configuration de synchronisation
+Hotel Slug,Identifiant de l'hôtel
+Aggregator Base URL,URL de base de l'agrégateur
+Aggregator Webhook Secret,Secret webhook de l'agrégateur
+Aggregator API Key,Clé API de l'agrégateur
+Hold TTL (seconds),Durée du blocage (secondes)
+Last Reconciliation At,Dernière réconciliation le
+Webhook Outbox,File d'attente des webhooks
+Event ID,ID de l'événement
+Event Type,Type d'événement
+Payload,Charge utile
+sent,envoyé
+failed,échoué
+Attempts,Tentatives
+Next Attempt At,Prochaine tentative le
+Hotel Management,Gestion hôtelière
+Revenue Management,Gestion des revenus
+Sync,Synchronisation
+Analytics,Analytique
+Reservations,Réservations
+Reception Reports,Rapports de réception
+Real-time arrivals/departures views for the front desk (FR-A7).,Vues en temps réel des arrivées/départs pour la réception (FR-A7).
+Core property/inventory setup.,Configuration de base de la propriété/inventaire.
+Rates & Inventory,Tarifs et inventaire
+ADR/RevPAR and occupancy reporting (FR-A16).,Rapports ADR/RevPAR et taux d'occupation (FR-A16).
+Housekeeping Task Board,Tableau des tâches de ménage
+Maintenance Request Board,Tableau des demandes de maintenance
+Staff App,Application du personnel
+Guest Booking Portal,Portail de réservation client
+Enable/disable the public guest booking portal (/book) and its closed-notice text.,Activer/désactiver le portail public de réservation client (/book) et son message de fermeture.
+ADR and RevPAR,ADR et RevPAR
+Arrivals Not Checked In,Arrivées non enregistrées
+Hotel Occupancy,Taux d'occupation de l'hôtel
+Late Checkouts,Départs tardifs
+Today's Arrivals,Arrivées du jour
+Today's Departures,Départs du jour
+Arrivals Today,Arrivées aujourd'hui
+Departures Today,Départs aujourd'hui
+Open Maintenance Requests,Demandes de maintenance ouvertes
+Pending Housekeeping Tasks,Tâches de ménage en attente
+Occupancy Trend,Tendance d'occupation
+payment,paiement
+cash,espèces
+mobile_money,mobile money
+bank_transfer,virement bancaire
+card,carte
+Payment Method,Méthode de paiement
+Repair Cost (minor units),Coût de réparation (unités mineures)
+Due By,Date d'échéance

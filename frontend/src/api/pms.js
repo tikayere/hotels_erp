@@ -14,6 +14,12 @@ export function roomsResource() {
   return createResource({ url: M('list_rooms'), auto: false })
 }
 
+// Property -> Floor -> Room Type -> Room, with room-type photos, for the
+// visual "building map" view on Rooms.vue.
+export function roomHierarchyResource() {
+  return createResource({ url: M('get_room_hierarchy'), auto: false })
+}
+
 export function availableRoomsResource() {
   return createResource({ url: M('list_available_rooms'), auto: false })
 }

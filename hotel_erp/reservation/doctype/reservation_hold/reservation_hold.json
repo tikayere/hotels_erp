@@ -54,7 +54,8 @@
    "fieldname": "channel",
    "fieldtype": "Select",
    "label": "Channel",
-   "options": "aggregator\ndirect",
+   "description": "aggregator = external Aggregator API (bearer token); direct = front-desk walk-in sale (hotel_erp.booking.direct_sale); website = self-service guest booking on the public /book portal (hotel_erp.api.public_booking).",
+   "options": "aggregator\ndirect\nwebsite",
    "reqd": 1,
    "default": "aggregator"
   },

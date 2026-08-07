@@ -1,0 +1,114 @@
+{
+  "common": {
+    "hotelFallback": "Hotel",
+    "loading": "Loading…",
+    "bookNow": "Book Now",
+    "night": "night",
+    "nights": "nights",
+    "adults": "adults",
+    "upTo": "up to {n} adults",
+    "more": "more",
+    "welcome": "Welcome"
+  },
+  "header": {
+    "home": "Home",
+    "rooms": "Rooms",
+    "myBooking": "My Booking",
+    "bookNow": "Book Now"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "findBooking": "Find my booking"
+  },
+  "home": {
+    "checkAvailability": "Check Availability →",
+    "defaultTagline": "Book your stay directly with us — best rate, guaranteed.",
+    "aboutUs": "About Us",
+    "ourRooms": "Our Rooms",
+    "viewAllRooms": "View all rooms →",
+    "loadRoomsError": "Could not load rooms right now.",
+    "loadingRooms": "Loading rooms…",
+    "noRoomsPublished": "No rooms published yet."
+  },
+  "rooms": {
+    "title": "Our Rooms",
+    "subtitle": "Pick a room to start your booking, or check exact dates first.",
+    "loadError": "Could not load rooms right now.",
+    "loading": "Loading rooms…",
+    "noneYet": "No rooms published yet."
+  },
+  "roomCard": {
+    "from": "from",
+    "upToAdults": "up to {n} adults",
+    "sizeSqm": "{n} m²",
+    "more": "more",
+    "bookThisRoom": "Book This Room"
+  },
+  "book": {
+    "title": "Book Your Stay",
+    "subtitle": "No account needed — reserve now, pay at the hotel.",
+    "checkIn": "Check In",
+    "checkOut": "Check Out",
+    "rooms": "Rooms",
+    "search": "Search",
+    "optionsFor": "option(s) for {nights} night(s)",
+    "noRoomsForDates": "No rooms available for those dates. Try a different date range.",
+    "upToAdults": "up to {n} adults",
+    "freeCancellation": "✅ Free cancellation",
+    "nonRefundable": "⚠️ Non-refundable",
+    "breakfastIncluded": "🥐 Breakfast included",
+    "roomsLeft": "{n} room(s) left",
+    "totalForNights": "total for {n} night(s)",
+    "yourDetails": "Your Details",
+    "fullName": "Full Name *",
+    "email": "Email *",
+    "phone": "Phone",
+    "guestNamePlaceholder": "Guest {n} name",
+    "addAnotherGuest": "+ Add another guest",
+    "totalDueAtHotel": "Total due at hotel",
+    "confirmBooking": "Confirm Booking",
+    "genericError": "Could not complete the booking. Please try again.",
+    "errChooseDates": "Please choose both a check-in and check-out date.",
+    "errCheckoutAfterCheckin": "Check-out must be after check-in."
+  },
+  "confirmation": {
+    "loading": "Loading your booking…",
+    "notFoundTitle": "We couldn't find that booking",
+    "notFoundSubtitle": "Double-check the confirmation number and the email used to book.",
+    "lookUpMyBooking": "Look Up My Booking",
+    "confirmedTitle": "Booking Confirmed!",
+    "confirmedSubtitle": "A summary is below — download it as a ticket to keep for check-in.",
+    "downloadTicket": "⬇ Download Ticket (PDF)",
+    "bookAnotherStay": "Book Another Stay",
+    "downloadError": "Could not generate the PDF. Please try again."
+  },
+  "lookup": {
+    "title": "Find My Booking",
+    "subtitle": "Enter your confirmation number and the email you used when booking.",
+    "confirmationNumber": "Confirmation Number",
+    "email": "Email",
+    "findBooking": "Find Booking",
+    "notFound": "Booking not found. Check the details and try again."
+  },
+  "ticket": {
+    "bookingTicket": "Booking Ticket",
+    "confirmationNumber": "Confirmation Number",
+    "checkIn": "Check In",
+    "checkOut": "Check Out",
+    "room": "Room",
+    "rooms": "Rooms",
+    "guests": "Guests",
+    "payment": "Payment",
+    "payAtHotel": "Pay at hotel",
+    "total": "Total",
+    "footerNote": "Please present this ticket (printed or on your phone) at check-in.",
+    "questionsCall": "Questions? Call {phone}."
+  },
+  "closed": {
+    "title": "Online booking is closed right now",
+    "defaultMessage": "Online booking is temporarily unavailable. Please call us to reserve a room."
+  },
+  "lang": {
+    "switchTo": "Français"
+  }
+}

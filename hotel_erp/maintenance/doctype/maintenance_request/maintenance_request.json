@@ -62,6 +62,18 @@
    "fieldname": "closed_at",
    "label": "Closed At",
    "fieldtype": "Datetime"
+  },
+  {
+   "fieldname": "cost_minor",
+   "label": "Repair Cost (minor units)",
+   "fieldtype": "Int",
+   "description": "Posted as an expense Finance Txn when the request is resolved/closed, if set"
+  },
+  {
+   "fieldname": "currency",
+   "label": "Currency",
+   "fieldtype": "Data",
+   "length": 3
   }
  ],
  "permissions": [

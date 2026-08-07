@@ -7,4 +7,5 @@ const M = (fn) => `hotel_erp.api.conference.${fn}`
 export const bookingsResource = () => createResource({ url: M('list_bookings'), auto: false })
 export const createBookingResource = () => createResource({ url: M('create_booking'), auto: false })
 export const confirmBookingResource = () => createResource({ url: M('confirm_booking'), auto: false })
+export const completeBookingResource = () => createResource({ url: M('complete_booking'), auto: false })
 export const cancelBookingResource = () => createResource({ url: M('cancel_booking'), auto: false })

@@ -1,46 +1,46 @@
 <template>
   <div class="space-y-4">
     <div class="flex flex-wrap items-center justify-between gap-3">
-      <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Reservations</h1>
+      <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $t('reservations.title') }}</h1>
       <div class="flex flex-wrap items-center gap-2">
         <input
           v-model="search"
           type="search"
-          placeholder="Search guest, confirmation #…"
+          :placeholder="$t('reservations.searchPlaceholder')"
           class="w-56 rounded-md border-gray-200 bg-white py-1.5 text-sm text-gray-700 placeholder:text-gray-400 focus:border-gray-400 focus:ring-0 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
         />
         <select
           v-model="statusFilter"
           class="rounded-md border-gray-200 bg-white py-1.5 text-sm text-gray-700 focus:border-gray-400 focus:ring-0 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
         >
-          <option value="">All statuses</option>
+          <option value="">{{ $t('common.allStatuses') }}</option>
           <option v-for="s in STATUSES" :key="s" :value="s">{{ statusLabel(s) }}</option>
         </select>
       </div>
     </div>
 
     <p v-if="reservations.error" class="text-sm text-red-600">
-      {{ reservations.error.messages?.[0] || 'Failed to load' }}
+      {{ reservations.error.messages?.[0] || $t('common.failedToLoad') }}
     </p>
 
     <div class="overflow-x-auto rounded-lg border border-gray-100 bg-white dark:border-gray-800 dark:bg-gray-900">
       <table class="min-w-full divide-y divide-gray-100 dark:divide-gray-800">
         <thead>
           <tr class="text-left text-xs font-medium text-gray-500 dark:text-gray-400">
-            <th class="px-4 py-3">Confirmation #</th>
-            <th class="px-4 py-3">Guest</th>
-            <th class="px-4 py-3">Room Type</th>
-            <th class="px-4 py-3">Stay</th>
-            <th class="px-4 py-3">Status</th>
-            <th class="px-4 py-3 text-right">Total</th>
+            <th class="px-4 py-3">{{ $t('reservations.confirmationNumber') }}</th>
+            <th class="px-4 py-3">{{ $t('reservations.guest') }}</th>
+            <th class="px-4 py-3">{{ $t('reservations.roomType') }}</th>
+            <th class="px-4 py-3">{{ $t('reservations.stay') }}</th>
+            <th class="px-4 py-3">{{ $t('reservations.status') }}</th>
+            <th class="px-4 py-3 text-right">{{ $t('reservations.total') }}</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-50 text-sm dark:divide-gray-800/60">
           <tr v-if="reservations.loading && !rows.length">
-            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="6">Loading…</td>
+            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="6">{{ $t('common.loading') }}</td>
           </tr>
           <tr v-else-if="!rows.length">
-            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="6">No reservations match these filters.</td>
+            <td class="px-4 py-6 text-gray-500 dark:text-gray-400" colspan="6">{{ $t('reservations.noneMatch') }}</td>
           </tr>
           <tr
             v-for="r in rows"
@@ -64,10 +64,10 @@
     </div>
 
     <div class="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-      <span>{{ reservations.data?.total_count ?? 0 }} reservations</span>
+      <span>{{ reservations.data?.total_count ?? 0 }} {{ $t('reservations.countSuffix') }}</span>
       <div class="flex gap-2">
-        <Button variant="outline" :disabled="page <= 1" @click="page -= 1">Previous</Button>
-        <Button variant="outline" :disabled="!hasNextPage" @click="page += 1">Next</Button>
+        <Button variant="outline" :disabled="page <= 1" @click="page -= 1">{{ $t('reservations.previous') }}</Button>
+        <Button variant="outline" :disabled="!hasNextPage" @click="page += 1">{{ $t('reservations.next') }}</Button>
       </div>
     </div>
   </div>

@@ -1,73 +1,73 @@
 <template>
   <div class="max-w-2xl space-y-6">
     <RouterLink :to="{ name: 'Reservations' }" class="text-sm text-gray-500 hover:text-gray-900 dark:hover:text-gray-100">
-      ← Back to reservations
+      {{ $t('newReservation.backLink') }}
     </RouterLink>
-    <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">New Walk-in Reservation</h1>
+    <h1 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $t('newReservation.title') }}</h1>
 
     <form
       class="space-y-5 rounded-lg border border-gray-100 bg-white p-5 dark:border-gray-800 dark:bg-gray-900"
       @submit.prevent="submit"
     >
       <div class="grid grid-cols-2 gap-4">
-        <Field label="Property">
+        <Field :label="$t('newReservation.propertyField')">
           <select v-model="form.property" :class="inputClass" @change="onPropertyChange">
-            <option value="">Select property</option>
+            <option value="">{{ $t('newReservation.selectProperty') }}</option>
             <option v-for="p in boot.data?.properties || []" :key="p.name" :value="p.name">
               {{ p.property_name }}
             </option>
           </select>
         </Field>
 
-        <Field label="Room Type">
+        <Field :label="$t('newReservation.roomTypeField')">
           <select v-model="form.roomType" :class="inputClass" :disabled="!roomTypes.data?.length" @change="onRoomTypeChange">
-            <option value="">Select room type</option>
+            <option value="">{{ $t('newReservation.selectRoomType') }}</option>
             <option v-for="rt in roomTypes.data" :key="rt.name" :value="rt.name">{{ rt.room_type_name }}</option>
           </select>
         </Field>
 
-        <Field label="Rate Plan">
+        <Field :label="$t('newReservation.ratePlanField')">
           <select v-model="form.ratePlan" :class="inputClass" :disabled="!ratePlans.length" @change="onRatePlanOrDateChange">
-            <option value="">Select rate plan</option>
+            <option value="">{{ $t('newReservation.selectRatePlan') }}</option>
             <option v-for="rp in ratePlans" :key="rp.name" :value="rp.name">{{ rp.plan_name }}</option>
           </select>
         </Field>
 
-        <Field label="Rooms Requested">
+        <Field :label="$t('newReservation.roomsRequestedField')">
           <input v-model.number="form.roomsRequested" type="number" min="1" :class="inputClass" />
         </Field>
 
-        <Field label="Check-in">
+        <Field :label="$t('newReservation.checkInField')">
           <input v-model="form.checkIn" type="date" :class="inputClass" @change="onRatePlanOrDateChange" />
         </Field>
 
-        <Field label="Check-out">
+        <Field :label="$t('newReservation.checkOutField')">
           <input v-model="form.checkOut" type="date" :class="inputClass" @change="onRatePlanOrDateChange" />
         </Field>
       </div>
 
-      <div v-if="availability.loading" class="text-sm text-gray-500 dark:text-gray-400">Checking availability…</div>
+      <div v-if="availability.loading" class="text-sm text-gray-500 dark:text-gray-400">{{ $t('newReservation.checkingAvailability') }}</div>
       <div v-else-if="availability.data" class="rounded-md bg-gray-50 p-3 text-sm dark:bg-gray-800">
         <p v-if="!enoughRooms" class="text-red-600">
-          Only {{ availability.data.min_rooms_available }} room(s) available for the full stay.
+          {{ $t('newReservation.onlyRoomsAvailable', { n: availability.data.min_rooms_available }) }}
         </p>
         <p v-else class="text-gray-700 dark:text-gray-300">
-          {{ stayNights }} night(s) · Total {{ formatMoney(availability.data.total_amount_minor, availability.data.currency) }}
+          {{ $t('newReservation.nightsTotal', { n: stayNights, total: formatMoney(availability.data.total_amount_minor, availability.data.currency) }) }}
         </p>
       </div>
 
       <div>
         <div class="mb-2 flex items-center justify-between">
-          <h2 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Guests</h2>
+          <h2 class="text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $t('newReservation.guestsTitle') }}</h2>
           <button type="button" class="text-xs font-medium text-gray-500 hover:text-gray-900 dark:hover:text-gray-100" @click="addGuest">
-            + Add guest
+            {{ $t('newReservation.addGuest') }}
           </button>
         </div>
         <div v-for="(g, i) in form.guests" :key="i" class="mb-2 grid grid-cols-4 gap-2">
-          <input v-model="g.name" placeholder="Full name" required class="col-span-2" :class="inputClass" />
-          <input v-model="g.phone" placeholder="Phone" :class="inputClass" />
+          <input v-model="g.name" :placeholder="$t('newReservation.fullNamePlaceholder')" required class="col-span-2" :class="inputClass" />
+          <input v-model="g.phone" :placeholder="$t('newReservation.phonePlaceholder')" :class="inputClass" />
           <div class="flex gap-1">
-            <input v-model="g.email" placeholder="Email" :class="inputClass" />
+            <input v-model="g.email" :placeholder="$t('newReservation.emailPlaceholder')" :class="inputClass" />
             <button
               v-if="form.guests.length > 1"
               type="button"
@@ -80,12 +80,12 @@
         </div>
       </div>
 
-      <p v-if="create.error" class="text-sm text-red-600">{{ create.error.messages?.[0] || 'Could not create reservation' }}</p>
+      <p v-if="create.error" class="text-sm text-red-600">{{ create.error.messages?.[0] || $t('newReservation.couldNotCreate') }}</p>
 
       <div class="flex justify-end gap-2">
-        <Button variant="outline" type="button" @click="$router.back()">Cancel</Button>
+        <Button variant="outline" type="button" @click="$router.back()">{{ $t('common.cancel') }}</Button>
         <Button variant="solid" type="submit" :loading="create.loading" :disabled="!canSubmit">
-          Create Reservation
+          {{ $t('newReservation.createReservation') }}
         </Button>
       </div>
     </form>

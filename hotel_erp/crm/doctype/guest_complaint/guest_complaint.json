@@ -51,6 +51,26 @@
    "in_list_view": 1
   },
   {
+   "fieldname": "priority",
+   "label": "Priority",
+   "fieldtype": "Select",
+   "options": "low\nmedium\nhigh\nurgent",
+   "default": "medium"
+  },
+  {
+   "fieldname": "assigned_to",
+   "label": "Assigned To",
+   "fieldtype": "Link",
+   "options": "User",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "due_by",
+   "label": "Due By",
+   "fieldtype": "Datetime",
+   "description": "SLA deadline, computed from priority when raised"
+  },
+  {
    "fieldname": "resolution",
    "label": "Resolution",
    "fieldtype": "Text"
